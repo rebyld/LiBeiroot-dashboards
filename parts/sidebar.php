@@ -26,11 +26,11 @@
                         'text' => 'Homepage Cards',
                         'children' => array(
                             'create' => array(
-                                'link' => '/cards-create.html',
+                                'link' => '/cards-create.php',
                                 'text' => 'Create Card',
                             ),
                             'view' => array(
-                                'link' => '/cards-view.html',
+                                'link' => '/cards-browse.php',
                                 'text' => 'View Cards',
                             )
                         )
@@ -40,11 +40,11 @@
                         'text' => 'Questions',
                         'children' => array(
                             'create' => array(
-                                'link' => '/questions-create.html',
+                                'link' => '/questions-create.php',
                                 'text' => 'Create Question',
                             ),
                             'view' => array(
-                                'link' => '/questions-view.html',
+                                'link' => '/questions-browse.php',
                                 'text' => 'View Questions',
                             )
                         )
@@ -54,11 +54,11 @@
                         'text' => 'Forms',
                         'children' => array(
                             'create' => array(
-                                'link' => '/forms-create.html',
+                                'link' => '/forms-create.php',
                                 'text' => 'Create Forms',
                             ),
                             'view' => array(
-                                'link' => '/forms-view.html',
+                                'link' => '/forms-browse.php',
                                 'text' => 'View Forms',
                             )
                         )
@@ -68,11 +68,11 @@
                         'text' => 'Services',
                         'children' => array(
                             'create' => array(
-                                'link' => '/service-create.html',
+                                'link' => '/services-create.php',
                                 'text' => 'Create Service',
                             ),
                             'view' => array(
-                                'link' => '/service-view.html',
+                                'link' => '/services-browse.php',
                                 'text' => 'View Services',
                             )
                         )
@@ -82,11 +82,11 @@
                         'text' => 'Coupons',
                         'children' => array(
                             'create' => array(
-                                'link' => '/coupon-create.html',
+                                'link' => '/coupons-create.php',
                                 'text' => 'Create Coupon',
                             ),
                             'view' => array(
-                                'link' => '/coupon-view.html',
+                                'link' => '/coupons-browse.php',
                                 'text' => 'View Coupons',
                             )
                         )
@@ -96,11 +96,11 @@
                         'text' => 'Drivers',
                         'children' => array(
                             'create' => array(
-                                'link' => '/driver-create.html',
+                                'link' => '/drivers-create.php',
                                 'text' => 'Create Driver',
                             ),
                             'view' => array(
-                                'link' => '/driver-view.html',
+                                'link' => '/drivers-browse.php',
                                 'text' => 'View Drivers',
                             )
                         )
