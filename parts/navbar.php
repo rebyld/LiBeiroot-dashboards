@@ -1,7 +1,7 @@
 <nav class="navbar">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">LIBEIROOT ADMIN PANEL</a>
+            <a class="navbar-brand" href="<?php echo DOMAIN_ROOT . '/'?>">LIBEIROOT ADMIN PANEL</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">

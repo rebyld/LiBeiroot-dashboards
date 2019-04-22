@@ -141,7 +141,7 @@
     </div>
 </section>
 
-<div id="footer"></div>
+<?php include('parts/footer.php'); ?>
 </body>
-<script src="js/essentials.js"></script>
+
 </html>

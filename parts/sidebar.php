@@ -11,102 +11,132 @@
         <div class="menu">
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="">
-                    <a href="index.html">
-                        <i class="material-icons">home</i>
-                        <span>Home</span>
-                    </a>
-                </li>
 
-                <li class="">
-                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                        <i class="material-icons">book</i>
-                        <span>Homepage Cards</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li>
-                            <a href="cards-create.html">Create a card</a>
-                        </li>
-                        <li class="">
-                            <a href="cards-browse.html">View all cards</a>
-                        </li>
-                    </ul>
-                </li>
+                <?php
+                // Define each name associated with an URL
+                $urls = array(
+                    'home' => array(
+                        'icon' => 'home',
+                        'link' => '/',
+                        'text' => 'Home',
+                        'children' => array()
+                    ),
+                    'cards' => array(
+                        'icon' => 'book',
+                        'text' => 'Homepage Cards',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/cards-create.html',
+                                'text' => 'Create Card',
+                            ),
+                            'view' => array(
+                                'link' => '/cards-view.html',
+                                'text' => 'View Cards',
+                            )
+                        )
+                    ),
+                    'questions' => array(
+                        'icon' => 'assignment',
+                        'text' => 'Questions',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/questions-create.html',
+                                'text' => 'Create Question',
+                            ),
+                            'view' => array(
+                                'link' => '/questions-view.html',
+                                'text' => 'View Questions',
+                            )
+                        )
+                    ),
+                    'forms' => array(
+                        'icon' => 'library_books',
+                        'text' => 'Forms',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/forms-create.html',
+                                'text' => 'Create Forms',
+                            ),
+                            'view' => array(
+                                'link' => '/forms-view.html',
+                                'text' => 'View Forms',
+                            )
+                        )
+                    ),
+                    'services' => array(
+                        'icon' => 'extension',
+                        'text' => 'Services',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/service-create.html',
+                                'text' => 'Create Service',
+                            ),
+                            'view' => array(
+                                'link' => '/service-view.html',
+                                'text' => 'View Services',
+                            )
+                        )
+                    ),
+                    'coupons' => array(
+                        'icon' => 'card_giftcard',
+                        'text' => 'Coupons',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/coupon-create.html',
+                                'text' => 'Create Coupon',
+                            ),
+                            'view' => array(
+                                'link' => '/coupon-view.html',
+                                'text' => 'View Coupons',
+                            )
+                        )
+                    ),
+                    'Drivers' => array(
+                        'icon' => 'local_car_wash',
+                        'text' => 'Drivers',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/driver-create.html',
+                                'text' => 'Create Driver',
+                            ),
+                            'view' => array(
+                                'link' => '/driver-view.html',
+                                'text' => 'View Drivers',
+                            )
+                        )
+                    ),
 
-                <li class="">
-                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                        <i class="material-icons">assignment</i>
-                        <span>Questions</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li>
-                            <a href="questions-create.html">Create a question</a>
-                        </li>
-                        <li class="">
-                            <a href="questions-browse.html">View all question</a>
-                        </li>
-                    </ul>
-                </li>
+                );
 
-                <li class="">
-                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                        <i class="material-icons">library_books</i>
-                        <span>Forms</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li>
-                            <a href="forms-create.html">Create a Form</a>
-                        </li>
-                        <li class="">
-                            <a href="forms-browse.html">View all forms</a>
-                        </li>
-                    </ul>
-                </li>
+                $currentPage = 'Home';
 
-                <li class="">
-                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                        <i class="material-icons">extension</i>
-                        <span>Services</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li class="">
-                            <a href="services-create.html">Create a Service</a>
-                        </li>
-                        <li class="">
-                            <a href="services-browse.html">View all services</a>
-                        </li>
-                    </ul>
-                </li>
+                foreach ($urls as $name => $array) {
+                    if (count($array['children']) > 0) {
+                        $children = $array['children'];
+                        print('<li class="">
+                                <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+                                    <i class="material-icons">book</i>
+                                    <span>' . $array["text"] . '</span>
+                                </a>
+                                <ul class="ml-menu">');
+                        foreach ($children as $inner) {
+                            print ('<li>
+                                        <a href=' . DOMAIN_ROOT . $inner["link"] . '>' . $inner["text"] . '</a>
+                                    </li>');
+                        }
 
-                <li class="">
-                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                        <i class="material-icons">card_giftcard</i>
-                        <span>Coupons</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li class="">
-                            <a href="coupons-create.html">Create a Coupon</a>
-                        </li>
-                        <li class="">
-                            <a href="coupons-browse.html">View all Coupons</a>
-                        </li>
-                    </ul>
-                </li>
+                        print ('</ul></li>');
 
-                <li class="">
-                    <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                        <i class="material-icons">local_car_wash</i>
-                        <span>Drivers</span>
-                    </a>
-                    <ul class="ml-menu">
-                        <li class="">
-                            <a href="driver-create.html">Create a Driver</a>
-                        </li>
-                        <li class="">
-                            <a href="driver-browse.html">View all Drivers</a>
-                        </li>
-                    </ul>
-                </li>
+                    } else {
+                        print('<li class="">
+                            <a href="' . DOMAIN_ROOT . $array["link"] . '">
+                                <i class="material-icons">' . $array["icon"] . '</i>
+                                <span>' . $array["text"] . '</span>
+                            </a>
+                        </li>');
+                    }
+                }
+                ?>
 
             </ul>
         </div>
