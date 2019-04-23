@@ -1,10 +1,12 @@
 var driverTemplate = _.template('<div class="col-md-6">' +
     '<div class="card">' +
+    '<div class="header clearfix">' +
+    '<h2 class="pull-left"><%= firstName %> <%= lastName %></h2>' +
+    ' <i class="pull-right material-icons col-red">delete</i> ' +
+    '</div>' +
     '<div class="dl-card-content">' +
     '<div class="row">' +
     '<div class="col-md-12">' +
-    '<h4><%= firstName %> <%= lastName %></h4>' +
-    '<hr>' +
     '</div>' +
     '<div class="col-md-6">' +
     '<h5>Status:</h5>' +
@@ -42,26 +44,34 @@ var driverTemplate = _.template('<div class="col-md-6">' +
 
 var cardTemplate = _.template('<div class="col-md-4">' +
     '<div class="card">' +
+    '<div class="header clearfix">' +
+    '<h2 class="pull-left"><%= title %></h2>' +
+    ' <i class="pull-right material-icons col-red">delete</i> ' +
+    '</div>' +
+    '<div class="body">' +
     '<div class="dl-card-image" style="background-image: url(<%= image %>);"></div>' +
     '<div class="dl-card-content">' +
     '<p><%= headerText %></p>' +
-    '<h4><%= title %></h4>' +
     '<p><%= description %></p>' +
     '<p>Expires at: <%=getReadableDate(expiresAt) %></p>' +
+    '</div>' +
     '</div>' +
     '</div>' +
     '</div>');
 
 const couponTemplate = _.template('<div class="col-md-4">' +
     '<div class="card">' +
+    '<div class="header clearfix">' +
+    '<h2 class="pull-left"><%= title %>: <span class="label label-info"><%= code %></span></h2>' +
+    ' <i class="pull-right material-icons col-red">delete</i> ' +
+    '</div>' +
     '<div class="dl-card-content">' +
-    '<h5>XS15</h5>' +
-    '<span>fixedDiscount</span>' +
-    '<span class="m-l-10">1400</span>' +
+    '<span><%= type %>: <%= amount %></span>' +
+    '<span class="m-l-10"></span>' +
     '<div id="<%= _id %>">' +
     '<h4>Attached to Services:</h4>' +
     '</div>' +
-    '<p>Expires at: 1/1/2020, 1:59:00 AM</p>' +
+    '<p>Expires at: <%=getReadableDate(expiresAt) %></p>' +
     '</div>' +
     '</div>' +
     '</div>');

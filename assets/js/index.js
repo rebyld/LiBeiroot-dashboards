@@ -786,6 +786,7 @@
     }
 
     function appendServices(item) {
+        console.log(item);
         var _parent = $("#" + item._id);
 
         $(item.services).each(function (i, v) {
@@ -930,6 +931,11 @@
                         .appendTo(_parent).append(
                         $('<div />')
                             .addClass('card')
+                            .appendTo(_parent).append(
+                            $('<div/>').addClass('header clearfix')
+                                .appendTo(_parent).append($('<i>')
+                                .addClass('pull-right material-icons col-red')
+                                .html('delete')))
                             .appendTo(_parent).append(
                             $('<div />')
                                 .addClass('body dl-preview-single-question-' + i)
@@ -1173,10 +1179,14 @@
                             .addClass('card')
                             .appendTo(_parent).append(
                             $('<div />')
-                                .addClass('header dl-preview-single-form')
+                                .addClass('header dl-preview-single-form clearfix')
                                 .appendTo(_parent).append(
                                 $('<h2 />')
-                                    .html(v.name)))
+                                    .html(v.name)
+                                    .addClass('pull-left'))
+                                .appendTo(_parent).append($('<i>')
+                                .addClass('pull-right material-icons col-red')
+                                .html('delete')))
                             .appendTo(_parent).append(
                             $('<div />')
                                 .addClass('body clearfix')
@@ -1298,6 +1308,11 @@
                         .appendTo(_parent).append(
                         $('<div />')
                             .addClass('card')
+                            .appendTo(_parent).append(
+                            $('<div/>').addClass('header clearfix')
+                                .appendTo(_parent).append($('<i>')
+                                .addClass('pull-right material-icons col-red')
+                                .html('delete')))
                             .appendTo(_parent).append(
                             $('<div />')
                                 .addClass('body dl-preview-single-service-' + i)
@@ -1474,8 +1489,7 @@
 
                 if (XMLHttpRequest.status === 409) {
                     showNotification(AlertColors._WARNING, 'Coupon Code already exist!');
-                }
-                else {
+                } else {
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
 
                 }
@@ -1685,9 +1699,9 @@
                     exit: 'animated fadeOutUp'
                 },
                 template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} p-r-35" role="alert">' +
-                '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-                '<span data-notify="message">{2}</span>' +
-                '</div>'
+                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                    '<span data-notify="message">{2}</span>' +
+                    '</div>'
             });
     }
 

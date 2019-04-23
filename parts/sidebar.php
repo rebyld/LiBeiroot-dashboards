@@ -115,7 +115,7 @@
                         $children = $array['children'];
                         print('<li class="">
                                 <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-                                    <i class="material-icons">book</i>
+                                    <i class="material-icons">'.$array["icon"].'</i>
                                     <span>' . $array["text"] . '</span>
                                 </a>
                                 <ul class="ml-menu">');
