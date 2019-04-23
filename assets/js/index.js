@@ -785,45 +785,13 @@
         );
     }
 
-    function renderCoupons(parent, element) {
-        $(parent).append(
-            $('<div/>')
-                .addClass('col-md-4')
-                .appendTo(parent).append(
-                $('<div/>')
-                    .addClass('card')
-                    .appendTo(parent).append(
-                    $('<div/>')
-                        .addClass('dl-card-content')
-                        .appendTo(parent).append(
-                        $('<h4/>').html(element.firstName))
-                        .appendTo(parent).append(
-                        $('<h5/>').html(element.code))
-                        .appendTo(parent).append(
-                        $('<span/>').html(element.type))
-                        .appendTo(parent).append(
-                        $('<span/>')
-                            .html(element.amount)
-                            .addClass('m-l-10'))
-                        .appendTo(parent).append(
-                        appendServices(parent, element.services))
-                        .appendTo(parent).append(
-                        $('<p/>').html('Expires at: ' + getReadableDate(element.expiresAt)))
-                        .appendTo(parent).append(
-                        $('<p/>').html(element.services))
-                ))
-        );
-    }
+    function appendServices(item) {
+        var _parent = $("#" + item._id);
 
-    function appendServices(parent, services) {
-        var res = $('<div><h4>Attached to Services:</h4></div>');
-        $(services).each(function (i, v) {
-            $(res).append(
-                $('<p />').html(v.name)
-            );
+        $(item.services).each(function (i, v) {
+            $(_parent).append($('<p />').html(v.name));
         });
-        $(res).append($('<hr />'));
-        return res;
+        $(_parent).append($('<hr />'));
     }
 
 
@@ -1525,8 +1493,8 @@
             _parent.empty();
 
             $(allCoupons).each(function (i, v) {
-                renderCoupons(_parent, v);
-                console.log(v);
+                $(_parent).append(couponTemplate(v));
+                appendServices(v);
             });
         });
     });

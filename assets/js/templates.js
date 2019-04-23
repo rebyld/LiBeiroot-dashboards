@@ -52,6 +52,20 @@ var cardTemplate = _.template('<div class="col-md-4">' +
     '</div>' +
     '</div>');
 
+const couponTemplate = _.template('<div class="col-md-4">' +
+    '<div class="card">' +
+    '<div class="dl-card-content">' +
+    '<h5>XS15</h5>' +
+    '<span>fixedDiscount</span>' +
+    '<span class="m-l-10">1400</span>' +
+    '<div id="<%= _id %>">' +
+    '<h4>Attached to Services:</h4>' +
+    '</div>' +
+    '<p>Expires at: 1/1/2020, 1:59:00 AM</p>' +
+    '</div>' +
+    '</div>' +
+    '</div>');
+
 function getReadableDate(strangeDate) {
     return (new Date((new Date(strangeDate)).getTime())).toLocaleString();
 }
