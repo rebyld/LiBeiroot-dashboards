@@ -1,31 +1,11 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Libeiroot - Login</title>
-    <script src="plugins/jquery/jquery-3.3.1.min.js"></script>
-</head>
+<?php include('parts/header.php'); ?>
 
 <body class="login-page">
 
-<div class="page-loader-wrapper process">
-    <div class="loader">
-        <div class="preloader">
-            <div class="spinner-layer pl-blue">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>
-        <p>Please wait...</p>
-    </div>
-</div>
+<?php include('parts/loaders.php');?>
 
 <div class="login-box">
     <div class="logo">
@@ -63,7 +43,7 @@
     </div>
 </div>
 
-<div id="footer"></div>
+<?php include('parts/footer.php'); ?>
 </body>
-<script src="js/essentials.js"></script>
+
 </html>

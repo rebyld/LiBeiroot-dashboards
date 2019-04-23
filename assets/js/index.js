@@ -2,7 +2,7 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'http://localhost:63342/libeiroot-dashboard';
+    let _mainDomain = 'http://localhost/libeiroot-php';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
     let _token = '';
@@ -111,7 +111,7 @@
     //region GLOBALS
 
     function init() {
-        // initSession();
+        initSession();
 
         let body = $('body');
 
@@ -1657,7 +1657,7 @@
         _email = localStorage.getItem('email');
         _userId = localStorage.getItem('id');
 
-        var _signInUrl = _mainDomain + '/sign-in.html';
+        var _signInUrl = _mainDomain + '/sign-in';
 
         if (!(_token && _token.length)) {
             // go to log in page

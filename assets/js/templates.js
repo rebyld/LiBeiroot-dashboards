@@ -33,7 +33,7 @@ var driverTemplate = _.template('<div class="col-md-6">' +
     '<p>Type: <%= car.type %></p>' +
     '</div>' +
     '<div class="col-md-6">' +
-    '<img class="img-responsive" src=<%= car.licensePicture %>' +
+    '<img class="img-responsive" src="<%= car.licensePicture %>"' +
     '</div>' +
     '</div>' +
     '</div>' +
