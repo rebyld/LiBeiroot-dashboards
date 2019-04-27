@@ -11151,3 +11151,7 @@ label.controls{
     height: 250px;
     background-size: cover;
 }
+
+.dl-delete{
+    cursor: pointer;
+}

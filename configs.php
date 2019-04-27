@@ -1,6 +1,6 @@
 <?php
 
-define( 'DOMAIN_ROOT', 'http://localhost/libeiroot-php' );
-define( 'ASSETS_DIR', 'http://localhost/libeiroot-php/assets/' );
-define( 'VENDORS_DIR', 'http://localhost/libeiroot-php/vendors/' );
-define( 'PAGES_DIR', 'http://localhost/libeiroot-php/pages/' );
+define( 'DOMAIN_ROOT', 'http://localhost/dashboard' );
+define( 'ASSETS_DIR', 'http://localhost/dashboard/assets/' );
+define( 'VENDORS_DIR', 'http://localhost/dashboard/vendors/' );
+define( 'PAGES_DIR', 'http://localhost/dashboard/pages/' );

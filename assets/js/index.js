@@ -2,7 +2,7 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'http://localhost/libeiroot-php';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
     let _token = '';
@@ -934,7 +934,10 @@
                             .appendTo(_parent).append(
                             $('<div/>').addClass('header clearfix')
                                 .appendTo(_parent).append($('<i>')
-                                .addClass('pull-right material-icons col-red')
+                                .addClass('pull-right material-icons col-red dl-delete')
+                                .attr('data-endpoint', '/questions/')
+                                .attr('data-render', 'dl-get-questions')
+                                .attr('data-id', v._id)
                                 .html('delete')))
                             .appendTo(_parent).append(
                             $('<div />')
@@ -1185,7 +1188,10 @@
                                     .html(v.name)
                                     .addClass('pull-left'))
                                 .appendTo(_parent).append($('<i>')
-                                .addClass('pull-right material-icons col-red')
+                                .addClass('pull-right material-icons col-red dl-delete')
+                                .attr('data-endpoint', '/forms/')
+                                .attr('data-render', 'dl-get-forms')
+                                .attr('data-id', v._id)
                                 .html('delete')))
                             .appendTo(_parent).append(
                             $('<div />')
@@ -1311,7 +1317,10 @@
                             .appendTo(_parent).append(
                             $('<div/>').addClass('header clearfix')
                                 .appendTo(_parent).append($('<i>')
-                                .addClass('pull-right material-icons col-red')
+                                .addClass('pull-right material-icons col-red dl-delete')
+                                .attr('data-endpoint', '/services/')
+                                .attr('data-render', 'dl-get-services')
+                                .attr('data-id', v._id)
                                 .html('delete')))
                             .appendTo(_parent).append(
                             $('<div />')
@@ -1587,6 +1596,45 @@
 
     //endregion
 
+    //region OTHERS
+
+    $(document).on('click', '.dl-delete', function (e) {
+        e.preventDefault();
+
+        var ep = $(this).attr('data-endpoint');
+        var render = $(this).attr('data-render');
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+            type: "DELETE",
+            contentType: 'application/json',
+            url: _opsEP + ep + id,
+            beforeSend: function (xhr) {
+                $('.page-loader-wrapper.process').fadeIn();
+                xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+            },
+            success: function (response) {
+                $('.page-loader-wrapper.process').fadeOut();
+                $('.' + render).click();
+
+                console.log(response);
+            },
+            error: function (XMLHttpRequest) {
+                console.log(XMLHttpRequest.status);
+                if (XMLHttpRequest.status === 400) {
+                    showNotification(AlertColors._WARNING, "Can't delete active entity!");
+                }else {
+                    showNotification(AlertColors._DANGER, 'Error in delete.');
+                }
+
+                $('.page-loader-wrapper.process').fadeOut();
+            }
+        });
+
+    });
+
+    //endregion
+
     //endregion
 
     //region SESSION
@@ -1602,7 +1650,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "https://libeiroot-dev.herokuapp.com/api/v1/auth/ops/login",
+            url: _opsEP + "/login",
             data: JSON.stringify(_data),
             beforeSend: function () {
                 $('.page-loader-wrapper.process').fadeIn();
@@ -1639,7 +1687,7 @@
         _email = localStorage.getItem('email');
         _userId = localStorage.getItem('id');
 
-        var _signInUrl = _mainDomain + '/sign-in';
+        var _signInUrl = _mainDomain + '/sign-in.php';
 
         if (!(_token && _token.length)) {
             // go to log in page

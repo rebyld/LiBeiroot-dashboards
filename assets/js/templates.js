@@ -2,7 +2,7 @@ var driverTemplate = _.template('<div class="col-md-6">' +
     '<div class="card">' +
     '<div class="header clearfix">' +
     '<h2 class="pull-left"><%= firstName %> <%= lastName %></h2>' +
-    ' <i class="pull-right material-icons col-red">delete</i> ' +
+    ' <i class="pull-right material-icons col-red dl-delete" data-endpoint="/drivers/" data-render="dl-get-drivers" data-id="<%= _id %>">delete</i> ' +
     '</div>' +
     '<div class="dl-card-content">' +
     '<div class="row">' +
@@ -46,7 +46,7 @@ var cardTemplate = _.template('<div class="col-md-4">' +
     '<div class="card">' +
     '<div class="header clearfix">' +
     '<h2 class="pull-left"><%= title %></h2>' +
-    ' <i class="pull-right material-icons col-red">delete</i> ' +
+    ' <i class="pull-right material-icons col-red dl-delete" data-endpoint="/cards/" data-render="dl-get-cards" data-id="<%= _id %>">delete</i> ' +
     '</div>' +
     '<div class="body">' +
     '<div class="dl-card-image" style="background-image: url(<%= image %>);"></div>' +
@@ -63,7 +63,7 @@ const couponTemplate = _.template('<div class="col-md-4">' +
     '<div class="card">' +
     '<div class="header clearfix">' +
     '<h2 class="pull-left"><%= title %>: <span class="label label-info"><%= code %></span></h2>' +
-    ' <i class="pull-right material-icons col-red">delete</i> ' +
+    ' <i class="pull-right material-icons col-red dl-delete" data-endpoint="/coupons/" data-render="dl-get-coupons" data-id="<%= _id %>">delete</i> ' +
     '</div>' +
     '<div class="dl-card-content">' +
     '<span><%= type %>: <%= amount %></span>' +
