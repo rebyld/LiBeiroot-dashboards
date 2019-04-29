@@ -174,6 +174,11 @@
         switch (type) {
             case 'select':
                 schema = {
+                    "placeholder": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Placeholder Hint text"
+                    },
                     "name": {
                         "type": "string",
                         "required": true,
@@ -208,6 +213,14 @@
                                     "type": "string",
                                     "required": true,
                                     "title": "Answer in ARABIC"
+                                },
+                                "icon_upload": {
+                                    "type": "file",
+                                    "title" : "Select icon"
+                                },
+                                "icon": {
+                                    "type": "hidden",
+                                    "title" : "Select icon"
                                 }
                             }
                         }
@@ -217,6 +230,11 @@
 
             case 'multi-select':
                 schema = {
+                    "placeholder": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Placeholder Hint text"
+                    },
                     "name": {
                         "type": "string",
                         "required": true,
@@ -260,6 +278,11 @@
 
             case 'checkbox':
                 schema = {
+                    "placeholder": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Placeholder Hint text"
+                    },
                     "name": {
                         "type": "string",
                         "required": true,
@@ -284,6 +307,11 @@
 
             case 'text':
                 schema = {
+                    "placeholder": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Placeholder Hint text"
+                    },
                     "name": {
                         "type": "string",
                         "required": true,
@@ -308,6 +336,11 @@
 
             case 'text-area':
                 schema = {
+                    "placeholder": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Placeholder Hint text"
+                    },
                     "name": {
                         "type": "string",
                         "required": true,
@@ -339,6 +372,10 @@
             case 'select':
                 keys = [
                     {
+                        "key": "placeholder",
+                        "disabled": isDisabled
+                    },
+                    {
                         "key": "name",
                         "disabled": isDisabled
                     },
@@ -369,6 +406,10 @@
 
             case 'multi-select':
                 keys = [
+                    {
+                        "key": "placeholder",
+                        "disabled": isDisabled
+                    },
                     {
                         "key": "name",
                         "disabled": isDisabled
@@ -401,6 +442,10 @@
             case 'checkbox':
                 keys = [
                     {
+                        "key": "placeholder",
+                        "disabled": isDisabled
+                    },
+                    {
                         "key": "name",
                         "disabled": isDisabled
                     },
@@ -427,6 +472,10 @@
 
             case 'text':
                 keys = [
+                    {
+                        "key": "placeholder",
+                        "disabled": isDisabled
+                    },
                     {
                         "key": "name",
                         "disabled": isDisabled
@@ -455,6 +504,10 @@
 
             case 'text-area':
                 keys = [
+                    {
+                        "key": "placeholder",
+                        "disabled": isDisabled
+                    },
                     {
                         "key": "name",
                         "disabled": isDisabled
@@ -593,6 +646,19 @@
 
         return _res;
     }
+
+    // uploading icons is happening on the fly!
+    $(document).on('change','#dynamic-form .input-file',  function (e) {
+        e.preventDefault();
+        var _parent = $(this).closest("li");
+
+        var iconFiled = $(_parent).find('input:hidden');
+
+        $.when(uploadImage($(this))).then(function (res){
+            $(iconFiled).val(res.url);
+        });
+
+    });
 
     //endregion
 
@@ -890,6 +956,7 @@
             "schema": getQuestionTypeSchema(_type),
             "form": getQuestionKeys(_type, false, true),
             onSubmit: function (errors, values) {
+                console.log(values);
                 $.ajax({
                     type: "POST",
                     contentType: 'application/json',
@@ -1623,7 +1690,7 @@
                 console.log(XMLHttpRequest.status);
                 if (XMLHttpRequest.status === 400) {
                     showNotification(AlertColors._WARNING, "Can't delete active entity!");
-                }else {
+                } else {
                     showNotification(AlertColors._DANGER, 'Error in delete.');
                 }
 
