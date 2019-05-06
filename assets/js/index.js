@@ -148,7 +148,7 @@
             $.ajax({
                 type: "GET",
                 contentType: 'application/json',
-                url: _opsEP + '/questions',
+                url: _opsEP + '/questions?limit=100',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
                     $('.page-loader-wrapper.process').fadeIn();
@@ -176,7 +176,6 @@
                 schema = {
                     "placeholder": {
                         "type": "string",
-                        "required": true,
                         "title": "Placeholder Hint text"
                     },
                     "name": {
@@ -232,7 +231,6 @@
                 schema = {
                     "placeholder": {
                         "type": "string",
-                        "required": true,
                         "title": "Placeholder Hint text"
                     },
                     "name": {
@@ -280,7 +278,6 @@
                 schema = {
                     "placeholder": {
                         "type": "string",
-                        "required": true,
                         "title": "Placeholder Hint text"
                     },
                     "name": {
@@ -309,7 +306,6 @@
                 schema = {
                     "placeholder": {
                         "type": "string",
-                        "required": true,
                         "title": "Placeholder Hint text"
                     },
                     "name": {
@@ -334,13 +330,64 @@
                 };
                 return schema;
 
-            case 'text-area':
+            case 'label':
                 schema = {
                     "placeholder": {
                         "type": "string",
-                        "required": true,
                         "title": "Placeholder Hint text"
                     },
+                    "name": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question name"
+                    },
+                    "text": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ENGLISH"
+                    },
+                    "textAr": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ARABIC"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": type
+                    }
+                };
+                return schema;
+
+            case 'text_area':
+                schema = {
+                    "placeholder": {
+                        "type": "string",
+                        "title": "Placeholder Hint text"
+                    },
+                    "name": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question name"
+                    },
+                    "text": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ENGLISH"
+                    },
+                    "textAr": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ARABIC"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": type
+                    }
+                };
+                return schema;
+
+            case 'date':
+                schema = {
                     "name": {
                         "type": "string",
                         "required": true,
@@ -502,7 +549,7 @@
                 ];
                 return keys;
 
-            case 'text-area':
+            case 'text_area':
                 keys = [
                     {
                         "key": "placeholder",
@@ -528,6 +575,66 @@
                         ? {
                             "type": "submit",
                             "title": "Submit"
+                        }
+                        : {}
+                ];
+                return keys;
+
+            case 'label':
+                keys = [
+                    {
+                        "key": "placeholder",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "name",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "text",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "textAr",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "type",
+                        "type": "hidden"
+                    },
+                    hasSubmit
+                        ? {
+                            "type": "submit",
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
+                        }
+                        : {}
+                ];
+                return keys;
+
+            case 'date':
+                keys = [
+                    {
+                        "key": "name",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "text",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "textAr",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "type",
+                        "type": "hidden"
+                    },
+                    hasSubmit
+                        ? {
+                            "type": "submit",
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
                         }
                         : {}
                 ];
@@ -577,7 +684,25 @@
                 };
                 return values;
 
-            case 'text-area':
+            case 'label':
+                values = {
+                    "name": _questionResult.name,
+                    "text": _questionResult.text,
+                    "textAr": _questionResult.textAr,
+                    "type": type
+                };
+                return values;
+
+            case 'date':
+                values = {
+                    "name": _questionResult.name,
+                    "text": _questionResult.text,
+                    "textAr": _questionResult.textAr,
+                    "type": type
+                };
+                return values;
+
+            case 'text_area':
                 values = {
                     "name": _questionResult.name,
                     "text": _questionResult.text,
@@ -994,7 +1119,7 @@
 
                 _parent.append(
                     $('<div />')
-                        .addClass('col-lg-3 col-md-3 col-sm-6 col-xs-12')
+                        .addClass('col-lg-4 col-md-4 col-sm-6 col-xs-12')
                         .appendTo(_parent).append(
                         $('<div />')
                             .addClass('card')

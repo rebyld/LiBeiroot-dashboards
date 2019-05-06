@@ -26,7 +26,7 @@
                 <button type="button" class="generate-question btn bg-indigo btn-lg" data-question-type="select">ADD
                     SELECT
                 </button>
-                <button type="button" class="generate-question btn bg-teal btn-lg" data-question-type="text-area">ADD
+                <button type="button" class="generate-question btn bg-teal btn-lg" data-question-type="text_area">ADD
                     TEXT AREA
                 </button>
                 <button type="button" class="generate-question btn bg-orange btn-lg" data-question-type="multi-select">
@@ -34,6 +34,12 @@
                 </button>
                 <button type="button" class="generate-question btn bg-blue btn-lg" data-question-type="checkbox">ADD
                     CHECKBOX
+                </button>
+                <button type="button" class="generate-question btn bg-blue-grey btn-lg" data-question-type="label">ADD
+                    LABEL
+                </button>
+                <button type="button" class="generate-question btn bg-amber btn-lg" data-question-type="date">ADD
+                    DATE
                 </button>
             </div>
         </div>
