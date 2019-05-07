@@ -10222,7 +10222,6 @@ fieldset[disabled] .form-control {
 }
 
 
-
 .sidebar .menu .list .menu-toggle.toggled:before {
     -moz-transform: scale(0);
     -ms-transform: scale(0);
@@ -11113,7 +11112,7 @@ html.ie11 .bs-searchbox .form-control {
 }
 
 .center {
-    margin-top:50px;
+    margin-top: 50px;
 }
 
 .modal-header {
@@ -11125,9 +11124,9 @@ html.ie11 .bs-searchbox .form-control {
 }
 
 .modal-footer .btn-group button {
-    height:40px;
-    border-top-left-radius : 0;
-    border-top-right-radius : 0;
+    height: 40px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     border: none;
     border-right: 1px solid #ddd;
 }
@@ -11136,22 +11135,59 @@ html.ie11 .bs-searchbox .form-control {
     border-right: 0;
 }
 
-label.controls{
+label.controls {
     margin-bottom: 30px;
 }
 
 
-
 /* CARDS */
 
-.dl-card-content{
+.dl-card-content {
     padding: 10px;
 }
-.dl-card-image{
+
+.dl-card-image {
     height: 250px;
     background-size: cover;
 }
 
-.dl-delete{
+.dl-delete {
     cursor: pointer;
 }
+
+h2[class*='dl-type']{
+    padding: 2px 8px;
+    color: #fff!important;
+}
+
+.dl-type-text {
+    background-color: #E91E63;
+}
+
+.dl-type-select {
+    background-color: #3F51B5;
+}
+
+.dl-type-text_area {
+    background-color: #009688;
+}
+
+.dl-type-multi_select {
+    background-color: #FF9800;
+}
+
+
+.dl-type-checkbox {
+    background-color: #2196F3;
+}
+
+.dl-type-label {
+    background-color: #607D8B;
+}
+
+.dl-type-date {
+    background-color: #FFC107;
+}
+
+
+

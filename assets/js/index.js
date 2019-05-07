@@ -174,14 +174,10 @@
         switch (type) {
             case 'select':
                 schema = {
-                    "placeholder": {
-                        "type": "string",
-                        "title": "Placeholder Hint text"
-                    },
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -227,16 +223,13 @@
                 };
                 return schema;
 
-            case 'multi-select':
+            case 'multi_select':
                 schema = {
-                    "placeholder": {
-                        "type": "string",
-                        "title": "Placeholder Hint text"
-                    },
+
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -276,14 +269,10 @@
 
             case 'checkbox':
                 schema = {
-                    "placeholder": {
-                        "type": "string",
-                        "title": "Placeholder Hint text"
-                    },
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -311,7 +300,7 @@
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -332,14 +321,10 @@
 
             case 'label':
                 schema = {
-                    "placeholder": {
-                        "type": "string",
-                        "title": "Placeholder Hint text"
-                    },
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -367,7 +352,7 @@
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -391,7 +376,7 @@
                     "name": {
                         "type": "string",
                         "required": true,
-                        "title": "Question name"
+                        "title": "Question name (must be unique)"
                     },
                     "text": {
                         "type": "string",
@@ -419,10 +404,6 @@
             case 'select':
                 keys = [
                     {
-                        "key": "placeholder",
-                        "disabled": isDisabled
-                    },
-                    {
                         "key": "name",
                         "disabled": isDisabled
                     },
@@ -445,18 +426,15 @@
                     hasSubmit
                         ? {
                             "type": "submit",
-                            "title": "Submit"
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
                         }
                         : {}
                 ];
                 return keys;
 
-            case 'multi-select':
+            case 'multi_select':
                 keys = [
-                    {
-                        "key": "placeholder",
-                        "disabled": isDisabled
-                    },
                     {
                         "key": "name",
                         "disabled": isDisabled
@@ -480,7 +458,8 @@
                     hasSubmit
                         ? {
                             "type": "submit",
-                            "title": "Submit"
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
                         }
                         : {}
                 ];
@@ -489,10 +468,6 @@
             case 'checkbox':
                 keys = [
                     {
-                        "key": "placeholder",
-                        "disabled": isDisabled
-                    },
-                    {
                         "key": "name",
                         "disabled": isDisabled
                     },
@@ -511,7 +486,8 @@
                     hasSubmit
                         ? {
                             "type": "submit",
-                            "title": "Submit"
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
                         }
                         : {}
                 ];
@@ -574,7 +550,8 @@
                     hasSubmit
                         ? {
                             "type": "submit",
-                            "title": "Submit"
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
                         }
                         : {}
                 ];
@@ -582,10 +559,6 @@
 
             case 'label':
                 keys = [
-                    {
-                        "key": "placeholder",
-                        "disabled": isDisabled
-                    },
                     {
                         "key": "name",
                         "disabled": isDisabled
@@ -656,7 +629,7 @@
                 };
                 return values;
 
-            case 'multi-select':
+            case 'multi_select':
                 values = {
                     "name": _questionResult.name,
                     "text": _questionResult.text,
@@ -1125,6 +1098,7 @@
                             .addClass('card')
                             .appendTo(_parent).append(
                             $('<div/>').addClass('header clearfix')
+                                .appendTo(_parent).append($('<h2>').html(v.type).addClass('pull-left dl-type-'+v.type+' '))
                                 .appendTo(_parent).append($('<i>')
                                 .addClass('pull-right material-icons col-red dl-delete')
                                 .attr('data-endpoint', '/questions/')
@@ -1807,6 +1781,7 @@
             },
             success: function (response) {
                 $('.page-loader-wrapper.process').fadeOut();
+                showNotification(AlertColors._INFO, "Deleted");
                 $('.' + render).click();
 
                 console.log(response);
@@ -1814,7 +1789,7 @@
             error: function (XMLHttpRequest) {
                 console.log(XMLHttpRequest.status);
                 if (XMLHttpRequest.status === 400) {
-                    showNotification(AlertColors._WARNING, "Can't delete active entity!");
+                    showNotification(AlertColors._WARNING, "Can't delete item in use!");
                 } else {
                     showNotification(AlertColors._DANGER, 'Error in delete.');
                 }
@@ -1842,7 +1817,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: _opsEP + "/login",
+            url: _apiEP + "/auth/ops/login",
             data: JSON.stringify(_data),
             beforeSend: function () {
                 $('.page-loader-wrapper.process').fadeIn();
@@ -1884,7 +1859,6 @@
         if (!(_token && _token.length)) {
             // go to log in page
             if (window.location.href !== _signInUrl) {
-                console.log(_signInUrl);
                 window.location = _signInUrl;
             }
         }
