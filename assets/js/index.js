@@ -211,11 +211,11 @@
                                 },
                                 "icon_upload": {
                                     "type": "file",
-                                    "title" : "Select icon"
+                                    "title": "Select icon"
                                 },
                                 "icon": {
                                     "type": "hidden",
-                                    "title" : "Select icon"
+                                    "title": "Select icon"
                                 }
                             }
                         }
@@ -746,13 +746,13 @@
     }
 
     // uploading icons is happening on the fly!
-    $(document).on('change','#dynamic-form .input-file',  function (e) {
+    $(document).on('change', '#dynamic-form .input-file', function (e) {
         e.preventDefault();
         var _parent = $(this).closest("li");
 
         var iconFiled = $(_parent).find('input:hidden');
 
-        $.when(uploadImage($(this))).then(function (res){
+        $.when(uploadImage($(this))).then(function (res) {
             $(iconFiled).val(res.url);
         });
 
@@ -1093,12 +1093,13 @@
                 _parent.append(
                     $('<div />')
                         .addClass('col-lg-4 col-md-4 col-sm-6 col-xs-12')
+                        .attr('data-filter-name', v.text)
                         .appendTo(_parent).append(
                         $('<div />')
                             .addClass('card')
                             .appendTo(_parent).append(
                             $('<div/>').addClass('header clearfix')
-                                .appendTo(_parent).append($('<h2>').html(v.type).addClass('pull-left dl-type-'+v.type+' '))
+                                .appendTo(_parent).append($('<h2>').html(v.type).addClass('pull-left dl-type-' + v.type + ' '))
                                 .appendTo(_parent).append($('<i>')
                                 .addClass('pull-right material-icons col-red dl-delete')
                                 .attr('data-endpoint', '/questions/')
@@ -1140,7 +1141,7 @@
                 allQuestionsItems.append(
                     $('<li/>')
                         .addClass('ui-state-default clearfix card')
-                        .html(v.name)
+                        .html(v.text)
                         .attr('data-index', i)
                         .appendTo(allQuestionsItems).append(
                         '<p class="dl-small-p">' + v.answers.length + ' Answers</p>')
@@ -1161,10 +1162,16 @@
     // whenever we drag/drop, we will update some info on questions <li>
     selectedQuestionsItems.sortable({
         update: function (e, ui) {
+
             // check if the question has answers && the button hasn't been added before
-            if (allQuestions[ui.item.attr('data-index')].answers.length && $(ui.item).find('button').length <= 0) {
+            if (allQuestions[ui.item.attr('data-index')].answers.length && $(ui.item).find('button.dl-add-rule-btn').length <= 0) {
                 ui.item.append('<button class="btn btn-warning pull-right dl-add-rule-btn" data-index="' + ui.item.attr('data-index') + '">Add Rules</button>');
             }
+
+            if ($(ui.item).find('button.dl-add-jump-btn').length <= 0 && allQuestions[ui.item.attr('data-index')].answers.length === 0) {
+                ui.item.append('<button class="btn btn-info pull-left dl-add-jump-btn" data-index="' + ui.item.attr('data-index') + '">Add Default jump</button>');
+            }
+
         }
     });
 
@@ -1182,6 +1189,7 @@
 
         // The question id that the rule is being appended to.
         _answerContainer.attr('current-question-id', _question._id);
+        _answerContainer.attr('dl-rule-type', 'rules');
 
         $(_question.answers).each(function (i, v) {
             _answerContainer.append(
@@ -1198,6 +1206,33 @@
                     '<div class="dl-dropdown-container"></div>')
             );
         });
+    });
+
+
+    $(document).on('click', '.dl-add-jump-btn', function (e) {
+        e.preventDefault();
+
+        var _question = allQuestions[$(this).attr('data-index')];
+
+        $('.dl-question-text').html(_question.text);
+        $('.dl-question-text-ar').html(_question.textAr);
+
+        var _answerContainer = $('.dl-answers-container');
+        _answerContainer.empty();
+
+        // The question id that the rule is being appended to.
+        _answerContainer.attr('current-question-id', _question._id);
+        _answerContainer.attr('dl-rule-type', 'jump');
+
+        _answerContainer.append(
+            $('<div />')
+                .addClass('dl-single-answer-container')
+                .attr('data-answer-id', _question._id)
+                .appendTo(_answerContainer).append(
+                '<button class="btn btn-info btn-sm dl-append-question-to-answer-btn">Add Jump</button>')
+                .appendTo(_answerContainer).append(
+                '<div class="dl-dropdown-container"></div>')
+        );
     });
 
     // Showing a dropdown for each answer from selected questions only!
@@ -1234,43 +1269,67 @@
     $(document).on('click', '.dl-save-rules-btn', function (e) {
         e.preventDefault();
 
+
         // Parent elements that contains all answers
         var _parent = $('.dl-answers-container');
 
-        // find question-id related to this rule
-        var _questionId = $(_parent).attr('current-question-id');
+        var _ruleType = $(_parent).attr('dl-rule-type');
 
-        // find all answers, and get each answer-id
-        var _answersElements = _parent.find('.dl-single-answer-container');
+        if (_ruleType === 'jump') {
+            console.log('here');
 
-        var _tempQuestionObject = {question: _questionId, rules: []};
-        var _tempRuleObject = [];
+            // find question-id related to this rule
+            var _questionId2 = $(_parent).attr('current-question-id');
 
-        var _tempBool = true;
-        // for each answer container, get the selected question option element (saved in parent!)
-        // and related question-id. We need to test if there's a selected option!
-        $(_answersElements).each(function (i, v) {
-            var _answerId = $(v).attr('data-answer-id');
-            var _targetId = $(v).attr('data-selected-target-id');
+            // find all answers, and get each answer-id
+            var _defaultJumpId = _parent.find('.dl-single-answer-container').attr('data-selected-target-id');
 
-            if (typeof _targetId !== typeof undefined && _targetId !== false) {
-                // create a temp rule object
-                if (isJsonFormHasQuestion(_questionId) === false) {
-                    _tempRuleObject = {answer: _answerId, jump: _targetId};
-                    _tempQuestionObject.rules.push(_tempRuleObject);
-                } else {
-                    _tempBool = false;
+            var _tempQuestionObject2 = {question: _questionId2, rules: [], defaultJump: _defaultJumpId};
+
+            // it's okay to add it!
+            submittedFormJson.questions.push(_tempQuestionObject2);
+
+            console.log(submittedFormJson);
+            // Empty answer container
+            _parent.empty();
+
+        } else {
+
+            // find question-id related to this rule
+            var _questionId = $(_parent).attr('current-question-id');
+
+            // find all answers, and get each answer-id
+            var _answersElements = _parent.find('.dl-single-answer-container');
+
+            var _tempQuestionObject = {question: _questionId, rules: [], defaultJump: ''};
+            var _tempRuleObject = [];
+
+            var _tempBool = true;
+            // for each answer container, get the selected question option element (saved in parent!)
+            // and related question-id. We need to test if there's a selected option!
+            $(_answersElements).each(function (i, v) {
+                var _answerId = $(v).attr('data-answer-id');
+                var _targetId = $(v).attr('data-selected-target-id');
+
+                if (typeof _targetId !== typeof undefined && _targetId !== false) {
+                    // create a temp rule object
+                    if (isJsonFormHasQuestion(_questionId) === false) {
+                        _tempRuleObject = {answer: _answerId, jump: _targetId};
+                        _tempQuestionObject.rules.push(_tempRuleObject);
+                    } else {
+                        _tempBool = false;
+                    }
                 }
+            });
+
+            // it's okay to add it!
+            if (_tempBool) {
+                submittedFormJson.questions.push(_tempQuestionObject);
             }
-        });
 
-        // it's okay to add it!
-        if (_tempBool) {
-            submittedFormJson.questions.push(_tempQuestionObject);
+            // Empty answer container
+            _parent.empty();
         }
-
-        // Empty answer container
-        _parent.empty();
     });
 
     // Submitting the form
@@ -1400,6 +1459,10 @@
                             .appendTo(_modalBody).append(
                             $('<span>')
                                 .addClass('pull-left')
+                                .appendTo(_modalBody).append(
+                                $('<p>')
+                                    .addClass('label bg-green')
+                                    .html('question type: ' + v.question.type))
                                 .appendTo(_modalBody).append(
                                 $('<p>')
                                     .html(v.question.text))
@@ -1799,6 +1862,19 @@
         });
 
     });
+
+    $(document).on('keyup', '#myInput', function () {
+        var value = $(this).val().toLowerCase();
+
+        $("#myDIV div .card").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+
+        // $('.card').show();
+        // var filter = $(this).val(); // get the value of the input, which we filter on
+        // $('.container').find(".card-title:not(:contains(" + filter + "))").parent().css('display','none');
+    });
+
 
     //endregion
 

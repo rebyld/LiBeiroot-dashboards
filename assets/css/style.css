@@ -11098,7 +11098,7 @@ html.ie11 .bs-searchbox .form-control {
 
 .dl-dropdown-container {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 10px;
 }
 
@@ -11109,6 +11109,7 @@ html.ie11 .bs-searchbox .form-control {
 
 .dl-dropdown {
     min-width: 200px;
+    max-width: 200px;
 }
 
 .center {
@@ -11189,5 +11190,9 @@ h2[class*='dl-type']{
     background-color: #FFC107;
 }
 
+#sortable1, #sortable2{
+    max-height: 600px;
+    overflow-y: scroll;
+}
 
 

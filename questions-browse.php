@@ -20,9 +20,11 @@
         <div class="row clearfix m-b-20">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 buttons-container">
                 <button type="button" class="btn bg-purple btn-lg dl-get-questions">GET QUESTIONS</button>
+
+                <input id="myInput" type="text" placeholder="Search..">
             </div>
         </div>
-        <div class="row clearfix dl-preview-question dl-preview-questions-container">
+        <div id="myDiv" class="row clearfix dl-preview-question dl-preview-questions-container">
 
         </div>
     </div>
