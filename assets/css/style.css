@@ -11091,16 +11091,11 @@ html.ie11 .bs-searchbox .form-control {
 
 .dl-single-answer-container {
     border: 1px dashed #a7a7a7;
-    padding: 4px 10px;
+    padding: 4px 10px 20px;
     margin-bottom: 10px;
     position: relative;
 }
 
-.dl-dropdown-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
 
 .dl-small-p {
     font-size: 12px;

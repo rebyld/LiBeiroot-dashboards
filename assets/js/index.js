@@ -697,15 +697,13 @@
         $(data).each(function (i, v) {
             _res.append(
                 $('<div/>')
-                    .addClass('dl-form-single-answer-container clearfix')
+                    .addClass('dl-form-single-answer-container clearfix p-b-10')
                     .attr('data-answer-id', v._id)
                     .appendTo(_res).append(
                     $('<p>')
-                        .html('En: ' + v.text))
-                    .appendTo(_res).append(
-                    $('<p>')
-                        .html('Ar: ' + v.textAr))
+                        .html(v.text))
             );
+            _res.append($('<hr/>'));
         });
 
         return _res;
@@ -720,13 +718,12 @@
 
             $(answerElem).append(
                 $('<span/>')
-                    .addClass('label label-warning')
+                    .addClass('label label-warning m-r-10')
                     .html('This answer will jump to:')
             );
 
             $(answerElem).append(
-                $('<p/>')
-                    .addClass('')
+                $('<span/>')
                     .html(getQuestionById(form, v.jump).question.text)
             );
         });
@@ -1218,16 +1215,31 @@
         $(_question.answers).each(function (i, v) {
             _answerContainer.append(
                 $('<div />')
-                    .addClass('dl-single-answer-container')
+                    .addClass('dl-single-answer-container clearfix')
                     .attr('data-answer-id', v._id)
                     .appendTo(_answerContainer).append(
                     '<p class="dl-answer-text">' + v.text + '</p>')
                     .appendTo(_answerContainer).append(
-                    '<p class="dl-answer-text">' + v.textAr + '</p>')
+                        $('<div>')
+                            .addClass('clearfix m-b-10')
+                            .appendTo(_answerContainer).append(
+                            '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "Jump" rule</button>')
+                            .appendTo(_answerContainer).append(
+                            '<div class="dl-answers-dropdown-container pull-left"></div>'))
                     .appendTo(_answerContainer).append(
-                    '<button class="btn btn-info btn-sm dl-append-question-to-answer-btn">Append Question</button>')
+                    $('<div>')
+                        .addClass('clearfix m-b-10')
+                        .appendTo(_answerContainer).append(
+                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "Add rule"</button>')
+                        .appendTo(_answerContainer).append(
+                        '<div class="dl-answers-dropdown-container pull-left"></div>'))
                     .appendTo(_answerContainer).append(
-                    '<div class="dl-dropdown-container"></div>')
+                    $('<div>')
+                        .addClass('clearfix m-b-10')
+                        .appendTo(_answerContainer).append(
+                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "between rule"</button>')
+                        .appendTo(_answerContainer).append(
+                        '<div class="dl-answers-dropdown-container pull-left"></div>'))
             );
         });
     });
@@ -1239,7 +1251,6 @@
         var _question = allQuestions[$(this).attr('data-index')];
 
         $('.dl-question-text').html(_question.text);
-        $('.dl-question-text-ar').html(_question.textAr);
 
         var _answerContainer = $('.dl-answers-container');
         _answerContainer.empty();
@@ -1253,20 +1264,20 @@
                 .addClass('dl-single-answer-container')
                 .attr('data-answer-id', _question._id)
                 .appendTo(_answerContainer).append(
-                '<button class="btn btn-info btn-sm dl-append-question-to-answer-btn">Add Jump</button>')
+                '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn">Add Jump</button>')
                 .appendTo(_answerContainer).append(
-                '<div class="dl-dropdown-container"></div>')
+                '<div class="dl-answers-dropdown-container"></div>')
         );
     });
 
     // Showing a dropdown for each answer from selected questions only!
-    $(document).on('click', '.dl-append-question-to-answer-btn', function (e) {
+    $(document).on('click', '.dl-append-action-to-answer-btn', function (e) {
         e.preventDefault();
 
         // before adding options to dropdown, we need to update our data from selected questions area
         updateSelectedAnswer();
 
-        var _parentContainer = $(this).parent().find('.dl-dropdown-container');
+        var _parentContainer = $(this).parent().find('.dl-answers-dropdown-container');
         _parentContainer.empty();
 
         _parentContainer.append(
@@ -1300,7 +1311,6 @@
         var _ruleType = $(_parent).attr('dl-rule-type');
 
         if (_ruleType === 'jump') {
-            console.log('here');
 
             // find question-id related to this rule
             var _questionId2 = $(_parent).attr('current-question-id');
@@ -1314,6 +1324,7 @@
             submittedFormJson.questions.push(_tempQuestionObject2);
 
             console.log(submittedFormJson);
+
             // Empty answer container
             _parent.empty();
 
@@ -1354,6 +1365,8 @@
             // Empty answer container
             _parent.empty();
         }
+
+        showNotification(AlertColors._INFO, 'Rule saved, please continue ...');
     });
 
     // Submitting the form
@@ -1390,10 +1403,12 @@
             return 0;
         }
 
+        console.log(JSON.stringify(submittedFormJson, null, 2));
+
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: _opsEP + "/forms",
+            // url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
@@ -1485,14 +1500,11 @@
                                 .addClass('pull-left')
                                 .appendTo(_modalBody).append(
                                 $('<p>')
-                                    .addClass('label bg-green')
+                                    .addClass('label dl-type-'+v.question.type)
                                     .html('question type: ' + v.question.type))
                                 .appendTo(_modalBody).append(
                                 $('<p>')
                                     .html(v.question.text))
-                                .appendTo(_modalBody).append(
-                                $('<p>')
-                                    .html(v.question.textAr))
                                 .appendTo(_modalBody).append(
                                 getElemAnswers(v.question.answers)))
                             .appendTo(_modalBody).append(
