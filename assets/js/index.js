@@ -697,13 +697,10 @@
         $(data).each(function (i, v) {
             _res.append(
                 $('<div/>')
-                    .addClass('dl-form-single-answer-container clearfix p-b-10')
+                    .addClass('dl-form-single-answer-container clearfix p-b-5')
                     .attr('data-answer-id', v._id)
-                    .appendTo(_res).append(
-                    $('<p>')
-                        .html(v.text))
+                    .appendTo(_res).append($('<p>').html(v.text))
             );
-            _res.append($('<hr/>'));
         });
 
         return _res;
@@ -1165,6 +1162,8 @@
                         .html(v.text)
                         .attr('data-index', i)
                         .appendTo(allQuestionsItems).append(
+                        '<p class="dl-small-p">Question name: ' + v.name + '</p>')
+                        .appendTo(allQuestionsItems).append(
                         '<p class="dl-small-p">' + v.answers.length + ' Answers</p>')
                 );
             });
@@ -1220,12 +1219,12 @@
                     .appendTo(_answerContainer).append(
                     '<p class="dl-answer-text">' + v.text + '</p>')
                     .appendTo(_answerContainer).append(
-                        $('<div>')
-                            .addClass('clearfix m-b-10')
-                            .appendTo(_answerContainer).append(
-                            '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "Jump" rule</button>')
-                            .appendTo(_answerContainer).append(
-                            '<div class="dl-answers-dropdown-container pull-left"></div>'))
+                    $('<div>')
+                        .addClass('clearfix m-b-10')
+                        .appendTo(_answerContainer).append(
+                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "Jump" rule</button>')
+                        .appendTo(_answerContainer).append(
+                        '<div class="dl-answers-dropdown-container pull-left"></div>'))
                     .appendTo(_answerContainer).append(
                     $('<div>')
                         .addClass('clearfix m-b-10')
@@ -1408,7 +1407,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            // url: _opsEP + "/forms",
+            url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
@@ -1500,10 +1499,10 @@
                                 .addClass('pull-left')
                                 .appendTo(_modalBody).append(
                                 $('<p>')
-                                    .addClass('label dl-type-'+v.question.type)
+                                    .addClass('label dl-type-' + v.question.type)
                                     .html('question type: ' + v.question.type))
                                 .appendTo(_modalBody).append(
-                                $('<p>')
+                                $('<h3>')
                                     .html(v.question.text))
                                 .appendTo(_modalBody).append(
                                 getElemAnswers(v.question.answers)))
@@ -1898,8 +1897,6 @@
         });
 
     });
-
-
 
 
     //endregion
