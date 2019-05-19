@@ -1222,21 +1222,21 @@
                     $('<div>')
                         .addClass('clearfix m-b-10')
                         .appendTo(_answerContainer).append(
-                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "Jump" rule</button>')
+                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="jump">Append "Jump" rule</button>')
                         .appendTo(_answerContainer).append(
                         '<div class="dl-answers-dropdown-container pull-left"></div>'))
                     .appendTo(_answerContainer).append(
                     $('<div>')
                         .addClass('clearfix m-b-10')
                         .appendTo(_answerContainer).append(
-                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "Add rule"</button>')
+                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="add">Append "Add rule"</button>')
                         .appendTo(_answerContainer).append(
                         '<div class="dl-answers-dropdown-container pull-left"></div>'))
                     .appendTo(_answerContainer).append(
                     $('<div>')
                         .addClass('clearfix m-b-10')
                         .appendTo(_answerContainer).append(
-                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10">Append "between rule"</button>')
+                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="between">Append "between rule"</button>')
                         .appendTo(_answerContainer).append(
                         '<div class="dl-answers-dropdown-container pull-left"></div>'))
             );
@@ -1277,18 +1277,55 @@
         updateSelectedAnswer();
 
         var _parentContainer = $(this).parent().find('.dl-answers-dropdown-container');
+        var _ruleAction = $(this).attr('data-action');
         _parentContainer.empty();
 
-        _parentContainer.append(
-            $('<select></select>')
-                .addClass('dl-dropdown')
-                .appendTo(_parentContainer).append(
-                '<option>----</option>')
-        );
+        switch (_ruleAction) {
+            case 'jump': {
+                _parentContainer.append(
+                    $('<select />')
+                        .addClass('dl-dropdown')
+                        .appendTo(_parentContainer).append(
+                        '<option>----</option>')
+                );
 
-        $(selectedQuestions).each(function (i, v) {
-            _parentContainer.find('.dl-dropdown').append('<option data-question-id="' + v._id + '">' + v.text + '</option>');
-        });
+                $(selectedQuestions).each(function (i, v) {
+                    _parentContainer.find('.dl-dropdown').append('<option data-question-id="' + v._id + '">' + v.text + ' (' + v.name + ')</option>');
+                });
+
+                break;
+            }
+
+            case 'add': {
+                _parentContainer.append(
+                    $('<input />')
+                        .attr('id', 'dl-add-price-input')
+                        .attr('placeholder', 'Value')
+                        .attr('data-target', 'price')
+                );
+                break;
+            }
+            case 'between': {
+                _parentContainer.append($('<label class="m-r-5">From: <input id="dl-time-from" type="time" data-range="from" /></label>'));
+                _parentContainer.append($('<label class="m-r-5">To: <input id="dl-time-to" type="time" data-range="to" /></label>'));
+                _parentContainer.append($('<label class="m-r-5">Will go to:</label>'));
+                _parentContainer.append(
+                    $('<select />')
+                        .addClass('dl-dropdown m-l-5')
+                        .appendTo(_parentContainer).append(
+                        '<option>----</option>')
+                );
+
+                $(selectedQuestions).each(function (i, v) {
+                    _parentContainer.find('.dl-dropdown').append('<option data-question-id="' + v._id + '">' + v.text + ' (' + v.name + ')</option>');
+                });
+
+                break;
+            }
+
+            default:
+                return
+        }
     });
 
     // on each change, we update the selected question id on the parent element for later use.
@@ -1299,17 +1336,33 @@
         $(_answerElement).attr('data-selected-target-id', $('option:selected', this).attr('data-question-id'));
     });
 
+    $(document).on('change', '#dl-add-price-input', function () {
+        var _answerElement = $(this).closest('.dl-single-answer-container');
+        $(_answerElement).attr('data-price', $(this).val());
+    });
+
+    $(document).on('change', '#dl-time-from', function () {
+        var _answerElement = $(this).closest('.dl-single-answer-container');
+        $(_answerElement).attr('data-time-from', $(this).val());
+    });
+
+
+    $(document).on('change', '#dl-time-to', function () {
+        var _answerElement = $(this).closest('.dl-single-answer-container');
+        $(_answerElement).attr('data-time-to', $(this).val());
+    });
+
+
     // save rule of question, main insertion to final form will be here
     $(document).on('click', '.dl-save-rules-btn', function (e) {
         e.preventDefault();
-
 
         // Parent elements that contains all answers
         var _parent = $('.dl-answers-container');
 
         var _ruleType = $(_parent).attr('dl-rule-type');
 
-        if (_ruleType === 'jump') {
+        if (_ruleType === 'jump') { // default jump
 
             // find question-id related to this rule
             var _questionId2 = $(_parent).attr('current-question-id');
@@ -1327,7 +1380,7 @@
             // Empty answer container
             _parent.empty();
 
-        } else {
+        } else { // normal rules
 
             // find question-id related to this rule
             var _questionId = $(_parent).attr('current-question-id');
@@ -1339,22 +1392,55 @@
             var _tempRuleObject = [];
 
             var _tempBool = true;
-            // for each answer container, get the selected question option element (saved in parent!)
-            // and related question-id. We need to test if there's a selected option!
-            $(_answersElements).each(function (i, v) {
-                var _answerId = $(v).attr('data-answer-id');
-                var _targetId = $(v).attr('data-selected-target-id');
 
-                if (typeof _targetId !== typeof undefined && _targetId !== false) {
-                    // create a temp rule object
-                    if (isJsonFormHasQuestion(_questionId) === false) {
-                        _tempRuleObject = {answer: _answerId, jump: _targetId};
+            if (isJsonFormHasQuestion(_questionId) === false) {
+
+                // for each answer container, get the selected question option element (saved in parent!)
+                // and related question-id. We need to test if there's a selected option!
+                $(_answersElements).each(function (i, v) {
+                    var _answerId = $(v).attr('data-answer-id');
+                    var _targetId = $(v).attr('data-selected-target-id');
+                    var _price = $(v).attr('data-price');
+                    var _timeFrom = $(v).attr('data-time-from');
+                    var _timeTo = $(v).attr('data-time-to');
+
+                    if (typeof _price !== typeof undefined && _price !== false) {
+
+                        // create a temp rule object
+                        _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price};
                         _tempQuestionObject.rules.push(_tempRuleObject);
-                    } else {
-                        _tempBool = false;
+
                     }
-                }
-            });
+                    if (typeof _targetId !== typeof undefined && _targetId !== false) {
+
+                        console.log('time from: ', _timeFrom);
+                        console.log('time to: ', _timeTo);
+
+                        if ((typeof _timeFrom !== typeof undefined && _timeFrom !== false) && (typeof _timeTo !== typeof undefined && _timeTo !== false)) {
+                            // between jump
+
+                            // create a temp rule object
+                            _tempRuleObject = {
+                                answer: _answerId,
+                                action: 'between',
+                                target: _targetId,
+                                value: _timeFrom + '_' + _timeTo
+                            };
+                            _tempQuestionObject.rules.push(_tempRuleObject);
+
+                        } else {
+                            // normal jump
+
+                            // create a temp rule object
+                            _tempRuleObject = {answer: _answerId, target: _targetId, action: 'jump'};
+                            _tempQuestionObject.rules.push(_tempRuleObject);
+                        }
+                    }
+                });
+
+            } else {
+                _tempBool = false;
+            }
 
             // it's okay to add it!
             if (_tempBool) {
@@ -1407,7 +1493,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: _opsEP + "/forms",
+            // url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
