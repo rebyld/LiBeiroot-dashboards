@@ -51,6 +51,11 @@
                             <h2>Drag questions from here
                                 <small>be sure to select all questions need in form!</small>
                             </h2>
+                            <div class="form-group m-t-10">
+                                <label class="controls">
+                                    Type here to filter results (case sensitive!)
+                                    <input id="myInput" class="form-control m-t-5" type="text" placeholder="Search.."></label>
+                            </div>
                         </div>
                         <ul id="sortable1" class="connectedSortable"></ul>
                     </div>
