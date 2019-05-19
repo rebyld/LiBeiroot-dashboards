@@ -1124,20 +1124,8 @@
     });
 
     $(document).on('keyup', '#myInput', function () {
-
         var selectSize = $(this).val();
         filter(selectSize);
-
-        // var value = $(this).val().toLowerCase();
-        //
-        //
-        // $('#myDiv div[data-filter-name=' + value + ']').filter(function () {
-        //     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        // });
-
-        // $('.card').show();
-        // var filter = $(this).val(); // get the value of the input, which we filter on
-        // $('.container').find(".card-title:not(:contains(" + filter + "))").parent().css('display','none');
     });
 
     function filter(e) {

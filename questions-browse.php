@@ -18,10 +18,14 @@
 
         <!-- Widget -->
         <div class="row clearfix m-b-20">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 buttons-container">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 buttons-container">
                 <button type="button" class="btn bg-purple btn-lg dl-get-questions">GET QUESTIONS</button>
 
-                <input id="myInput" type="text" placeholder="Search..">
+                <div class="form-group">
+                    <label class="controls">
+                        Type here to filter results (case sensitive!)
+                        <input id="myInput" class="form-control m-t-5" type="text" placeholder="Search.."></label>
+                </div>
             </div>
         </div>
         <div id="myDiv" class="row clearfix dl-preview-question dl-preview-questions-container">
