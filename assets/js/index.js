@@ -19,7 +19,7 @@
     var allForms = [];
     var allQuestionsItems = $('#sortable1');
     var selectedQuestionsItems = $('#sortable2');
-    var submittedFormJson = {name: "", questions: [], message: ''};
+    var submittedFormJson = {name: "", questions: [], message: '', variables: []};
 
     // services
     var allServices = [];
@@ -719,10 +719,13 @@
                     .html('This answer will jump to:')
             );
 
-            $(answerElem).append(
-                $('<span/>')
-                    .html(getQuestionById(form, v.jump).question.text)
-            );
+            if (isNotDead(v.jump)) {
+                $(answerElem).append(
+                    $('<span/>')
+                        .html(getQuestionById(form, v.jump).question.text)
+                );
+            }
+
         });
     }
 
@@ -1027,6 +1030,9 @@
         return (new Date((new Date(strangeDate)).getTime())).toLocaleDateString();
     }
 
+    function isNotDead(value) {
+        return typeof value !== typeof undefined && value !== false;
+    }
 
     //endregion
 
@@ -1404,19 +1410,24 @@
                     var _timeFrom = $(v).attr('data-time-from');
                     var _timeTo = $(v).attr('data-time-to');
 
-                    if (typeof _price !== typeof undefined && _price !== false) {
+                    if (isNotDead(_price)) {
 
                         // create a temp rule object
                         _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price};
+
+                        if ($.inArray("price", submittedFormJson.variables) === -1) {
+                            submittedFormJson.variables.push("price");
+                        }
+
                         _tempQuestionObject.rules.push(_tempRuleObject);
 
                     }
-                    if (typeof _targetId !== typeof undefined && _targetId !== false) {
+                    if (isNotDead(_targetId)) {
 
                         console.log('time from: ', _timeFrom);
                         console.log('time to: ', _timeTo);
 
-                        if ((typeof _timeFrom !== typeof undefined && _timeFrom !== false) && (typeof _timeTo !== typeof undefined && _timeTo !== false)) {
+                        if (isNotDead(_timeFrom) && isNotDead(_timeTo)) {
                             // between jump
 
                             // create a temp rule object
