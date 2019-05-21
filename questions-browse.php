@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div id="myDiv" class="row clearfix dl-preview-question dl-preview-questions-container">
+        <div id="myDiv" class="row clearfix dl-preview-question dl-preview-questions-container filtered-container">
 
         </div>
     </div>

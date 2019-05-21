@@ -57,7 +57,7 @@
                                     <input id="myInput" class="form-control m-t-5" type="text" placeholder="Search.."></label>
                             </div>
                         </div>
-                        <ul id="sortable1" class="connectedSortable"></ul>
+                        <ul id="sortable1" class="connectedSortable filtered-container"></ul>
                     </div>
                     <div class="col-md-6 dl-selected-questions-container">
                         <div class="header block-header">

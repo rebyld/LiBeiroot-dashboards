@@ -1092,7 +1092,7 @@
 
                 _parent.append(
                     $('<div />')
-                        .addClass('col-lg-4 col-md-4 col-sm-6 col-xs-12')
+                        .addClass('col-lg-4 col-md-4 col-sm-6 col-xs-12 filtered')
                         .attr('data-filter-name', v.text)
                         .appendTo(_parent).append(
                         $('<div />')
@@ -1130,7 +1130,7 @@
 
     function filter(e) {
         var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
-        $('.col-lg-4').hide().filter(function () {
+        $('.filtered-container .filtered').hide().filter(function () {
             return regex.test($(this).attr('data-filter-name'))
         }).show();
     }
@@ -1152,9 +1152,10 @@
             $(allQuestions).each(function (i, v) {
                 allQuestionsItems.append(
                     $('<li/>')
-                        .addClass('ui-state-default clearfix card')
+                        .addClass('ui-state-default clearfix card filtered')
                         .html(v.text)
                         .attr('data-index', i)
+                        .attr('data-filter-name', v.text)
                         .appendTo(allQuestionsItems).append(
                         '<p class="dl-small-p">Question name: ' + v.name + '</p>')
                         .appendTo(allQuestionsItems).append(
@@ -1492,7 +1493,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            // url: _opsEP + "/forms",
+            url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
