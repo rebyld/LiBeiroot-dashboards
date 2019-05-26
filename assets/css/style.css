@@ -11184,6 +11184,10 @@ h2[class*='dl-type']{
     background-color: #FFC107;
 }
 
+.dl-type-time {
+    background-color: #FF5722;
+}
+
 #sortable1, #sortable2{
     max-height: 600px;
     overflow-y: scroll;

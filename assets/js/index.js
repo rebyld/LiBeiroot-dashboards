@@ -394,6 +394,30 @@
                     }
                 };
                 return schema;
+
+            case 'time':
+                schema = {
+                    "name": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question name (must be unique)"
+                    },
+                    "text": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ENGLISH"
+                    },
+                    "textAr": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ARABIC"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": type
+                    }
+                };
+                return schema;
         }
     }
 
@@ -612,6 +636,34 @@
                         : {}
                 ];
                 return keys;
+
+            case 'time':
+                keys = [
+                    {
+                        "key": "name",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "text",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "textAr",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "type",
+                        "type": "hidden"
+                    },
+                    hasSubmit
+                        ? {
+                            "type": "submit",
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
+                        }
+                        : {}
+                ];
+                return keys;
         }
     }
 
@@ -667,6 +719,15 @@
                 return values;
 
             case 'date':
+                values = {
+                    "name": _questionResult.name,
+                    "text": _questionResult.text,
+                    "textAr": _questionResult.textAr,
+                    "type": type
+                };
+                return values;
+
+            case 'time':
                 values = {
                     "name": _questionResult.name,
                     "text": _questionResult.text,
@@ -1186,6 +1247,8 @@
             if ($(ui.item).find('button.dl-add-jump-btn').length <= 0 && allQuestions[ui.item.attr('data-index')].answers.length === 0) {
                 ui.item.append('<button class="btn btn-info pull-left dl-add-jump-btn" data-index="' + ui.item.attr('data-index') + '">Add Default jump</button>');
             }
+
+
 
         }
     });
