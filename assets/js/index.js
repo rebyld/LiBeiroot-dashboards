@@ -1239,19 +1239,22 @@
     selectedQuestionsItems.sortable({
         update: function (e, ui) {
 
-            // check if the question has answers && the button hasn't been added before
-            if (allQuestions[ui.item.attr('data-index')].answers.length && $(ui.item).find('button.dl-add-rule-btn').length <= 0) {
-                ui.item.append('<button class="btn btn-warning pull-right dl-add-rule-btn" data-index="' + ui.item.attr('data-index') + '">Add Rules</button>');
-            }
+            var type = allQuestions[ui.item.attr('data-index')].type;
 
-            if ($(ui.item).find('button.dl-add-jump-btn').length <= 0 && allQuestions[ui.item.attr('data-index')].answers.length === 0) {
+            // check if the question has answers && the button hasn't been added before
+            if (checkButtonRule(type) && $(ui.item).find('button.dl-add-rule-btn').length <= 0) {
+                ui.item.append('<button class="btn btn-warning pull-right dl-add-rule-btn" data-index="' + ui.item.attr('data-index') + '">Add Rules</button>');
+            } else if ($(ui.item).find('button.dl-add-jump-btn').length <= 0 && !checkButtonRule(type)) {
                 ui.item.append('<button class="btn btn-info pull-left dl-add-jump-btn" data-index="' + ui.item.attr('data-index') + '">Add Default jump</button>');
             }
 
-
-
         }
     });
+
+
+    function checkButtonRule(type) {
+        return type === 'time' || type === 'checkbox' || type === 'select';
+    }
 
     // render the question with related answers, along with append button to each answer
     $(document).on('click', '.dl-add-rule-btn', function (e) {
@@ -1269,27 +1272,14 @@
         _answerContainer.attr('current-question-id', _question._id);
         _answerContainer.attr('dl-rule-type', 'rules');
 
-        $(_question.answers).each(function (i, v) {
+        // adding rules without answers!
+        if (_question.type === 'time') {
             _answerContainer.append(
                 $('<div />')
                     .addClass('dl-single-answer-container clearfix')
-                    .attr('data-answer-id', v._id)
+                    .attr('data-answer-id', 'no-answer-id-for-this-type')
                     .appendTo(_answerContainer).append(
-                    '<p class="dl-answer-text">' + v.text + '</p>')
-                    .appendTo(_answerContainer).append(
-                    $('<div>')
-                        .addClass('clearfix m-b-10')
-                        .appendTo(_answerContainer).append(
-                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="jump">Append "Jump" rule</button>')
-                        .appendTo(_answerContainer).append(
-                        '<div class="dl-answers-dropdown-container pull-left"></div>'))
-                    .appendTo(_answerContainer).append(
-                    $('<div>')
-                        .addClass('clearfix m-b-10')
-                        .appendTo(_answerContainer).append(
-                        '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="add">Append "Add rule"</button>')
-                        .appendTo(_answerContainer).append(
-                        '<div class="dl-answers-dropdown-container pull-left"></div>'))
+                    '<p class="dl-answer-text">Add time rule</p>')
                     .appendTo(_answerContainer).append(
                     $('<div>')
                         .addClass('clearfix m-b-10')
@@ -1298,7 +1288,38 @@
                         .appendTo(_answerContainer).append(
                         '<div class="dl-answers-dropdown-container pull-left"></div>'))
             );
-        });
+        } else {
+            $(_question.answers).each(function (i, v) {
+                _answerContainer.append(
+                    $('<div />')
+                        .addClass('dl-single-answer-container clearfix')
+                        .attr('data-answer-id', v._id)
+                        .appendTo(_answerContainer).append(
+                        '<p class="dl-answer-text">' + v.text + '</p>')
+                        .appendTo(_answerContainer).append(
+                        $('<div>')
+                            .addClass('clearfix m-b-10')
+                            .appendTo(_answerContainer).append(
+                            '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="jump">Append "Jump" rule</button>')
+                            .appendTo(_answerContainer).append(
+                            '<div class="dl-answers-dropdown-container pull-left"></div>'))
+                        .appendTo(_answerContainer).append(
+                        $('<div>')
+                            .addClass('clearfix m-b-10')
+                            .appendTo(_answerContainer).append(
+                            '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="add">Append "Add rule"</button>')
+                            .appendTo(_answerContainer).append(
+                            '<div class="dl-answers-dropdown-container pull-left"></div>'))
+                        .appendTo(_answerContainer).append(
+                        $('<div>')
+                            .addClass('clearfix m-b-10')
+                            .appendTo(_answerContainer).append(
+                            '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="between">Append "between rule"</button>')
+                            .appendTo(_answerContainer).append(
+                            '<div class="dl-answers-dropdown-container pull-left"></div>'))
+                );
+            });
+        }
     });
 
 
@@ -1556,7 +1577,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: _opsEP + "/forms",
+            // url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
