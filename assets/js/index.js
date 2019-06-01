@@ -40,6 +40,16 @@
         expiresAt: ''
     };
 
+    // category
+    var allCategories = [];
+    var submittedCategoryJson = {
+        title: '',
+        titleAr: '',
+        type: '',
+        image: '',
+        service: ''
+    };
+
     // coupons
     var allCoupons = [];
     var submittedCouponJson = {
@@ -1891,6 +1901,43 @@
 
             $(allCards).each(function (i, v) {
                 $(_parent).append(cardTemplate(v));
+            });
+        });
+    });
+
+    //endregion
+
+    //region CATEGORY
+
+    $(document).on('submit', '#dl-save-category', function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('image', $('input[type=file]')[0].files[0]);
+
+        $.when(uploadImage('#dl-category-image')).then(function (res) {
+            submittedCategoryJson.title = $('#dl-category-title').val();
+            submittedCategoryJson.titleAr = $('#dl-category-titlear').val();
+            submittedCategoryJson.image = res.url;
+            submittedCategoryJson.type = $('#dl-service-type').find(":selected").val();
+
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json',
+                url: _opsEP + "/categories",
+                data: JSON.stringify(submittedCategoryJson),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+                    $('.page-loader-wrapper.process').fadeIn();
+                },
+                success: function () {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                },
+                error: function (response) {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
+                    console.log(response);
+                }
             });
         });
     });

@@ -77,6 +77,20 @@
                             )
                         )
                     ),
+                    'categories' => array(
+                        'icon' => 'category',
+                        'text' => 'Categories',
+                        'children' => array(
+                            'create' => array(
+                                'link' => '/category-create.php',
+                                'text' => 'Create Category',
+                            ),
+                            'view' => array(
+                                'link' => '/category-browse.php',
+                                'text' => 'View Categories',
+                            )
+                        )
+                    ),
                     'coupons' => array(
                         'icon' => 'card_giftcard',
                         'text' => 'Coupons',
