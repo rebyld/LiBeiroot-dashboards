@@ -988,6 +988,37 @@
 
     //endregion
 
+    //region CATEGORIES
+
+    function getCategories() {
+        allCards = [];
+
+        return $.when(
+            $.ajax({
+                type: "GET",
+                contentType: 'application/json',
+                url: _opsEP + "/categories",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+                    $('.page-loader-wrapper.process').fadeIn();
+                },
+                success: function (response) {
+                    $(response.categories).each(function (index, value) {
+                        allCategories.push(value);
+                    });
+                    $('.page-loader-wrapper.process').fadeOut();
+                },
+                error: function (response) {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
+                    console.log(response);
+                }
+            })
+        );
+    }
+
+    //endregion
+
     //region COUPONS
 
     function getCoupons() {
@@ -1941,6 +1972,20 @@
             });
         });
     });
+
+    $('.dl-get-categories').on('click', function (e) {
+        e.preventDefault();
+
+        $.when(getCategories()).then(function () {
+            var _parent = $('.dl-preview-categories-container');
+            _parent.empty();
+
+            $(allCategories).each(function (i, v) {
+                $(_parent).append(categoryTemplate(v));
+            });
+        });
+    });
+
 
     //endregion
 
