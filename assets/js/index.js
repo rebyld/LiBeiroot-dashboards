@@ -23,7 +23,7 @@
 
     // services
     var allServices = [];
-    var submittedServiceJson = {name: '', nameAr: '', description: '', descriptionAr: '', type: '', price: 0, form: ''};
+    var submittedServiceJson = {name: '', nameAr: '', description: '', descriptionAr: '', type: '', price: 0, form: '', categoryId: ''};
 
     // cards
     var allCards = [];
@@ -102,6 +102,7 @@
         // Warnings
         _UNPROCESSABLE_ENTITY: 'Some of the values are incorrect, please check and retry.',
         _CREATE_SERVICE_ENTER_FORM: 'Please select a form!',
+        _CREATE_SERVICE_ENTER_CATEGORY: 'Please select a category!',
 
         // Success
         _CREATE_SUCCESS: 'Created Successfully!',
@@ -131,6 +132,7 @@
 
         if (body.hasClass("services")) {
             getForms();
+            getCategories();
         }
 
         if (body.hasClass("cards") || body.hasClass("coupons")) {
@@ -991,7 +993,7 @@
     //region CATEGORIES
 
     function getCategories() {
-        allCards = [];
+        allCategories = [];
 
         return $.when(
             $.ajax({
@@ -1007,6 +1009,12 @@
                         allCategories.push(value);
                     });
                     $('.page-loader-wrapper.process').fadeOut();
+
+                    console.log(allCategories);
+
+                    $(allCategories).each(function (i, v) {
+                        $('#dl-categories-dropdown').append('<option value="' + v._id + '">' + v.title + '</option>');
+                    });
                 },
                 error: function (response) {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -1049,7 +1057,6 @@
     }
 
     function appendServices(item) {
-        console.log(item);
         var _parent = $("#" + item._id);
 
         $(item.services).each(function (i, v) {
@@ -1738,6 +1745,7 @@
     $(document).on('submit', '#dl-save-service', function (e) {
         e.preventDefault();
         var _formsDropDown = $('#dl-forms-dropdown');
+        var _categoriesDropDown = $('#dl-categories-dropdown');
 
         submittedServiceJson.name = $('#dl-service-name').val();
         submittedServiceJson.nameAr = $('#dl-service-namear').val();
@@ -1746,9 +1754,15 @@
         submittedServiceJson.price = $('#dl-service-price').val();
         submittedServiceJson.type = $('#dl-service-type').find(":selected").val();
         submittedServiceJson.form = _formsDropDown.find(":selected").val();
+        submittedServiceJson.categoryId = _categoriesDropDown.find(":selected").val();
 
         if (_formsDropDown.find('option:selected').index() === 0) {
             showNotification(AlertColors._WARNING, AlertStrings._CREATE_SERVICE_ENTER_FORM);
+            return;
+        }
+
+        if (_categoriesDropDown.find('option:selected').index() === 0) {
+            showNotification(AlertColors._WARNING, AlertStrings._CREATE_SERVICE_ENTER_CATEGORY);
             return;
         }
 
@@ -1872,7 +1886,7 @@
                         "descriptionAr": v.descriptionAr,
                         "price": v.price,
                         "type": v.type,
-                        "form": v.form.name
+                        "form": v.form.name,
                     }
                 });
 
@@ -1980,11 +1994,22 @@
             var _parent = $('.dl-preview-categories-container');
             _parent.empty();
 
+            console.log('empty');
             $(allCategories).each(function (i, v) {
                 $(_parent).append(categoryTemplate(v));
+                appendCategory(v);
             });
         });
     });
+
+    function appendCategory(item) {
+        var _parent = $("#" + item._id);
+
+        $(item.services).each(function (i, v) {
+            $(_parent).append($('<p />').html(v.name));
+        });
+        $(_parent).append($('<hr />'));
+    }
 
 
     //endregion

@@ -63,12 +63,13 @@ var categoryTemplate = _.template('<div class="col-md-4">' +
     '<div class="card">' +
     '<div class="header clearfix">' +
     '<h2 class="pull-left"><%= title %></h2>' +
-    ' <i class="pull-right material-icons col-red dl-delete" data-endpoint="/category/" data-render="dl-get-categories" data-id="<%= _id %>">delete</i> ' +
+    ' <i class="pull-right material-icons col-red dl-delete" data-endpoint="/categories/" data-render="dl-get-categories" data-id="<%= _id %>">delete</i> ' +
     '</div>' +
-    '<div class="body">' +
-    '<div class="dl-card-image" style="background-image: url(<%= image %>);width: 100px;height: 100px"></div>' +
-    '<div class="dl-card-content p-l-0">' +
+    '<div class="body clearfix">' +
+    '<div class="col-md-4 dl-card-image" style="background-image: url(<%= image %>);width: 50px;height: 50px"></div>' +
+    '<div id="<%= _id %>" class="col-md-8 dl-card-content p-l-0"> ' +
     '<p>Type: <%= type %></p>' +
+    '<h4>Attached to Services:</h4>' +
     '</div>' +
     '</div>' +
     '</div>' +

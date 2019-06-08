@@ -75,6 +75,12 @@
                                 <option>----</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="dl-categories-dropdown">Select Category</label>
+                            <select id="dl-categories-dropdown" class="form-control" required>
+                                <option>----</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
