@@ -3,7 +3,7 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal">
+<body class="theme-teal homepage">
 
 <?php include('parts/loaders.php');?>
 <?php include('parts/navbar.php'); ?>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-hover dashboard-task-infos">
+                            <table class="table table-hover dashboard-task-infos dl-orders-table">
                                 <thead>
                                 <tr>
                                     <th>#</th>

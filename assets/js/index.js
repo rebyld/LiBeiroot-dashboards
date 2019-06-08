@@ -23,7 +23,16 @@
 
     // services
     var allServices = [];
-    var submittedServiceJson = {name: '', nameAr: '', description: '', descriptionAr: '', type: '', price: 0, form: '', categoryId: ''};
+    var submittedServiceJson = {
+        name: '',
+        nameAr: '',
+        description: '',
+        descriptionAr: '',
+        type: '',
+        price: 0,
+        form: '',
+        categoryId: ''
+    };
 
     // cards
     var allCards = [];
@@ -86,6 +95,9 @@
         licensePicture: ''
     };
 
+    // orders
+    var allOrders = [];
+
     // Enums
     var AlertColors = {
         _DANGER: 'bg-red',
@@ -125,6 +137,17 @@
         initSession();
 
         let body = $('body');
+
+        if (body.hasClass("homepage")) {
+
+            $.when(getOrders()).then(function () {
+                var _parent = $('.dl-orders-table');
+
+                $(allOrders).each(function (i, v) {
+                    $(_parent).append(orderRowTemplate(v));
+                });
+            });
+        }
 
         if (body.hasClass("forms")) {
             $('.dl-form-content').hide();
@@ -1085,6 +1108,37 @@
                 success: function (response) {
                     $(response).each(function (index, value) {
                         allDrivers.push(value);
+                    });
+                    $('.page-loader-wrapper.process').fadeOut();
+                },
+                error: function (response) {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
+                    console.log(response);
+                }
+            })
+        );
+    }
+
+    //endregion
+
+    //region ORDERS
+
+    function getOrders() {
+        allOrders = [];
+
+        return $.when(
+            $.ajax({
+                type: "GET",
+                contentType: 'application/json',
+                url: _opsEP + "/orders",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+                    $('.page-loader-wrapper.process').fadeIn();
+                },
+                success: function (response) {
+                    $(response).each(function (index, value) {
+                        allOrders.push(value);
                     });
                     $('.page-loader-wrapper.process').fadeOut();
                 },

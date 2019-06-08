@@ -96,3 +96,10 @@ const couponTemplate = _.template('<div class="col-md-4">' +
 function getReadableDate(strangeDate) {
     return (new Date((new Date(strangeDate)).getTime())).toLocaleString();
 }
+
+const orderRowTemplate = _.template('<tr>' +
+    '<td>#</td>' +
+    '<td>info 1</td>' +
+    '<td>info 2</td>' +
+    '<td>info 3</td>' +
+    '</tr>');
