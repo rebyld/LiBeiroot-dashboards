@@ -140,11 +140,15 @@
 
         if (body.hasClass("homepage")) {
 
+            var type = body.attr('data-type');
+
             $.when(getOrders()).then(function () {
                 var _parent = $('.dl-orders-table');
 
                 $(allOrders).each(function (i, v) {
-                    $(_parent).append(orderRowTemplate(v));
+                    if (v.type === type) {
+                        $(_parent).append(orderRowTemplate(v));
+                    }
                 });
             });
         }

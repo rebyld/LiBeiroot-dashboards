@@ -3,7 +3,7 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal homepage">
+<body class="theme-teal homepage" data-type="trip">
 
 <?php include('parts/loaders.php');?>
 <?php include('parts/navbar.php'); ?>
