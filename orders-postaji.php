@@ -80,16 +80,13 @@
                             <table class="table table-hover dashboard-task-infos dl-orders-table">
                                 <thead>
                                 <tr>
-                                    <th>Number</th>
                                     <th>Order Name</th>
-                                    <th>Type</th>
                                     <th>Status</th>
                                     <th>Client Name</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>1</td>
                                     <td>Tip to Damascus</td>
                                     <td>Tip</td>
                                     <td><span class="label bg-green">Doing</span></td>
@@ -97,7 +94,6 @@
 
                                 </tr>
                                 <tr>
-                                    <td>2</td>
                                     <td>InstaShop Order</td>
                                     <td>Order</td>
                                     <td><span class="label bg-blue">To Do</span></td>
@@ -105,7 +101,6 @@
 
                                 </tr>
                                 <tr>
-                                    <td>3</td>
                                     <td>Tip to Beirut</td>
                                     <td>Tip</td>
                                     <td><span class="label bg-light-blue">On Hold</span></td>
@@ -113,7 +108,6 @@
 
                                 </tr>
                                 <tr>
-                                    <td>4</td>
                                     <td>Tip to Damascus</td>
                                     <td>Tip</td>
                                     <td><span class="label bg-orange">Wait Approvel</span></td>
@@ -121,7 +115,6 @@
 
                                 </tr>
                                 <tr>
-                                    <td>5</td>
                                     <td>InstaShop Order</td>
                                     <td>Order</td>
                                     <td>

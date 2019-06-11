@@ -98,9 +98,8 @@ function getReadableDate(strangeDate) {
 }
 
 const orderRowTemplate = _.template('<tr>' +
-    '<td>#</td>' +
-    '<td><%= type %></td>' +
     '<td><%= service.name %></td>' +
+    '<td><%= status %></td>' +
     '<td>info 3</td>' +
     '</tr>');
 
