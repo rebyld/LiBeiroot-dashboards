@@ -3,7 +3,7 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal homepage" data-type="trip">
+<body class="theme-teal homepage" data-type="postaji">
 
 <?php include('parts/loaders.php');?>
 <?php include('parts/navbar.php'); ?>
@@ -80,7 +80,7 @@
                             <table class="table table-hover dashboard-task-infos dl-orders-table">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>Number</th>
                                     <th>Order Name</th>
                                     <th>Type</th>
                                     <th>Status</th>
