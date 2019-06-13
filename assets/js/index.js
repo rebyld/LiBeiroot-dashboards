@@ -1372,6 +1372,8 @@
         $('.dl-question-text-ar').html(_question.textAr);
 
         var _answerContainer = $('.dl-answers-container');
+
+        var _modal = $('#rulesFormModal');
         _answerContainer.empty();
 
         // The question id that the rule is being appended to.
@@ -1426,6 +1428,8 @@
                 );
             });
         }
+
+        _modal.modal('show');
     });
 
 

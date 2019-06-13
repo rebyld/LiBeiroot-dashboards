@@ -99,6 +99,23 @@
                     </h2>
                 </div>
 
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade" id="rulesFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                <h3 class="modal-title" id="lineModalLabel">Create rules</h3>
+            </div>
+            <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="dl-rules-container">
@@ -115,7 +132,7 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 
 <?php include('parts/footer.php'); ?>
