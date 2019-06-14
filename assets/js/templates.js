@@ -103,3 +103,11 @@ const orderRowTemplate = _.template('<tr>' +
     '<td>info 3</td>' +
     '</tr>');
 
+
+const questionLiElementTemplate = _.template('<li class="ui-state-default clearfix card filtered" data-index="<%= vars.index %>">' +
+    '<div class="clearfix">' +
+    '<p class="pull-left"></p>' +
+    '<p class="dl-small-p pull-right"></p>' +
+    '</div>' +
+    '<p class="dl-small-p"></p>' +
+    '</li>');

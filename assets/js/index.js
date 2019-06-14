@@ -154,7 +154,7 @@
         }
 
         if (body.hasClass("forms")) {
-            $('.dl-form-content').hide();
+            initFormCreation();
         }
 
         if (body.hasClass("services")) {
@@ -888,6 +888,43 @@
                 }
             })
         );
+    }
+
+    function initFormCreation() {
+        $.when(getQuestions()).then(function () {
+            var _parent = $('.dl-preview-questions-container');
+
+            _parent.empty();
+
+            // converting questions to UI elements so OPS can drag/drop questions
+            $(allQuestions).each(function (i, v) {
+
+                //todo: try to convert to template, there's issue with i
+
+                // allQuestionsItems.append(questionLiElementTemplate(v, {vars:[{'index' : i}] }));
+
+                allQuestionsItems.append(
+                    $('<li/>')
+                        .addClass('ui-state-default clearfix card filtered')
+                        .attr('data-index', i)
+                        .attr('data-filter-name', v.text)
+                        .appendTo(allQuestionsItems).append(
+                        $('<div />')
+                            .addClass('clearfix')
+                            .appendTo(allQuestionsItems).append(
+                            '<p class="pull-left">' + v.text + '</p>')
+                            .appendTo(allQuestionsItems).append(
+                            '<p class="dl-small-p pull-right">' + v.answers.length + ' Answers</p>'))
+                        .appendTo(allQuestionsItems).append(
+                        '<p class="dl-small-p">Question name: ' + v.name + '</p>')
+                );
+            });
+        });
+
+        // init sorting plugin
+        $("#sortable1, #sortable2").sortable({
+            connectWith: ".connectedSortable"
+        }).disableSelection();
     }
 
     function getFormById(id) {
