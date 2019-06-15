@@ -138,17 +138,7 @@
                         <h2>Available questions</h2>
                         <p>Be sure to select a question and drag/drop it to see it here!</p>
                         <hr>
-                        <div class="dl-selected-questions-container-preview">
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                            <p>Lorem ipsum dolor.</p>
-                        </div>
+                        <div class="dl-selected-questions-container-preview"></div>
                     </div>
                 </div>
             </div>

@@ -912,7 +912,7 @@
                         $('<div />')
                             .addClass('clearfix')
                             .appendTo(allQuestionsItems).append(
-                            '<p class="pull-left">' + v.text + '</p>')
+                            '<p class="pull-left f-s-16">' + v.text + '</p>')
                             .appendTo(allQuestionsItems).append(
                             '<p class="dl-small-p pull-right">' + v.answers.length + ' Answers</p>'))
                         .appendTo(allQuestionsItems).append(
@@ -1343,41 +1343,6 @@
 
     //region FORMS
 
-    // this will prevent any bug on adding a second form by mistake.
-    $(document).on('submit', '#dl-init-form', function (e) {
-        e.preventDefault();
-
-        $.when(getQuestions()).then(function () {
-            var _parent = $('.dl-preview-questions-container');
-
-            _parent.empty();
-
-            // converting questions to UI elements so OPS can drag/drop questions
-            $(allQuestions).each(function (i, v) {
-                allQuestionsItems.append(
-                    $('<li/>')
-                        .addClass('ui-state-default clearfix card filtered')
-                        .html(v.text)
-                        .attr('data-index', i)
-                        .attr('data-filter-name', v.text)
-                        .appendTo(allQuestionsItems).append(
-                        '<p class="dl-small-p">Question name: ' + v.name + '</p>')
-                        .appendTo(allQuestionsItems).append(
-                        '<p class="dl-small-p">' + v.answers.length + ' Answers</p>')
-                );
-            });
-        });
-
-        // show/hide some info
-        $('.dl-form-content').show();
-        $('.dl-init-form-container').hide();
-
-        // init sorting plugin
-        $("#sortable1, #sortable2").sortable({
-            connectWith: ".connectedSortable"
-        }).disableSelection();
-    });
-
     // whenever we drag/drop, we will update some info on questions <li>
     selectedQuestionsItems.sortable({
         update: function (e, ui) {
@@ -1394,6 +1359,20 @@
         }
     });
 
+    function appendSelectedAnswersToPreviewSection() {
+        updateSelectedAnswer();
+
+        var _parent = $('.dl-selected-questions-container-preview');
+
+        _parent.empty();
+
+        console.log(selectedQuestions);
+
+        $(selectedQuestions).each(function (i, v) {
+            console.log(v);
+            _parent.append('<p>- ' + v.text + '</p>');
+        });
+    }
 
     function checkButtonRule(type) {
         return type === 'time' || type === 'checkbox' || type === 'select';
@@ -1412,6 +1391,8 @@
 
         var _modal = $('#rulesFormModal');
         _answerContainer.empty();
+
+        appendSelectedAnswersToPreviewSection();
 
         // The question id that the rule is being appended to.
         _answerContainer.attr('current-question-id', _question._id);
@@ -1478,7 +1459,11 @@
         $('.dl-question-text').html(_question.text);
 
         var _answerContainer = $('.dl-answers-container');
+        var _modal = $('#rulesFormModal');
+
         _answerContainer.empty();
+
+        appendSelectedAnswersToPreviewSection();
 
         // The question id that the rule is being appended to.
         _answerContainer.attr('current-question-id', _question._id);
@@ -1486,21 +1471,20 @@
 
         _answerContainer.append(
             $('<div />')
-                .addClass('dl-single-answer-container')
+                .addClass('clearfix dl-single-answer-container')
                 .attr('data-answer-id', _question._id)
                 .appendTo(_answerContainer).append(
-                '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn">Add Jump</button>')
+                '<button class="btn btn-info btn-sm dl-append-action-to-answer-btn pull-left m-r-10" data-action="jump">Add Jump</button>')
                 .appendTo(_answerContainer).append(
                 '<div class="dl-answers-dropdown-container"></div>')
         );
+
+        _modal.modal('show');
     });
 
     // Showing a dropdown for each answer from selected questions only!
     $(document).on('click', '.dl-append-action-to-answer-btn', function (e) {
         e.preventDefault();
-
-        // before adding options to dropdown, we need to update our data from selected questions area
-        updateSelectedAnswer();
 
         var _parentContainer = $(this).parent().find('.dl-answers-dropdown-container');
         var _ruleAction = $(this).attr('data-action');
@@ -1521,7 +1505,6 @@
 
                 break;
             }
-
             case 'add': {
                 _parentContainer.append(
                     $('<input />')
@@ -1548,7 +1531,6 @@
 
                 break;
             }
-
             default:
                 return
         }
@@ -1682,6 +1664,10 @@
             _parent.empty();
         }
 
+        var _modal = $('#rulesFormModal');
+
+        _modal.modal('hide');
+
         showNotification(AlertColors._INFO, 'Rule saved, please continue ...');
     });
 
@@ -1706,16 +1692,22 @@
             }
         });
 
-        // appending the form name to final submitted form
-        submittedFormJson.name = $('#form-name').val();
-
         // get message text
         var _message = $('#dl-form-message').val();
 
         if (_message.length >= 5) {
             submittedFormJson.message = _message;
         } else {
-            showNotification(AlertColors._WARNING, 'Message is too short!');
+            showNotification(AlertColors._WARNING, 'Submitting message is too short!');
+            return 0;
+        }
+
+        var _name = $('#form-name').val();
+
+        if (_name.length >= 5) {
+            submittedFormJson.name = _name;
+        } else {
+            showNotification(AlertColors._WARNING, 'Form name is too short!');
             return 0;
         }
 

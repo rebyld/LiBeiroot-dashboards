@@ -11065,7 +11065,7 @@ html.ie11 .bs-searchbox .form-control {
     margin: 0 5px 5px 5px;
     padding: 5px;
     font-size: 1.2em;
-    min-height: 60px;
+    min-height: 100px;
 
 }
 
@@ -11202,7 +11202,9 @@ h2[class*='dl-type'] {
     padding: 16px 10px;
 }
 
-
+.f-s-16{
+    font-size: 16px!important;
+}
 
 
 
