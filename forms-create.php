@@ -12,7 +12,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <h2>CREATE A DYNAMIC FORM</h2>
+            <h2>1. Generic information</h2>
         </div>
 
         <div class="row clearfix m-b-20 dl-form-content">
@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="block-header">
-                    <h2>Let's start creating our Form</h2>
+                    <h2>2. Let's start creating our Form</h2>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="row m-b-60">
+        <div class="row">
             <div class="col-md-12">
                 <div class="row clearfix m-b-20">
                     <div class="col-md-6 dl-all-questions-container">
@@ -93,20 +93,50 @@
                         <ul id="sortable2" class="connectedSortable"></ul>
                     </div>
                 </div>
+            </div>
+        </div>
 
-
-                <div class="row m-b-10">
-                    <div class="col-md-12">
-                        <p class="label label-danger m-b-10">BE SURE TO ENTER ALL RULES BEFORE SUBMITTING!</p>
-                    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="block-header">
+                    <h2>3. Next, Let's set some important points</h2>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <button id="dl-submit-form" class="btn btn-success">SAVE ALL!</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Points of important information
+                            <small>Please enter all data!</small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="form-group">
+                            <label for="dl-point-a-dropdown">Point A is the answer of?</label>
+                            <select id="dl-point-a-dropdown" class="form-control dl-selected-question-dropdown">
+                                <option>----</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dl-point-b-dropdown">Point B is the answer of?</label>
+                            <select id="dl-point-b-dropdown" class="form-control dl-selected-question-dropdown">
+                                <option>----</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row m-b-60">
+            <div class="col-md-4">
+                <p class="label label-danger m-b-10">BE SURE TO ENTER ALL RULES BEFORE SUBMITTING!</p>
+                <button id="dl-submit-form" class="btn btn-success">SAVE ALL!</button>
+            </div>
+        </div>
+
 
     </div>
 </section>

@@ -1363,14 +1363,15 @@
         updateSelectedAnswer();
 
         var _parent = $('.dl-selected-questions-container-preview');
+        var _guests = $('.dl-selected-question-dropdown');
 
         _parent.empty();
 
         console.log(selectedQuestions);
 
         $(selectedQuestions).each(function (i, v) {
-            console.log(v);
             _parent.append('<p>- ' + v.text + '</p>');
+            _guests.append('<p>- ' + v.text + '</p>');
         });
     }
 
