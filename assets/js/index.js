@@ -1226,16 +1226,15 @@
         );
     }
 
-    function getReadableDate(strangeDate) {
-        return (new Date((new Date(strangeDate)).getTime())).toLocaleString();
-    }
-
-    function getReadableDateNoTime(strangeDate) {
-        return (new Date((new Date(strangeDate)).getTime())).toLocaleDateString();
-    }
-
     function isNotDead(value) {
         return typeof value !== typeof undefined && value !== false;
+    }
+
+    function filter(e) {
+        var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+        $('.filtered-container .filtered').hide().filter(function () {
+            return regex.test($(this).attr('data-filter-name'))
+        }).show();
     }
 
     //endregion
@@ -1331,13 +1330,6 @@
         var selectSize = $(this).val();
         filter(selectSize);
     });
-
-    function filter(e) {
-        var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
-        $('.filtered-container .filtered').hide().filter(function () {
-            return regex.test($(this).attr('data-filter-name'))
-        }).show();
-    }
 
     //endregion
 
@@ -1555,12 +1547,10 @@
         $(_answerElement).attr('data-time-from', $(this).val());
     });
 
-
     $(document).on('change', '#dl-time-to', function () {
         var _answerElement = $(this).closest('.dl-single-answer-container');
         $(_answerElement).attr('data-time-to', $(this).val());
     });
-
 
     // save rule of question, main insertion to final form will be here
     $(document).on('click', '.dl-save-rules-btn', function (e) {
@@ -2277,7 +2267,6 @@
 
     });
 
-
     //endregion
 
     //endregion
@@ -2367,35 +2356,6 @@
             return '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, ' ').replace('.', ',');
         }
     });
-
-    $('#test-notification').on('click', function (e) {
-        e.preventDefault();
-        showNotification(AlertColors._DANGER, 'Hello there!');
-    });
-
-    function showNotification(colorName, text) {
-        $.notify({
-                message: text
-            },
-            {
-                type: colorName,
-                allow_dismiss: true,
-                newest_on_top: true,
-                timer: 800,
-                placement: {
-                    from: 'bottom',
-                    align: 'right'
-                },
-                animate: {
-                    enter: 'animated fadeInDown',
-                    exit: 'animated fadeOutUp'
-                },
-                template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} p-r-35" role="alert">' +
-                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-                    '<span data-notify="message">{2}</span>' +
-                    '</div>'
-            });
-    }
 
     //endregion
 
