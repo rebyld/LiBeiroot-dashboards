@@ -104,31 +104,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>Points of important information
-                            <small>Please enter all data!</small>
-                        </h2>
-                    </div>
-                    <div class="body">
-                        <div class="form-group">
-                            <label for="dl-point-a-dropdown">Point A is the answer of?</label>
-                            <select id="dl-point-a-dropdown" class="form-control dl-selected-question-dropdown">
-                                <option>----</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="dl-point-b-dropdown">Point B is the answer of?</label>
-                            <select id="dl-point-b-dropdown" class="form-control dl-selected-question-dropdown">
-                                <option>----</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="row" id="dl-points-container"></div>
 
         <div class="row m-b-60">
             <div class="col-md-4">

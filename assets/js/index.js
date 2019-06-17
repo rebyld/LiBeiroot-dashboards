@@ -893,7 +893,6 @@
     function initFormCreation() {
         $.when(getQuestions()).then(function () {
             var _parent = $('.dl-preview-questions-container');
-
             _parent.empty();
 
             // converting questions to UI elements so OPS can drag/drop questions
@@ -919,6 +918,25 @@
                         '<p class="dl-small-p">Question name: ' + v.name + '</p>')
                 );
             });
+
+            var _pointsContainer = $('#dl-points-container');
+
+            var points = [
+                {
+                    'name': 'Point A',
+                },
+                {
+                    'name': 'Point B',
+                },
+                {
+                    'name': 'Point C',
+                }
+            ];
+
+            $(points).each(function (i, v) {
+                _pointsContainer.append(pointTemplate(v));
+            });
+
         });
 
         // init sorting plugin
