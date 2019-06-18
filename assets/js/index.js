@@ -19,8 +19,8 @@
     var allForms = [];
     var allQuestionsItems = $('#sortable1');
     var selectedQuestionsItems = $('#sortable2');
-    var submittedFormJson = {name: "", questions: [], message: '', variables: []};
-
+    var submittedFormJson = {name: "", questions: [], message: '', variables: [], pointsMappnig: {}};
+    var point = {'city': '', 'address': '', 'phoneNumber': '', 'whatsappNumber': '', 'notes': ''};
     // services
     var allServices = [];
     var submittedServiceJson = {
@@ -1736,6 +1736,8 @@
             return 0;
         }
 
+        // add points to json form
+
         console.log(JSON.stringify(submittedFormJson, null, 2));
 
         $.ajax({
@@ -2390,6 +2392,35 @@
             return '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, ' ').replace('.', ',');
         }
     });
+
+    $('#test-notification').on('click', function (e) {
+        e.preventDefault();
+        showNotification(AlertColors._DANGER, 'Hello there!');
+    });
+
+    function showNotification(colorName, text) {
+        $.notify({
+                message: text
+            },
+            {
+                type: colorName,
+                allow_dismiss: true,
+                newest_on_top: true,
+                timer: 800,
+                placement: {
+                    from: 'bottom',
+                    align: 'right'
+                },
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+                template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} p-r-35" role="alert">' +
+                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                    '<span data-notify="message">{2}</span>' +
+                    '</div>'
+            });
+    }
 
     //endregion
 
