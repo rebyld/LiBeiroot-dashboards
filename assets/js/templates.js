@@ -113,31 +113,36 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                    <div class="body">' +
     '                        <div class="form-group">' +
     '                            <label for="dl-point-city">City name?</label>' +
-    '                            <select id="dl-point-city" class="form-control">' +
+    '                            <select id="dl-point-city" class="form-control dl-selected-questions">' +
     '                                <option>----</option>' +
-    '                                <option value="damascus">Damascus</option>' +
-    '                                <option value="beirut">Beirut</option>' +
-    '                                <option value="homs">Homs</option>' +
     '                            </select>' +
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label for="dl-point-address" class="controls">Address?' +
-    '                               <input id="dl-point-address" class="form-control" type="text" />' +
+    '                                <select id="dl-point-city" class="form-control dl-selected-questions">' +
+    '                                    <option>----</option>' +
+    '                                </select>' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label for="dl-point-phone" class="controls">Phone number?' +
-    '                               <input id="dl-point-phone" class="form-control" type="text" />' +
+    '                                <select id="dl-point-city" class="form-control dl-selected-questions">' +
+    '                                    <option>----</option>' +
+    '                                </select>' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label for="dl-point-whatsapp" class="controls">WhatsApp number?' +
-    '                               <input id="dl-point-whatsapp" class="form-control" type="text" />' +
+    '                                <select id="dl-point-city" class="form-control dl-selected-questions">' +
+    '                                    <option>----</option>' +
+    '                                </select>' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label for="dl-point-notes" class="controls">Any Notes?' +
-    '                               <input id="dl-point-notes" class="form-control" type="text" />' +
+    '                                <select id="dl-point-city" class="form-control dl-selected-questions">' +
+    '                                    <option>----</option>' +
+    '                                </select>' +
     '                            </label>' +
     '                        </div>' +
     '                    </div>' +

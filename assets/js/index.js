@@ -980,6 +980,8 @@
             var _tempIndex = $(v).attr('data-index');
             selectedQuestions.push(allQuestions[_tempIndex]);
         });
+
+        updateSelectedQuestionsForPoints();
     }
 
     // check if submitted form already has a question
@@ -1005,6 +1007,18 @@
             if (v.question === questionId) {
                 v.position = position;
             }
+        });
+    }
+
+    function updateSelectedQuestionsForPoints() {
+        var _selectedQuestionsContainer = $('.dl-selected-questions');
+
+        _selectedQuestionsContainer.empty();
+        _selectedQuestionsContainer.append('<option> --- </option>');
+
+        $(selectedQuestions).each(function (i, v) {
+            _selectedQuestionsContainer.append('<option value="' + v._id + '">' + v.text +
+                '</option>');
         });
     }
 
@@ -1365,6 +1379,8 @@
             } else if ($(ui.item).find('button.dl-add-jump-btn').length <= 0 && !checkButtonRule(type)) {
                 ui.item.append('<button class="btn btn-info pull-left dl-add-jump-btn" data-index="' + ui.item.attr('data-index') + '">Add Default jump</button>');
             }
+
+            updateSelectedAnswer();
 
         }
     });
