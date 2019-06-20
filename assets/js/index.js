@@ -19,8 +19,17 @@
     var allForms = [];
     var allQuestionsItems = $('#sortable1');
     var selectedQuestionsItems = $('#sortable2');
-    var submittedFormJson = {name: "", questions: [], message: '', variables: [], pointsMappnig: {}};
-    var point = {'city': '', 'address': '', 'phoneNumber': '', 'whatsappNumber': '', 'notes': ''};
+    var submittedFormJson = {
+        name: "",
+        questions: [],
+        message: '',
+        variables: [],
+        pointsMappnig: {pointA: {}, pointB: {}, pointC: {},}
+    };
+    var pointA = {};
+    var pointB = {};
+    var pointC = {};
+
     // services
     var allServices = [];
     var submittedServiceJson = {
@@ -924,12 +933,15 @@
             var points = [
                 {
                     'name': 'Point A',
+                    'point': 'pointA'
                 },
                 {
                     'name': 'Point B',
+                    'point': 'pointB'
                 },
                 {
                     'name': 'Point C',
+                    'point': 'pointC'
                 }
             ];
 
@@ -1736,7 +1748,9 @@
             return 0;
         }
 
-        // add points to json form
+        submittedFormJson.pointsMappnig.pointA = pointA;
+        submittedFormJson.pointsMappnig.pointB = pointB;
+        submittedFormJson.pointsMappnig.pointC = pointC;
 
         console.log(JSON.stringify(submittedFormJson, null, 2));
 
@@ -1763,6 +1777,30 @@
         });
     });
 
+    $(document).on('change', '.dl-selected-questions', function (e) {
+        e.preventDefault();
+
+        var _parentPoint = $(this).closest(".body").attr('data-point');
+
+        console.log(_parentPoint);
+        var key = $(this).attr('data-key');
+        var value = $(this).val();
+
+        var _temp = {};
+        _temp[key] = value;
+
+        switch (_parentPoint) {
+            case 'pointA':
+                $.extend(pointA, _temp);
+                break;
+            case 'pointB':
+                $.extend(pointB, _temp);
+                break;
+            case 'pointC':
+                $.extend(pointC, _temp);
+                break;
+        }
+    });
     $(document).on('click', '.dl-get-forms', function (e) {
         e.preventDefault();
 
