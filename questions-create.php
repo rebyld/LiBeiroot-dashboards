@@ -44,6 +44,9 @@
                 <button type="button" class="generate-question btn bg-deep-orange btn-lg" data-question-type="time">ADD
                     TIME
                 </button>
+                <button type="button" class="generate-question btn bg-deep-purple btn-lg" data-question-type="phone_number">ADD
+                    PHONE NUMBER
+                </button>
             </div>
         </div>
         <div class="row clearfix">

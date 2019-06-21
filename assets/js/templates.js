@@ -125,6 +125,13 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
+    '                            <label class="controls">Contact Name?' +
+    '                                <select class="form-control dl-selected-questions" data-key="contactName">' +
+    '                                    <option>----</option>' +
+    '                                </select>' +
+    '                            </label>' +
+    '                        </div>' +
+    '                        <div class="form-group">' +
     '                            <label class="controls">Phone number?' +
     '                                <select class="form-control dl-selected-questions" data-key="phoneNumber">' +
     '                                    <option>----</option>' +
@@ -133,14 +140,14 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label class="controls">WhatsApp number?' +
-    '                                <select class="form-control dl-selected-questions" data-key="whatsappNumber">' +
+    '                                <select class="form-control dl-selected-questions" data-key="whatsApp">' +
     '                                    <option>----</option>' +
     '                                </select>' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label class="controls">Any Notes?' +
-    '                                <select class="form-control dl-selected-questions" data-key="notes">' +
+    '                                <select class="form-control dl-selected-questions" data-key="note">' +
     '                                    <option>----</option>' +
     '                                </select>' +
     '                            </label>' +

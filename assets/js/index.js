@@ -24,7 +24,7 @@
         questions: [],
         message: '',
         variables: [],
-        pointsMappnig: {pointA: {}, pointB: {}, pointC: {},}
+        pointsMapping: {pointA: {}, pointB: {}, pointC: {},}
     };
     var pointA = {};
     var pointB = {};
@@ -466,6 +466,30 @@
                     }
                 };
                 return schema;
+
+            case 'phone_number':
+                schema = {
+                    "name": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question name (must be unique)"
+                    },
+                    "text": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ENGLISH"
+                    },
+                    "textAr": {
+                        "type": "string",
+                        "required": true,
+                        "title": "Question text in ARABIC"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": type
+                    }
+                };
+                return schema;
         }
     }
 
@@ -712,6 +736,34 @@
                         : {}
                 ];
                 return keys;
+
+            case 'phone_number':
+                keys = [
+                    {
+                        "key": "name",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "text",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "textAr",
+                        "disabled": isDisabled
+                    },
+                    {
+                        "key": "type",
+                        "type": "hidden"
+                    },
+                    hasSubmit
+                        ? {
+                            "type": "submit",
+                            "title": "Submit",
+                            "htmlClass": "btn-lg"
+                        }
+                        : {}
+                ];
+                return keys;
         }
     }
 
@@ -776,6 +828,15 @@
                 return values;
 
             case 'time':
+                values = {
+                    "name": _questionResult.name,
+                    "text": _questionResult.text,
+                    "textAr": _questionResult.textAr,
+                    "type": type
+                };
+                return values;
+
+            case 'phone_number':
                 values = {
                     "name": _questionResult.name,
                     "text": _questionResult.text,
@@ -1748,16 +1809,16 @@
             return 0;
         }
 
-        submittedFormJson.pointsMappnig.pointA = pointA;
-        submittedFormJson.pointsMappnig.pointB = pointB;
-        submittedFormJson.pointsMappnig.pointC = pointC;
+        submittedFormJson.pointsMapping.pointA = pointA;
+        submittedFormJson.pointsMapping.pointB = pointB;
+        submittedFormJson.pointsMapping.pointC = pointC;
 
         console.log(JSON.stringify(submittedFormJson, null, 2));
 
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            // url: _opsEP + "/forms",
+            url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
