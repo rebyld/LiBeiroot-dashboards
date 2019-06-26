@@ -2,9 +2,11 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
+
     let _token = '';
     let _username = '';
     let _email = '';
@@ -40,6 +42,7 @@
         type: '',
         price: 0,
         form: '',
+        image: '',
         categoryId: ''
     };
 
@@ -179,6 +182,10 @@
                     _serviceSelect.append('<option value="' + v._id + '">' + v.name + '</option>');
                 });
             });
+        }
+
+        if (body.hasClass("index-page")) {
+            initCategoriesTitles();
         }
 
         $('#dl-ops-username').html(_username);
@@ -1342,6 +1349,26 @@
         }).show();
     }
 
+    function initCategoriesTitles() {
+        $.when(getCategories()).then(function () {
+            var _parent = $('#dl-categories-buttons');
+
+            $(allCategories).each(function (i, v) {
+                var obj = {title: v.title, type: 'category'};
+                _parent.append(buttonTemplate(obj));
+            });
+        });
+
+        $.when(getServices()).then(function () {
+            var _parent = $('#dl-services-buttons');
+
+            $(allServices).each(function (i, v) {
+                var obj = {title: v.name, type: 'service'};
+                _parent.append(buttonTemplate(obj));
+            });
+        });
+    }
+
     //endregion
 
     //endregion
@@ -1964,43 +1991,46 @@
         var _formsDropDown = $('#dl-forms-dropdown');
         var _categoriesDropDown = $('#dl-categories-dropdown');
 
-        submittedServiceJson.name = $('#dl-service-name').val();
-        submittedServiceJson.nameAr = $('#dl-service-namear').val();
-        submittedServiceJson.description = $('#dl-service-description').val();
-        submittedServiceJson.descriptionAr = $('#dl-service-descriptionar').val();
-        submittedServiceJson.price = $('#dl-service-price').val();
-        submittedServiceJson.type = $('#dl-service-type').find(":selected").val();
-        submittedServiceJson.form = _formsDropDown.find(":selected").val();
-        submittedServiceJson.categoryId = _categoriesDropDown.find(":selected").val();
+        $.when(uploadImage('#dl-service-image')).then(function (res) {
+            submittedServiceJson.name = $('#dl-service-name').val();
+            submittedServiceJson.nameAr = $('#dl-service-namear').val();
+            submittedServiceJson.description = $('#dl-service-description').val();
+            submittedServiceJson.descriptionAr = $('#dl-service-descriptionar').val();
+            submittedServiceJson.price = $('#dl-service-price').val();
+            submittedServiceJson.type = $('#dl-service-type').find(":selected").val();
+            submittedServiceJson.form = _formsDropDown.find(":selected").val();
+            submittedServiceJson.categoryId = _categoriesDropDown.find(":selected").val();
+            submittedServiceJson.image = res.url;
 
-        if (_formsDropDown.find('option:selected').index() === 0) {
-            showNotification(AlertColors._WARNING, AlertStrings._CREATE_SERVICE_ENTER_FORM);
-            return;
-        }
-
-        if (_categoriesDropDown.find('option:selected').index() === 0) {
-            showNotification(AlertColors._WARNING, AlertStrings._CREATE_SERVICE_ENTER_CATEGORY);
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            contentType: 'application/json',
-            url: _opsEP + "/services",
-            data: JSON.stringify(submittedServiceJson),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                $('.page-loader-wrapper.process').fadeIn();
-            },
-            success: function () {
-                $('.page-loader-wrapper.process').fadeOut();
-                showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
-            },
-            error: function (response) {
-                $('.page-loader-wrapper.process').fadeOut();
-                showNotification(AlertColors._WARNING, AlertStrings._UNPROCESSABLE_ENTITY);
-                console.log(response);
+            if (_formsDropDown.find('option:selected').index() === 0) {
+                showNotification(AlertColors._WARNING, AlertStrings._CREATE_SERVICE_ENTER_FORM);
+                return;
             }
+
+            if (_categoriesDropDown.find('option:selected').index() === 0) {
+                showNotification(AlertColors._WARNING, AlertStrings._CREATE_SERVICE_ENTER_CATEGORY);
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json',
+                url: _opsEP + "/services",
+                data: JSON.stringify(submittedServiceJson),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+                    $('.page-loader-wrapper.process').fadeIn();
+                },
+                success: function () {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                },
+                error: function (response) {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._WARNING, AlertStrings._UNPROCESSABLE_ENTITY);
+                    console.log(response);
+                }
+            });
         });
     });
 

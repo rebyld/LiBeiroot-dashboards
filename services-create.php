@@ -44,6 +44,11 @@
                                     <input type="text" class="form-control" id="dl-service-descriptionar" required>
                                 </label>
                                 <label class="controls">
+                                    Image
+                                    <input type="file" class="form-control" id="dl-service-image" required
+                                           accept="image/png, image/jpeg, image/jpg">
+                                </label>
+                                <label class="controls">
                                     Price (Numbers only)
                                     <input type="text" class="form-control" id="dl-service-price" required>
                                 </label>

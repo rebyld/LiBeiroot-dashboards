@@ -3,7 +3,7 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal" data-type="trip">
+<body class="theme-teal index-page">
 
 <?php include('parts/loaders.php'); ?>
 <?php include('parts/navbar.php'); ?>
@@ -72,29 +72,13 @@
             <div class="col-md-12 m-b-30">
                 <div class="header">
                     <h4>BY CATEGORY</h4>
-                    <button type="button" class="btn bg-cyan btn-lg m-r-10 dl-get-services">
-                        Embassy
-                    </button>
-                    <button type="button" class="btn bg-cyan btn-lg m-r-10 dl-get-services">
-                        InstaShop
-                    </button>
-                    <button type="button" class="btn bg-cyan btn-lg m-r-10 dl-get-services">
-                        Shoes
-                    </button>
+                    <div id="dl-categories-buttons"></div>
                 </div>
             </div>
             <div class="col-md-12 m-b-30">
                 <div class="header">
-                    <h4>BY SERVICE</h4>
-                    <button type="button" class="btn bg-cyan btn-lg m-r-10 dl-get-services">
-                        Get Passport
-                    </button>
-                    <button type="button" class="btn bg-cyan btn-lg m-r-10 dl-get-services">
-                        Get some papers
-                    </button>
-                    <button type="button" class="btn bg-cyan btn-lg m-r-10 dl-get-services">
-                        Deliver my passport
-                    </button>
+                    <h4>BY SERVICES</h4>
+                    <div id="dl-services-buttons"></div>
                 </div>
             </div>
         </div>

@@ -157,6 +157,13 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '            </div>');
 
 
+const buttonTemplate = _.template('' +
+    '<button type="button" class="btn bg-cyan btn-lg m-r-10 dl-filter-button" data-type="<%= type %>">' +
+    '<%= title %>' +
+    '</button>' +
+    '');
+
+
 //todo: I'll need this later, keep it lazy shit!
 const questionLiElementTemplate = _.template('<li class="ui-state-default clearfix card filtered" data-index="<%= vars.index %>">' +
     '<div class="clearfix">' +
