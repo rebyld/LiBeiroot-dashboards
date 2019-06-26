@@ -3,11 +3,11 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal homepage" data-type="postaji">
+<body class="theme-teal orders-page" data-type="postaji">
 
-<?php include('parts/loaders.php');?>
+<?php include('parts/loaders.php'); ?>
 <?php include('parts/navbar.php'); ?>
-<?php include('parts/sidebar.php');?>
+<?php include('parts/sidebar.php'); ?>
 
 <!-- Content -->
 <section class="content">
@@ -68,12 +68,44 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        <select id="dl-filter-category" class="form-control filter-dropdown" data-key="category"
+                                required>
+                            <option value="">-- Category --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        <select id="dl-filter-service" class="form-control filter-dropdown" data-key="service" required>
+                            <option value="">-- Services --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <button type="button" id="dl-filter-get-all-services"
+                        class="btn bg-cyan btn-lg m-r-10 dl-filter-button">
+                    All Services
+                </button>
+            </div>
+
+
+        </div>
+
         <div class="row clearfix">
             <!-- Task Info -->
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>OPS Overview</h2>
+                        <h2>OPS Overview (Postaji)</h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
@@ -85,45 +117,7 @@
                                     <th>Client Name</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Tip to Damascus</td>
-                                    <td>Tip</td>
-                                    <td><span class="label bg-green">Doing</span></td>
-                                    <td>John Doe</td>
-
-                                </tr>
-                                <tr>
-                                    <td>InstaShop Order</td>
-                                    <td>Order</td>
-                                    <td><span class="label bg-blue">To Do</span></td>
-                                    <td>Jane Doe</td>
-
-                                </tr>
-                                <tr>
-                                    <td>Tip to Beirut</td>
-                                    <td>Tip</td>
-                                    <td><span class="label bg-light-blue">On Hold</span></td>
-                                    <td>Jack Sparrow</td>
-
-                                </tr>
-                                <tr>
-                                    <td>Tip to Damascus</td>
-                                    <td>Tip</td>
-                                    <td><span class="label bg-orange">Wait Approvel</span></td>
-                                    <td>Tony Stark</td>
-
-                                </tr>
-                                <tr>
-                                    <td>InstaShop Order</td>
-                                    <td>Order</td>
-                                    <td>
-                                        <span class="label bg-red">Suspended</span>
-                                    </td>
-                                    <td>Cristiano Ronaldo</td>
-
-                                </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>

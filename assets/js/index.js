@@ -150,9 +150,28 @@
 
         let body = $('body');
 
-        if (body.hasClass("homepage")) {
-
+        if (body.hasClass("orders-page")) {
             var type = body.attr('data-type');
+
+            $.when(getCategories()).then(function () {
+                var _parent = $('#dl-filter-category');
+
+                $(allCategories).each(function (i, v) {
+                    _parent.append('<option value="' + v._id + '">' + v.title + '</option>');
+                });
+
+            });
+
+
+            $.when(getServices()).then(function () {
+                var _parent = $('#dl-filter-service');
+
+                $(allServices).each(function (i, v) {
+                    _parent.append('<option value="' + v._id + '">' + v.name + '</option>');
+                });
+
+            });
+
 
             $.when(getOrders()).then(function () {
                 var _parent = $('.dl-orders-table');
@@ -1277,14 +1296,15 @@
 
     //region ORDERS
 
-    function getOrders() {
+    function getOrders(filters) {
         allOrders = [];
 
+        var ff = '?category=5cfbafc2ff0e8a00243283b0';
         return $.when(
             $.ajax({
                 type: "GET",
                 contentType: 'application/json',
-                url: _opsEP + "/orders",
+                url: _opsEP + "/orders" + ff,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
                     $('.page-loader-wrapper.process').fadeIn();
@@ -1293,6 +1313,7 @@
                     $(response).each(function (index, value) {
                         allOrders.push(value);
                     });
+                    console.log(allOrders[0]);
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
@@ -1368,6 +1389,7 @@
             });
         });
     }
+
 
     //endregion
 
@@ -2393,6 +2415,37 @@
     });
 
     //endregion
+
+    //region ORDERS
+
+    $(document).on('change', '.filter-dropdown', function (e) {
+        e.preventDefault();
+
+        var key = $(this).attr('data-key');
+        console.log(key + "="+ $(this).val());
+
+    });
+
+    //endregion
+
+    //region FILTERS
+
+    $(document).on('click', '#dl-filter-get-all-services',function (e) {
+        e.preventDefault();
+
+        $.when(getServices()).then(function () {
+            var _parent = $('#dl-filter-service');
+            _parent.empty();
+
+            $(allServices).each(function (i, v) {
+                _parent.append('<option value="' + v._id + '">' + v.name + '</option>');
+            });
+
+        });
+    });
+
+    //endregion
+
 
     //region OTHERS
 
