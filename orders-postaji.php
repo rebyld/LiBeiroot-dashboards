@@ -74,7 +74,7 @@
                     <label class="controls">
                         <select id="dl-filter-category" class="form-control filter-dropdown" data-key="category"
                                 required>
-                            <option value="">-- Category --</option>
+                            <option value="">-- All Category --</option>
                         </select>
                     </label>
                 </div>
@@ -84,19 +84,11 @@
                 <div class="form-group">
                     <label class="controls">
                         <select id="dl-filter-service" class="form-control filter-dropdown" data-key="service" required>
-                            <option value="">-- Services --</option>
+                            <option value="">-- All Services --</option>
                         </select>
                     </label>
                 </div>
             </div>
-
-            <div class="col-md-3">
-                <button type="button" id="dl-filter-get-all-services"
-                        class="btn bg-cyan btn-lg m-r-10 dl-filter-button">
-                    All Services
-                </button>
-            </div>
-
 
         </div>
 
@@ -105,7 +97,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>OPS Overview (Postaji)</h2>
+                        <h2 id="dl-orders-number"></h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">

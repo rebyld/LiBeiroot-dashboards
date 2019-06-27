@@ -149,9 +149,7 @@
         initSession();
 
         let body = $('body');
-
         if (body.hasClass("orders-page")) {
-            var type = body.attr('data-type');
 
             $.when(getCategories()).then(function () {
                 var _parent = $('#dl-filter-category');
@@ -159,9 +157,7 @@
                 $(allCategories).each(function (i, v) {
                     _parent.append('<option value="' + v._id + '">' + v.title + '</option>');
                 });
-
             });
-
 
             $.when(getServices()).then(function () {
                 var _parent = $('#dl-filter-service');
@@ -169,19 +165,9 @@
                 $(allServices).each(function (i, v) {
                     _parent.append('<option value="' + v._id + '">' + v.name + '</option>');
                 });
-
             });
 
-
-            $.when(getOrders()).then(function () {
-                var _parent = $('.dl-orders-table');
-
-                $(allOrders).each(function (i, v) {
-                    if (v.type === type) {
-                        $(_parent).append(orderRowTemplate(v));
-                    }
-                });
-            });
+            updateOrdersTableBy('');
         }
 
         if (body.hasClass("forms")) {
@@ -1298,13 +1284,13 @@
 
     function getOrders(filters) {
         allOrders = [];
+        var data = isNotDead(filters) ? filters : '';
 
-        var ff = '?category=5cfbafc2ff0e8a00243283b0';
         return $.when(
             $.ajax({
                 type: "GET",
                 contentType: 'application/json',
-                url: _opsEP + "/orders" + ff,
+                url: _opsEP + "/orders?" + data,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
                     $('.page-loader-wrapper.process').fadeIn();
@@ -1313,7 +1299,7 @@
                     $(response).each(function (index, value) {
                         allOrders.push(value);
                     });
-                    console.log(allOrders[0]);
+                    console.log(allOrders.length);
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
@@ -1323,6 +1309,21 @@
                 }
             })
         );
+    }
+
+    function updateOrdersTableBy(filters) {
+        console.log('filter: ' + filters);
+
+        $.when(getOrders(filters)).then(function () {
+            var _parent = $('.dl-orders-table');
+            _parent.empty();
+
+            $('#dl-orders-number').text('OPS Overview (' + allOrders.length + ')');
+
+            $(allOrders).each(function (i, v) {
+                $(_parent).append(orderRowTemplate(v));
+            });
+        });
     }
 
     //endregion
@@ -2421,27 +2422,29 @@
     $(document).on('change', '.filter-dropdown', function (e) {
         e.preventDefault();
 
-        var key = $(this).attr('data-key');
-        console.log(key + "="+ $(this).val());
+        var filterObj = {category: '', service: ''};
 
-    });
+        var filtersParents = $('.filter-dropdown :selected');
 
-    //endregion
+        $(filtersParents).each(function (i, v) {
+            var filterKey = $(v).parent().attr('data-key');
+            var value = $(v).val();
 
-    //region FILTERS
-
-    $(document).on('click', '#dl-filter-get-all-services',function (e) {
-        e.preventDefault();
-
-        $.when(getServices()).then(function () {
-            var _parent = $('#dl-filter-service');
-            _parent.empty();
-
-            $(allServices).each(function (i, v) {
-                _parent.append('<option value="' + v._id + '">' + v.name + '</option>');
-            });
-
+            if (isNotDead(value)) {
+                switch (filterKey) {
+                    case 'category':
+                        filterObj.category = filterKey + '=' + value;
+                        break;
+                    case 'service':
+                        filterObj.service = filterKey + '=' + value;
+                        break;
+                }
+            }
         });
+
+        var filter = filterObj.service + '&' + filterObj.category;
+
+        updateOrdersTableBy(filter);
     });
 
     //endregion
