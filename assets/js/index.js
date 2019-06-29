@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    // let _mainDomain = 'http://localhost/dashboard';
+    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -191,7 +191,7 @@
             loadCategoriesIntoUI();
         }
 
-        if(body.hasClass('get-coupons')){
+        if (body.hasClass('get-coupons')) {
             loadCouponsIntoUI();
         }
         if (body.hasClass("cards") || body.hasClass("coupons")) {
@@ -1911,9 +1911,12 @@
 
         var _parentPoint = $(this).closest(".body").attr('data-point');
 
-        console.log(_parentPoint);
         var key = $(this).attr('data-key');
         var value = $(this).val();
+
+        if (!isNotDead(value)) {
+            value = $(this).siblings('.dl-default-value').text();
+        }
 
         var _temp = {};
         _temp[key] = value;
@@ -1929,11 +1932,8 @@
                 $.extend(pointC, _temp);
                 break;
         }
-    });
-    $(document).on('click', '.dl-get-forms', function (e) {
-        e.preventDefault();
 
-
+        console.log(pointA);
     });
 
     $(document).on('click', '.dl-modal-preview-single-form', function (e) {
@@ -2344,7 +2344,7 @@
         });
     });
 
-    function loadCouponsIntoUI(){
+    function loadCouponsIntoUI() {
         $.when(getCoupons()).then(function () {
             var _parent = $('.dl-preview-coupons-container');
             _parent.empty();

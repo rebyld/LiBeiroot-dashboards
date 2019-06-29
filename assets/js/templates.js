@@ -116,18 +116,22 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                            <small>Please enter all data!</small>' +
     '                        </h2>' +
     '                    </div>' +
-    '                    <div class="body" data-point="<%= point %>">' +
+    '                    <div class="body points-container" data-point="<%= point %>">' +
     '                        <div class="form-group">' +
-    '                            <label>City name?</label>' +
-    '                            <select class="form-control dl-selected-questions" data-key="city">' +
-    '                                <option>----</option>' +
-    '                            </select>' +
+    '                           <div class="controls">' +
+    '                               <label>City name?</label>' +
+    '                               <select class="form-control dl-selected-questions" data-key="city">' +
+    '                                   <option>----</option>' +
+    '                               </select>' +
+    '                               <input class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="city" />' +
+    '                           </div>' +
     '                        </div>' +
     '                        <div class="form-group">' +
     '                            <label class="controls">Address?' +
     '                                <select class="form-control dl-selected-questions" data-key="address">' +
     '                                    <option>----</option>' +
     '                                </select>' +
+    '                               <input class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="address" />' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
@@ -135,6 +139,7 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                                <select class="form-control dl-selected-questions" data-key="contactName">' +
     '                                    <option>----</option>' +
     '                                </select>' +
+    '                               <input class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="contactName" />' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
@@ -142,6 +147,7 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                                <select class="form-control dl-selected-questions" data-key="phoneNumber">' +
     '                                    <option>----</option>' +
     '                                </select>' +
+    '                               <input class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="phoneNumber" />' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
@@ -149,6 +155,7 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                                <select class="form-control dl-selected-questions" data-key="whatsApp">' +
     '                                    <option>----</option>' +
     '                                </select>' +
+    '                               <input class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="whatsApp" />' +
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
@@ -156,6 +163,7 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                                <select class="form-control dl-selected-questions" data-key="note">' +
     '                                    <option>----</option>' +
     '                                </select>' +
+    '                               <input class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="note" />' +
     '                            </label>' +
     '                        </div>' +
     '                    </div>' +

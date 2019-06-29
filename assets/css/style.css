@@ -11206,11 +11206,11 @@ h2[class*='dl-type'] {
     font-size: 16px!important;
 }
 
+.points-container .form-group{
+    padding: 16px;
+    background-color: #e6faff;
+}
 
-
-
-
-
-
-
-
+.points-container .form-group .form-control{
+    background-color: transparent!important;
+}
