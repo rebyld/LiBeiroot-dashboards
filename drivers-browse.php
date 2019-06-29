@@ -13,7 +13,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <h2>VIEW ALL DRIVERS</h2>
+            <h2>VIEW ALL DRIVERS (This page needs to be updated to most recent schema!)</h2>
         </div>
 
         <!-- Widget -->

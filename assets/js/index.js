@@ -174,11 +174,26 @@
             initFormCreation();
         }
 
+        if (body.hasClass('get-forms')) {
+            loadFormsIntoUI();
+        }
+
         if (body.hasClass("services")) {
             getForms();
             getCategories();
         }
 
+        if (body.hasClass('get-services')) {
+            loadServicesIntoUI();
+        }
+
+        if (body.hasClass('get-categories')) {
+            loadCategoriesIntoUI();
+        }
+
+        if(body.hasClass('get-coupons')){
+            loadCouponsIntoUI();
+        }
         if (body.hasClass("cards") || body.hasClass("coupons")) {
             loadCardsIntoUI();
 
@@ -1918,48 +1933,6 @@
     $(document).on('click', '.dl-get-forms', function (e) {
         e.preventDefault();
 
-        // fetching & rendering
-        $.when(getForms()).then(function () {
-            var _parent = $('.dl-preview-forms-container');
-
-            _parent.empty();
-
-            $(allForms).each(function (i, v) {
-                _parent.append(
-                    $('<div />')
-                        .addClass('col-lg-3 col-md-3 col-sm-6 col-xs-12')
-                        .appendTo(_parent).append(
-                        $('<div />')
-                            .addClass('card')
-                            .appendTo(_parent).append(
-                            $('<div />')
-                                .addClass('header dl-preview-single-form clearfix')
-                                .appendTo(_parent).append(
-                                $('<h2 />')
-                                    .html(v.name)
-                                    .addClass('pull-left'))
-                                .appendTo(_parent).append($('<i>')
-                                .addClass('pull-right material-icons col-red dl-delete')
-                                .attr('data-endpoint', '/forms/')
-                                .attr('data-render', 'dl-get-forms')
-                                .attr('data-id', v._id)
-                                .html('delete')))
-                            .appendTo(_parent).append(
-                            $('<div />')
-                                .addClass('body clearfix')
-                                .appendTo(_parent).append(
-                                $('<p />')
-                                    .addClass('dl-small-p')
-                                    .html('(' + v.questions.length + ') questions'))
-                                .appendTo(_parent).append(
-                                $('<button />')
-                                    .attr('data-form-id', v._id)
-                                    .addClass('btn btn-danger btn-lg pull-right dl-modal-preview-single-form')
-                                    .html('Preview'))
-                        ))
-                );
-            });
-        });
 
     });
 
@@ -2060,9 +2033,7 @@
         });
     });
 
-    $('.dl-get-services').on('click', function (e) {
-        e.preventDefault();
-
+    function loadServicesIntoUI() {
         $.when(getServices()).then(function () {
             var _parent = $('.dl-preview-services-container');
             _parent.empty();
@@ -2165,7 +2136,7 @@
 
             });
         });
-    });
+    }
 
     //endregion
 
@@ -2210,13 +2181,58 @@
         });
     });
 
-    function loadCardsIntoUI(){
+    function loadCardsIntoUI() {
         $.when(getCards()).then(function () {
             var _parent = $('.dl-preview-cards-container');
             _parent.empty();
 
             $(allCards).each(function (i, v) {
                 $(_parent).append(cardTemplate(v));
+            });
+        });
+    }
+
+    function loadFormsIntoUI() {
+        // fetching & rendering
+        $.when(getForms()).then(function () {
+            var _parent = $('.dl-preview-forms-container');
+
+            _parent.empty();
+
+            $(allForms).each(function (i, v) {
+                _parent.append(
+                    $('<div />')
+                        .addClass('col-lg-3 col-md-3 col-sm-6 col-xs-12')
+                        .appendTo(_parent).append(
+                        $('<div />')
+                            .addClass('card')
+                            .appendTo(_parent).append(
+                            $('<div />')
+                                .addClass('header dl-preview-single-form clearfix')
+                                .appendTo(_parent).append(
+                                $('<h2 />')
+                                    .html(v.name)
+                                    .addClass('pull-left'))
+                                .appendTo(_parent).append($('<i>')
+                                .addClass('pull-right material-icons col-red dl-delete')
+                                .attr('data-endpoint', '/forms/')
+                                .attr('data-render', 'dl-get-forms')
+                                .attr('data-id', v._id)
+                                .html('delete')))
+                            .appendTo(_parent).append(
+                            $('<div />')
+                                .addClass('body clearfix')
+                                .appendTo(_parent).append(
+                                $('<p />')
+                                    .addClass('dl-small-p')
+                                    .html('(' + v.questions.length + ') questions'))
+                                .appendTo(_parent).append(
+                                $('<button />')
+                                    .attr('data-form-id', v._id)
+                                    .addClass('btn btn-danger btn-lg pull-right dl-modal-preview-single-form')
+                                    .html('Preview'))
+                        ))
+                );
             });
         });
     }
@@ -2258,9 +2274,7 @@
         });
     });
 
-    $('.dl-get-categories').on('click', function (e) {
-        e.preventDefault();
-
+    function loadCategoriesIntoUI() {
         $.when(getCategories()).then(function () {
             var _parent = $('.dl-preview-categories-container');
             _parent.empty();
@@ -2271,7 +2285,7 @@
                 appendCategory(v);
             });
         });
-    });
+    }
 
     function appendCategory(item) {
         var _parent = $("#" + item._id);
@@ -2330,9 +2344,7 @@
         });
     });
 
-    $('.dl-get-coupons').on('click', function (e) {
-        e.preventDefault();
-
+    function loadCouponsIntoUI(){
         $.when(getCoupons()).then(function () {
             var _parent = $('.dl-preview-coupons-container');
             _parent.empty();
@@ -2342,7 +2354,7 @@
                 appendServices(v);
             });
         });
-    });
+    }
 
     //endregion
 
@@ -2445,7 +2457,7 @@
         });
 
         console.log(filterObj);
-        var filter = filterObj.service + '&' + filterObj.category ;
+        var filter = filterObj.service + '&' + filterObj.category;
 
         updateOrdersTableBy(filter);
     });
@@ -2455,11 +2467,11 @@
 
     //region OTHERS
 
+    //todo: remove data-render from all delete icons, and find a way to reload data without reloading page!
     $(document).on('click', '.dl-delete', function (e) {
         e.preventDefault();
 
         var ep = $(this).attr('data-endpoint');
-        var render = $(this).attr('data-render');
         var id = $(this).attr('data-id');
 
         $.ajax({
@@ -2473,7 +2485,7 @@
             success: function (response) {
                 $('.page-loader-wrapper.process').fadeOut();
                 showNotification(AlertColors._INFO, "Deleted");
-                $('.' + render).click();
+                location.reload();
 
                 console.log(response);
             },

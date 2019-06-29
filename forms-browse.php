@@ -3,7 +3,7 @@
 <?php include('parts/header.php'); ?>
 
 
-<body class="theme-teal">
+<body class="theme-teal get-forms">
 
 <?php include('parts/loaders.php');?>
 <?php include('parts/navbar.php'); ?>
@@ -16,14 +16,7 @@
             <h2>VIEW ALL FORMS</h2>
         </div>
 
-        <!-- Widget -->
-        <div class="row clearfix m-b-20">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 buttons-container">
-                <button type="button" class="btn bg-purple btn-lg dl-get-forms">GET FORMS</button>
-            </div>
-        </div>
-        <div class="row clearfix dl-preview-form dl-preview-forms-container">
-        </div>
+        <div class="row clearfix dl-preview-form dl-preview-forms-container"></div>
     </div>
 </section>
 
