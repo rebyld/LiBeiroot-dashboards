@@ -97,10 +97,16 @@ function getReadableDate(strangeDate) {
     return (new Date((new Date(strangeDate)).getTime())).toLocaleString();
 }
 
+function getReadableDateWithoutTime(strangeDate) {
+    return (new Date((new Date(strangeDate)).getTime())).toLocaleString().replace(/(.*)\D\d+/, '$1');
+}
+
 const orderRowTemplate = _.template('<tr>' +
-    '<td><%= service.name %></td>' +
-    '<td><%= status %></td>' +
-    '<td>info 3</td>' +
+    '<td><%= getReadableDateWithoutTime(createdAt) %></td>' +
+    '<td><span class="label label-<%= status %>"><%= status %></span></td>' +
+    '<td><%= totalPrice %></td>' +
+    '<td><%= itemTrueCost %></td>' +
+    '<td><button class="btn bg-blue-grey dl-order-view-details" data-order-id="<%= _id %>">Details</button></td>' +
     '</tr>');
 
 const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">' +
@@ -158,7 +164,7 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
 
 
 const buttonTemplate = _.template('' +
-    '<button type="button" class="btn bg-cyan btn-lg m-r-10 dl-filter-button" data-type="<%= type %>">' +
+    '<button type="button" class="btn bg-cyan btn-lg m-r-10 dl-filter-button m-b-10" data-type="<%= type %>">' +
     '<%= title %>' +
     '</button>' +
     '');

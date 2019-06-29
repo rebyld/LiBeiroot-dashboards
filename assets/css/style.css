@@ -11171,7 +11171,7 @@ h2[class*='dl-type'] {
 }
 
 
-.dl-type-checkbox {
+.dl-type-checkbox, .label-initiated{
     background-color: #2196F3;
 }
 

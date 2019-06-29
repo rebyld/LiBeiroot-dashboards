@@ -180,6 +180,8 @@
         }
 
         if (body.hasClass("cards") || body.hasClass("coupons")) {
+            loadCardsIntoUI();
+
             $.when(getServices()).then(function () {
                 let _serviceSelect = $('#dl-service');
 
@@ -191,6 +193,10 @@
 
         if (body.hasClass("index-page")) {
             initCategoriesTitles();
+        }
+
+        if (body.hasClass('questions')) {
+            loadQuestionsIntoUI();
         }
 
         $('#dl-ops-username').html(_username);
@@ -1299,7 +1305,6 @@
                     $(response).each(function (index, value) {
                         allOrders.push(value);
                     });
-                    console.log(allOrders.length);
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
@@ -1312,15 +1317,15 @@
     }
 
     function updateOrdersTableBy(filters) {
-        console.log('filter: ' + filters);
 
         $.when(getOrders(filters)).then(function () {
-            var _parent = $('.dl-orders-table');
+            var _parent = $('.dl-orders-table tbody');
             _parent.empty();
 
-            $('#dl-orders-number').text('OPS Overview (' + allOrders.length + ')');
+            $('#dl-orders-number').text('Total Orders (' + allOrders.length + ')');
 
             $(allOrders).each(function (i, v) {
+                console.log(v);
                 $(_parent).append(orderRowTemplate(v));
             });
         });
@@ -1437,9 +1442,7 @@
         });
     });
 
-    $('.dl-get-questions').on('click', function (e) {
-        e.preventDefault();
-
+    function loadQuestionsIntoUI() {
         $.when(getQuestions()).then(function () {
             var _parent = $('.dl-preview-questions-container');
             _parent.empty();
@@ -1479,7 +1482,7 @@
 
             });
         });
-    });
+    }
 
     $(document).on('keyup', '#myInput', function () {
         var selectSize = $(this).val();
@@ -2207,9 +2210,7 @@
         });
     });
 
-    $('.dl-get-cards').on('click', function (e) {
-        e.preventDefault();
-
+    function loadCardsIntoUI(){
         $.when(getCards()).then(function () {
             var _parent = $('.dl-preview-cards-container');
             _parent.empty();
@@ -2218,7 +2219,7 @@
                 $(_parent).append(cardTemplate(v));
             });
         });
-    });
+    }
 
     //endregion
 
@@ -2419,10 +2420,11 @@
 
     //region ORDERS
 
+    //todo: can be improved
     $(document).on('change', '.filter-dropdown', function (e) {
         e.preventDefault();
 
-        var filterObj = {category: '', service: ''};
+        var filterObj = {category: '', service: '',};
 
         var filtersParents = $('.filter-dropdown :selected');
 
@@ -2442,7 +2444,8 @@
             }
         });
 
-        var filter = filterObj.service + '&' + filterObj.category;
+        console.log(filterObj);
+        var filter = filterObj.service + '&' + filterObj.category ;
 
         updateOrdersTableBy(filter);
     });

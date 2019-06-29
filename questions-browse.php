@@ -3,7 +3,7 @@
 <?php include('parts/header.php'); ?>
 
 
-<body class="theme-teal">
+<body class="theme-teal questions">
 
 <?php include('parts/loaders.php');?>
 <?php include('parts/navbar.php'); ?>
@@ -19,8 +19,6 @@
         <!-- Widget -->
         <div class="row clearfix m-b-20">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 buttons-container">
-                <button type="button" class="btn bg-purple btn-lg dl-get-questions">GET QUESTIONS</button>
-
                 <div class="form-group">
                     <label class="controls">
                         Type here to filter results (case sensitive!)

@@ -2,7 +2,7 @@
 <html lang="en">
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal services">
+<body class="theme-teal services cards">
 
 <?php include('parts/loaders.php');?>
 <?php include('parts/navbar.php'); ?>
@@ -16,11 +16,6 @@
         </div>
 
         <!-- Widget -->
-        <div class="row clearfix m-b-20">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 buttons-container">
-                <button type="button" class="btn bg-cyan btn-lg dl-get-cards">GET CARDS</button>
-            </div>
-        </div>
         <div class="row clearfix dl-preview-card dl-preview-cards-container"></div>
     </div>
 </section>

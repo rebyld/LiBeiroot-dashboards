@@ -3,7 +3,7 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal index-page">
+<body class="theme-teal orders-page" data-type="postaji">
 
 <?php include('parts/loaders.php'); ?>
 <?php include('parts/navbar.php'); ?>
@@ -68,19 +68,66 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        Category
+                        <select id="dl-filter-category" class="form-control filter-dropdown m-t-10" data-key="category"
+                                required>
+                            <option value="">-- All Category --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        Services
+                        <select id="dl-filter-service" class="form-control filter-dropdown m-t-10" data-key="service" required>
+                            <option value="">-- All Services --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-header">
+                    <h2>Postaji Orders</h2>
+                </div>
+            </div>
+        </div>
+
         <div class="row clearfix">
-            <div class="col-md-12 m-b-30">
-                <div class="header">
-                    <h4>BY CATEGORY</h4>
-                    <div id="dl-categories-buttons"></div>
+            <!-- Task Info -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 id="dl-orders-number"></h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos dl-orders-table">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total Price</th>
+                                    <th>item True Cost</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-12 m-b-30">
-                <div class="header">
-                    <h4>BY SERVICES</h4>
-                    <div id="dl-services-buttons"></div>
-                </div>
-            </div>
+
         </div>
     </div>
 </section>
