@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    let _mainDomain = 'http://localhost/dashboard';
+    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    // let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
