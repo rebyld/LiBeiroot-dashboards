@@ -1002,7 +1002,6 @@
             $(allQuestions).each(function (i, v) {
 
                 //todo: try to convert to template, there's issue with i
-
                 // allQuestionsItems.append(questionLiElementTemplate(v, {vars:[{'index' : i}] }));
 
                 allQuestionsItems.append(
@@ -1010,6 +1009,7 @@
                         .addClass('ui-state-default clearfix card filtered')
                         .attr('data-index', i)
                         .attr('data-filter-name', v.text)
+                        .attr('data-question-id', v._id)
                         .appendTo(allQuestionsItems).append(
                         $('<div />')
                             .addClass('clearfix')
@@ -1127,6 +1127,7 @@
                 '</option>');
         });
     }
+
 
     //endregion
 
@@ -1736,25 +1737,26 @@
 
         var _ruleType = $(_parent).attr('dl-rule-type');
 
+        var _tempQuestionObject;
+
         if (_ruleType === 'jump') { // default jump
 
             // find question-id related to this rule
             var _questionId2 = $(_parent).attr('current-question-id');
 
-            // find all answers, and get each answer-id
+            // single jump, as this rule is applied only on singled answer question
             var _defaultJumpId = _parent.find('.dl-single-answer-container').attr('data-selected-target-id');
 
-            var _tempQuestionObject2 = {question: _questionId2, rules: [], defaultJump: _defaultJumpId};
+            _tempQuestionObject = {question: _questionId2, rules: [], defaultJump: _defaultJumpId};
 
-            // it's okay to add it!
-            submittedFormJson.questions.push(_tempQuestionObject2);
-
-            console.log(submittedFormJson);
+            submittedFormJson.questions.push(_tempQuestionObject);
 
             // Empty answer container
             _parent.empty();
 
-        } else { // normal rules
+            updateSelectedAnswersRules('jump');
+
+        } else { // other rules (3 rules)
 
             // find question-id related to this rule
             var _questionId = $(_parent).attr('current-question-id');
@@ -1762,7 +1764,7 @@
             // find all answers, and get each answer-id
             var _answersElements = _parent.find('.dl-single-answer-container');
 
-            var _tempQuestionObject = {question: _questionId, rules: [], defaultJump: ''};
+            _tempQuestionObject = {question: _questionId, rules: [], defaultJump: ''};
             var _tempRuleObject = [];
 
             var _tempBool = true;
@@ -1783,6 +1785,7 @@
                         // create a temp rule object
                         _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price};
 
+                        // if already in variables array, ignore.
                         if ($.inArray("price", submittedFormJson.variables) === -1) {
                             submittedFormJson.variables.push("price");
                         }
@@ -1830,12 +1833,100 @@
             _parent.empty();
         }
 
-        var _modal = $('#rulesFormModal');
-
-        _modal.modal('hide');
+        $('#rulesFormModal').modal('hide');
 
         showNotification(AlertColors._INFO, 'Rule saved, please continue ...');
     });
+
+
+    function updateSelectedAnswersRules(type) {
+        console.log(JSON.stringify(submittedFormJson, null, 2));
+
+        if (type === 'jump') {
+            var _questions = submittedFormJson.questions;
+
+            $(_questions).each(function (i, v) {
+                var _liObj = findLiWithId(v.question);
+
+                console.log(_liObj);
+
+                var _button = $(_liObj).find('button');
+
+                _button.text('View rule');
+                _button.removeClass('dl-add-jump-btn').addClass('dl-show-question-rule');
+                _button.removeClass('btn-info').addClass('dl-show-question-rule btn-danger');
+
+            });
+        }
+    }
+
+    // find li of id in selected questions area
+    function findLiWithId(id) {
+        var res = '';
+        var _questionsElements = $(selectedQuestionsItems).find('li');
+
+        $(_questionsElements).each(function (i, v) {
+            var _id = $(v).attr('data-question-id');
+
+            if (_id === id) {
+                res = v;
+                console.log('found!');
+                return false;
+            }
+        });
+        return res;
+    }
+
+
+    $(document).on('click', '.dl-show-question-rule', function (e) {
+        e.preventDefault();
+
+        $('#showQuestionRulesModal').modal('show');
+
+        var _parent = $('.dl-show-single-rule-container');
+        _parent.empty();
+
+        var _questionId = $(this).parent().attr('data-question-id');
+
+        console.log(submittedFormJson.questions);
+        console.log(_questionId);
+
+        var _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
+
+        var _name = getQuestionNameById(_question.defaultJump);
+        var tmpObj = {type: 'jump', name: _name};
+
+        _parent.append(defaultJumpRuleTemplate(tmpObj));
+
+    });
+
+    function getQuestionNameById(id) {
+        var _res = '';
+
+        console.log(allQuestions);
+        $(allQuestions).each(function (i, v) {
+            if (v._id === id) {
+                console.log(v);
+                _res = v.text;
+                return false;
+            }
+        });
+
+        return _res;
+    }
+
+    function getQuestionWithRulesById(data, id) {
+        var _res = '';
+
+        $(data).each(function (i, v) {
+            if (v.question === id) {
+                _res = v;
+                return false;
+            }
+        });
+
+        return _res;
+    }
 
     // Submitting the form
     $(document).on('click', '#dl-submit-form', function (e) {
@@ -2463,7 +2554,6 @@
     });
 
     //endregion
-
 
     //region OTHERS
 

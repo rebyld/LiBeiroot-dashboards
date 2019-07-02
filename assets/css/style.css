@@ -1275,19 +1275,19 @@
 }
 
 .m-l-0 {
-    margin-left: 0px!important;
+    margin-left: 0px !important;
 }
 
 .m-t-0 {
-    margin-top: 0px!important;
+    margin-top: 0px !important;
 }
 
 .m-r-0 {
-    margin-right: 0px!important;
+    margin-right: 0px !important;
 }
 
 .m-b-0 {
-    margin-bottom: 0px!important;
+    margin-bottom: 0px !important;
 }
 
 .m-l-5 {
@@ -1727,7 +1727,7 @@
 }
 
 .p-l-10 {
-    padding-left: 10px!important;
+    padding-left: 10px !important;
 }
 
 .p-t-10 {
@@ -11171,7 +11171,7 @@ h2[class*='dl-type'] {
 }
 
 
-.dl-type-checkbox, .label-initiated{
+.dl-type-checkbox, .label-initiated {
     background-color: #2196F3;
 }
 
@@ -11202,15 +11202,44 @@ h2[class*='dl-type'] {
     padding: 16px 10px;
 }
 
-.f-s-16{
-    font-size: 16px!important;
+.f-s-16 {
+    font-size: 16px !important;
 }
 
-.points-container .form-group{
+.points-container .form-group {
     padding: 16px;
     background-color: #e6faff;
 }
 
-.points-container .form-group .form-control{
-    background-color: transparent!important;
+.points-container .form-group .form-control {
+    background-color: transparent !important;
 }
+
+
+.lima {
+    color: red!important;
+}
+
+
+.lima {
+    color: blue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -171,6 +171,11 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '            </div>');
 
 
+const defaultJumpRuleTemplate = _.template('' +
+    '<h5>Rule type: <%= type %></h5>' +
+    '<p>Will go to: <%= name %></p>');
+
+
 const buttonTemplate = _.template('' +
     '<button type="button" class="btn bg-cyan btn-lg m-r-10 dl-filter-button m-b-10" data-type="<%= type %>">' +
     '<%= title %>' +
