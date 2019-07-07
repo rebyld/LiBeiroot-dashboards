@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    // let _mainDomain = 'http://localhost/dashboard';
+    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -1386,9 +1386,9 @@
     }
 
     function filter(e) {
-        var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+        var regex = new RegExp('\\b\\w*' + e.toLowerCase() + '\\w*\\b');
         $('.filtered-container .filtered').hide().filter(function () {
-            return regex.test($(this).attr('data-filter-name'))
+            return regex.test($(this).attr('data-filter-name').toLowerCase())
         }).show();
     }
 
@@ -1732,6 +1732,8 @@
     $(document).on('click', '.dl-save-rules-btn', function (e) {
         e.preventDefault();
 
+        var _type ='';
+
         // Parent elements that contains all answers
         var _parent = $('.dl-answers-container');
 
@@ -1754,7 +1756,10 @@
             // Empty answer container
             _parent.empty();
 
-            updateSelectedAnswersRules('jump');
+            _type = 'defaultJump';
+            console.log('the question id is: '+ _questionId2);
+            updateSelectedAnswersRules(_type, _questionId2);
+
 
         } else { // other rules (3 rules)
 
@@ -1794,10 +1799,6 @@
 
                     }
                     if (isNotDead(_targetId)) {
-
-                        console.log('time from: ', _timeFrom);
-                        console.log('time to: ', _timeTo);
-
                         if (isNotDead(_timeFrom) && isNotDead(_timeTo)) {
                             // between jump
 
@@ -1816,6 +1817,8 @@
                             // create a temp rule object
                             _tempRuleObject = {answer: _answerId, target: _targetId, action: 'jump'};
                             _tempQuestionObject.rules.push(_tempRuleObject);
+
+                            _type = 'normalJump';
                         }
                     }
                 });
@@ -1826,7 +1829,9 @@
 
             // it's okay to add it!
             if (_tempBool) {
+                console.log('the question id is: '+ _questionId);
                 submittedFormJson.questions.push(_tempQuestionObject);
+                updateSelectedAnswersRules(_type, _questionId);
             }
 
             // Empty answer container
@@ -1839,25 +1844,30 @@
     });
 
 
-    function updateSelectedAnswersRules(type) {
-        console.log(JSON.stringify(submittedFormJson, null, 2));
+    function updateSelectedAnswersRules(type, id) {
+        // var _questions;
+        // _questions = submittedFormJson.questions;
+        var _liObj;
+        var _button;
 
-        if (type === 'jump') {
-            var _questions = submittedFormJson.questions;
+        if (type === 'defaultJump') {
+            _liObj = findLiWithId(id);
 
-            $(_questions).each(function (i, v) {
-                var _liObj = findLiWithId(v.question);
+        } else if (type === 'normalJump') {
+            _liObj = findLiWithId(id);
+            _button = $(_liObj).find('button');
+            _button.text('View rule');
+            _button.attr('actionType', 'normalJump');
+            _button.removeClass('dl-add-rule-btn').addClass('dl-show-question-rule');
+            _button.removeClass('btn-info').addClass('dl-show-question-rule btn-danger');
 
-                console.log(_liObj);
-
-                var _button = $(_liObj).find('button');
-
-                _button.text('View rule');
-                _button.removeClass('dl-add-jump-btn').addClass('dl-show-question-rule');
-                _button.removeClass('btn-info').addClass('dl-show-question-rule btn-danger');
-
-            });
         }
+
+        _button = $(_liObj).find('button');
+        _button.text('View rule');
+        _button.attr('actionType', type);
+        _button.removeClass('dl-add-jump-btn').addClass('dl-show-question-rule');
+        _button.removeClass('btn-info').addClass('dl-show-question-rule btn-danger');
     }
 
     // find li of id in selected questions area
@@ -1881,22 +1891,49 @@
     $(document).on('click', '.dl-show-question-rule', function (e) {
         e.preventDefault();
 
+        var type = $(this).attr('actionType');
+
         $('#showQuestionRulesModal').modal('show');
 
         var _parent = $('.dl-show-single-rule-container');
         _parent.empty();
 
-        var _questionId = $(this).parent().attr('data-question-id');
+        var _questionId;
+        var _question;
+        var _name;
 
-        console.log(submittedFormJson.questions);
-        console.log(_questionId);
 
-        var _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
+        switch (type) {
+            case "defaultJump":
+                _questionId = $(this).parent().attr('data-question-id');
+                _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
 
-        var _name = getQuestionNameById(_question.defaultJump);
-        var tmpObj = {type: 'jump', name: _name};
+                _name = getQuestionNameById(_question.defaultJump);
+                var tmpObj = {type: 'jump', name: _name};
 
-        _parent.append(defaultJumpRuleTemplate(tmpObj));
+                _parent.append(defaultJumpRuleTemplate(tmpObj));
+
+                break;
+            case 'normalJump':
+                _questionId = $(this).parent().attr('data-question-id');
+                _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
+                var _rules = _question.rules;
+
+                $(_rules).each(function (i, v) {
+                    console.log(_question);
+
+                    if (v.action === "jump") {
+                        console.log(v.target);
+                        _name = getQuestionNameById(v.target);
+                        console.log('name is: ' + _name);
+                        var tmpObj = {type: 'Normal Jump', name: _name};
+                        _parent.append(defaultJumpRuleTemplate(tmpObj));
+                    }
+                });
+
+                break;
+        }
+
 
     });
 
@@ -1906,7 +1943,6 @@
         console.log(allQuestions);
         $(allQuestions).each(function (i, v) {
             if (v._id === id) {
-                console.log(v);
                 _res = v.text;
                 return false;
             }
