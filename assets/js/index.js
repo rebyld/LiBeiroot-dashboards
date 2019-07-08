@@ -2445,7 +2445,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: _opsEP + "/coupons",
+            // url: _opsEP + "/coupons",
             data: JSON.stringify(submittedCouponJson),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
@@ -2469,6 +2469,28 @@
                 console.log(response);
             }
         });
+    });
+
+    $(document).on('change', '#dl-coupon-type', function (e) {
+
+        var _parent = $('#dl-amount-label');
+
+        var _value = $(this).val();
+
+        if (_value === 'percentage'){
+            $(_parent).html('Amount (%)');
+            $("#dl-coupon-amount").attr({
+                "max" : 100,
+                "min" : 1
+            });
+        }
+        else{
+            $(_parent).html('Amount (Fixed value, for example: 500 S.P)');
+            $("#dl-coupon-amount").attr({
+                "max" : '',
+                "min" : '1'
+            });
+        }
     });
 
     function loadCouponsIntoUI() {

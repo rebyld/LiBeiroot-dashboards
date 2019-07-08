@@ -57,15 +57,15 @@
                                 </label>
                                 <label class="controls">
                                     Type
-                                    <select id="dl-coupon-type" class="form-control" required>
+                                    <select id="dl-coupon-type" class="form-control " required>
                                         <option value="">-- Please select --</option>
                                         <option value="fixedDiscount">Fixed Discount</option>
                                         <option value="percentage">Percentage</option>
                                     </select>
                                 </label>
                                 <label class="controls">
-                                    Amount
-                                    <input type="number" class="form-control" id="dl-coupon-amount" required>
+                                    <span id="dl-amount-label">Amount</span>
+                                    <input type="number" class="form-control" id="dl-coupon-amount"  min="1" required>
                                 </label>
                                 <button type="submit" class="btn btn-success">Save</button>
                             </div>
