@@ -1732,7 +1732,7 @@
     $(document).on('click', '.dl-save-rules-btn', function (e) {
         e.preventDefault();
 
-        var _type ='';
+        var _type = '';
 
         // Parent elements that contains all answers
         var _parent = $('.dl-answers-container');
@@ -1740,6 +1740,7 @@
         var _ruleType = $(_parent).attr('dl-rule-type');
 
         var _tempQuestionObject;
+        var _answerName = '';
 
         if (_ruleType === 'jump') { // default jump
 
@@ -1753,11 +1754,9 @@
 
             submittedFormJson.questions.push(_tempQuestionObject);
 
-            // Empty answer container
             _parent.empty();
 
             _type = 'defaultJump';
-            console.log('the question id is: '+ _questionId2);
             updateSelectedAnswersRules(_type, _questionId2);
 
 
@@ -1774,11 +1773,13 @@
 
             var _tempBool = true;
 
+
             if (isJsonFormHasQuestion(_questionId) === false) {
 
                 // for each answer container, get the selected question option element (saved in parent!)
                 // and related question-id. We need to test if there's a selected option!
                 $(_answersElements).each(function (i, v) {
+
                     var _answerId = $(v).attr('data-answer-id');
                     var _targetId = $(v).attr('data-selected-target-id');
                     var _price = $(v).attr('data-price');
@@ -1786,8 +1787,6 @@
                     var _timeTo = $(v).attr('data-time-to');
 
                     if (isNotDead(_price)) {
-
-                        // create a temp rule object
                         _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price};
 
                         // if already in variables array, ignore.
@@ -1796,29 +1795,40 @@
                         }
 
                         _tempQuestionObject.rules.push(_tempRuleObject);
-
                     }
                     if (isNotDead(_targetId)) {
                         if (isNotDead(_timeFrom) && isNotDead(_timeTo)) {
                             // between jump
+                            _answerName = $(v).find('.dl-answer-text').text();
+                            console.log('answer text');
+                            console.log(v);
 
                             // create a temp rule object
                             _tempRuleObject = {
                                 answer: _answerId,
+                                answerName: _answerName,
                                 action: 'between',
                                 target: _targetId,
                                 value: _timeFrom + '_' + _timeTo
                             };
                             _tempQuestionObject.rules.push(_tempRuleObject);
+                            _type = 'normalJump';
+
 
                         } else {
                             // normal jump
-
+                            _answerName = $(v).find('.dl-answer-text').text();
                             // create a temp rule object
-                            _tempRuleObject = {answer: _answerId, target: _targetId, action: 'jump'};
+                            _tempRuleObject = {
+                                answer: _answerId,
+                                target: _targetId,
+                                action: 'jump',
+                                answerName: _answerName
+                            };
                             _tempQuestionObject.rules.push(_tempRuleObject);
 
                             _type = 'normalJump';
+
                         }
                     }
                 });
@@ -1829,7 +1839,6 @@
 
             // it's okay to add it!
             if (_tempBool) {
-                console.log('the question id is: '+ _questionId);
                 submittedFormJson.questions.push(_tempQuestionObject);
                 updateSelectedAnswersRules(_type, _questionId);
             }
@@ -1850,23 +1859,12 @@
         var _liObj;
         var _button;
 
-        if (type === 'defaultJump') {
-            _liObj = findLiWithId(id);
-
-        } else if (type === 'normalJump') {
-            _liObj = findLiWithId(id);
-            _button = $(_liObj).find('button');
-            _button.text('View rule');
-            _button.attr('actionType', 'normalJump');
-            _button.removeClass('dl-add-rule-btn').addClass('dl-show-question-rule');
-            _button.removeClass('btn-info').addClass('dl-show-question-rule btn-danger');
-
-        }
+        _liObj = findLiWithId(id);
 
         _button = $(_liObj).find('button');
         _button.text('View rule');
         _button.attr('actionType', type);
-        _button.removeClass('dl-add-jump-btn').addClass('dl-show-question-rule');
+        _button.removeClass('dl-add-jump-btn dl-add-rule-btn').addClass('dl-show-question-rule');
         _button.removeClass('btn-info').addClass('dl-show-question-rule btn-danger');
     }
 
@@ -1898,42 +1896,38 @@
         var _parent = $('.dl-show-single-rule-container');
         _parent.empty();
 
-        var _questionId;
-        var _question;
-        var _name;
+        var _questionId = $(this).parent().attr('data-question-id');
+        var _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
 
+        var _name;
+        var _rules;
+        var tmpObj;
 
         switch (type) {
+            // default jump for questions with no answers
             case "defaultJump":
-                _questionId = $(this).parent().attr('data-question-id');
-                _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
-
                 _name = getQuestionNameById(_question.defaultJump);
-                var tmpObj = {type: 'jump', name: _name};
-
+                tmpObj = {type: 'Default Jump', name: _name};
                 _parent.append(defaultJumpRuleTemplate(tmpObj));
-
                 break;
-            case 'normalJump':
-                _questionId = $(this).parent().attr('data-question-id');
-                _question = getQuestionWithRulesById(submittedFormJson.questions, _questionId);
-                var _rules = _question.rules;
 
+            case 'normalJump':
+                // normal jump rule in select questions
+                _rules = _question.rules;
                 $(_rules).each(function (i, v) {
-                    console.log(_question);
 
                     if (v.action === "jump") {
-                        console.log(v.target);
                         _name = getQuestionNameById(v.target);
-                        console.log('name is: ' + _name);
-                        var tmpObj = {type: 'Normal Jump', name: _name};
-                        _parent.append(defaultJumpRuleTemplate(tmpObj));
+                        tmpObj = {type: 'Normal Jump', name: _name, answerName: v.answerName};
+                        _parent.append(normalJumpRuleTemplate(tmpObj));
+                    } else if (v.action === "between") {
+                        _name = getQuestionNameById(v.target);
+                        tmpObj = {type: 'Between Jump', name: _name, answerName: v.answerName, time: v.value};
+                        _parent.append(betweenJumpRuleTemplate(tmpObj));
                     }
                 });
-
                 break;
         }
-
 
     });
 
@@ -2748,6 +2742,6 @@
             });
     }
 
-    //endregion
+    //endregionz
 
 });

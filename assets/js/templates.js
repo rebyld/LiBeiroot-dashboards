@@ -172,9 +172,20 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
 
 
 const defaultJumpRuleTemplate = _.template('' +
-    '<h5>Rule type: <%= type %></h5>' +
-    '<p>Will go to: <%= name %></p>');
+    '<h5><%= type %></h5>' +
+    '<h5>Will go to -> <%= name %></h5>' +
+    '<hr/>');
 
+const normalJumpRuleTemplate = _.template('' +
+    '<h5><%= type %></h5>' +
+    '<h5><%= answerName %> -> <%= name %></h5>' +
+    '<hr/>');
+
+const betweenJumpRuleTemplate = _.template('' +
+    '<h5><%= type %></h5>' +
+    '<h5><%= answerName %> -> <%= name %></h5>' +
+    '<h5>Time rule is: -> <%= time %></h5>' +
+    '<hr/>');
 
 const buttonTemplate = _.template('' +
     '<button type="button" class="btn bg-cyan btn-lg m-r-10 dl-filter-button m-b-10" data-type="<%= type %>">' +
