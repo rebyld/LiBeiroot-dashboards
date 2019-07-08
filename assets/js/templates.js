@@ -187,6 +187,11 @@ const betweenJumpRuleTemplate = _.template('' +
     '<h5>Time rule is: -> <%= time %></h5>' +
     '<hr/>');
 
+const priceJumpRuleTemplate = _.template('' +
+    '<h5><%= type %></h5>' +
+    '<h5>When selecting: <%= answerName %> -> Will add price: <%= price %></h5>' +
+    '<hr/>');
+
 const buttonTemplate = _.template('' +
     '<button type="button" class="btn bg-cyan btn-lg m-r-10 dl-filter-button m-b-10" data-type="<%= type %>">' +
     '<%= title %>' +

@@ -1785,21 +1785,23 @@
                     var _price = $(v).attr('data-price');
                     var _timeFrom = $(v).attr('data-time-from');
                     var _timeTo = $(v).attr('data-time-to');
+                    _answerName = $(v).find('.dl-answer-text').text();
 
                     if (isNotDead(_price)) {
-                        _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price};
+                        _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price,  answerName: _answerName};
 
                         // if already in variables array, ignore.
                         if ($.inArray("price", submittedFormJson.variables) === -1) {
                             submittedFormJson.variables.push("price");
+
                         }
 
                         _tempQuestionObject.rules.push(_tempRuleObject);
+                        _type = 'normalJump';
                     }
                     if (isNotDead(_targetId)) {
                         if (isNotDead(_timeFrom) && isNotDead(_timeTo)) {
                             // between jump
-                            _answerName = $(v).find('.dl-answer-text').text();
                             console.log('answer text');
                             console.log(v);
 
@@ -1817,7 +1819,6 @@
 
                         } else {
                             // normal jump
-                            _answerName = $(v).find('.dl-answer-text').text();
                             // create a temp rule object
                             _tempRuleObject = {
                                 answer: _answerId,
@@ -1924,6 +1925,11 @@
                         _name = getQuestionNameById(v.target);
                         tmpObj = {type: 'Between Jump', name: _name, answerName: v.answerName, time: v.value};
                         _parent.append(betweenJumpRuleTemplate(tmpObj));
+                    }
+                    else if (v.action === "add") {
+                        _name = getQuestionNameById(v.target);
+                        tmpObj = {type: 'Price', name: _name, answerName: v.answerName, price: v.value};
+                        _parent.append(priceJumpRuleTemplate(tmpObj));
                     }
                 });
                 break;
