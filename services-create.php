@@ -49,8 +49,8 @@
                                            accept="image/png, image/jpeg, image/jpg">
                                 </label>
                                 <label class="controls">
-                                    Price (Numbers only)
-                                    <input type="text" class="form-control" id="dl-service-price" required>
+                                    Price (Numbers only, for example: 500 S.P)
+                                    <input type="text" class="form-control" id="dl-service-price" min="10" required>
                                 </label>
 
                                 <label for="dl-service-type">Service Type</label>
