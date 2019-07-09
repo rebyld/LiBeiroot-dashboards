@@ -92,7 +92,26 @@
                 </div>
             </div>
 
-
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        Status
+                        <select id="dl-filter-service" class="form-control filter-dropdown m-t-10" data-key="status" required>
+                            <option value="">-- All Cases --</option>
+                            <option value="initiated">Initiated</option>
+                            <option value="edited">Edited</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="matching">Matching</option>
+                            <option value="matched">Matched</option>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="completedAndReviewed">Completed and Reviewed</option>
+                            <option value="canceled">Canceled</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -119,6 +138,7 @@
                                     <th>Status</th>
                                     <th>Total Price</th>
                                     <th>item True Cost</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -131,6 +151,26 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="showOrderDetails" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                <h3 class="modal-title" id="lineModalLabel">Order Details</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="dl-show-single-order-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include('parts/footer.php'); ?>
 </body>
