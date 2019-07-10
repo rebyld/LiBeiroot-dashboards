@@ -198,6 +198,26 @@ const buttonTemplate = _.template('' +
     '</button>' +
     '');
 
+const singleOrderTemplate = _.template('' +
+    '<div class="row">' +
+    '   <div class="col-md-6">' +
+    '   <label>' +
+    '      Change Status: ' +
+    '      <select class="dl-single-order-status-container form-control m-t-10" data-order-id="<%= _id %>">' +
+    '      <option value="initiated">Initiated</option>' +
+    '      <option value="edited">Edited</option>' +
+    '      <option value="confirmed">Confirmed</option>' +
+    '      <option value="pending">Pending</option>' +
+    '      <option value="matching">Matching</option>' +
+    '      <option value="matched">Matched</option>' +
+    '      <option value="processing">Processing</option>' +
+    '      <option value="completed">Completed</option>' +
+    '      <option value="completedAndReviewed">Completed and Reviewed</option>' +
+    '      <option value="canceled">Canceled</option>' +
+    '      </select>' +
+    '   </label>' +
+    '   </div>' +
+    '</div>');
 
 //todo: I'll need this later, keep it lazy shit!
 const questionLiElementTemplate = _.template('<li class="ui-state-default clearfix card filtered" data-index="<%= vars.index %>">' +

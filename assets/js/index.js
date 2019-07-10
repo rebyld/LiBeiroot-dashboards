@@ -1341,18 +1341,17 @@
             $('#dl-orders-number').text('Total Orders (' + allOrders.length + ')');
 
             $(allOrders).each(function (i, v) {
-                console.log(v);
                 $(_parent).append(orderRowTemplate(v));
             });
         });
     }
 
-    function getSingleOrder(id){
+    function getSingleOrder(id) {
         return $.when(
             $.ajax({
                 type: "GET",
                 contentType: 'application/json',
-                url: _opsEP + "/orders?" + id,
+                url: _opsEP + "/orders/" + id,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
                     $('.page-loader-wrapper.process').fadeIn();
@@ -1813,7 +1812,13 @@
                     _answerName = $(v).find('.dl-answer-text').text();
 
                     if (isNotDead(_price)) {
-                        _tempRuleObject = {answer: _answerId, action: 'add', target: 'price', value: _price,  answerName: _answerName};
+                        _tempRuleObject = {
+                            answer: _answerId,
+                            action: 'add',
+                            target: 'price',
+                            value: _price,
+                            answerName: _answerName
+                        };
 
                         // if already in variables array, ignore.
                         if ($.inArray("price", submittedFormJson.variables) === -1) {
@@ -1950,8 +1955,7 @@
                         _name = getQuestionNameById(v.target);
                         tmpObj = {type: 'Between Jump', name: _name, answerName: v.answerName, time: v.value};
                         _parent.append(betweenJumpRuleTemplate(tmpObj));
-                    }
-                    else if (v.action === "add") {
+                    } else if (v.action === "add") {
                         _name = getQuestionNameById(v.target);
                         tmpObj = {type: 'Price', name: _name, answerName: v.answerName, price: v.value};
                         _parent.append(priceJumpRuleTemplate(tmpObj));
@@ -2502,18 +2506,17 @@
 
         var _value = $(this).val();
 
-        if (_value === 'percentage'){
+        if (_value === 'percentage') {
             $(_parent).html('Amount (%)');
             $("#dl-coupon-amount").attr({
-                "max" : 100,
-                "min" : 1
+                "max": 100,
+                "min": 1
             });
-        }
-        else{
+        } else {
             $(_parent).html('Amount (Fixed value, for example: 500 S.P)');
             $("#dl-coupon-amount").attr({
-                "max" : '',
-                "min" : '1'
+                "max": '',
+                "min": '1'
             });
         }
     });
@@ -2610,7 +2613,7 @@
     $(document).on('change', '.filter-dropdown', function (e) {
         e.preventDefault();
 
-        var filterObj = {category: '', service: '',status: ''};
+        var filterObj = {category: '', service: '', status: ''};
 
         var filtersParents = $('.filter-dropdown :selected');
 
@@ -2641,21 +2644,34 @@
         updateOrdersTableBy(filter);
     });
 
+    // viewing order details
     $(document).on('click', '.dl-order-view-details', function (e) {
         e.preventDefault();
+        var _parent = $('.dl-show-single-order-container');
+        _parent.empty();
 
         var _orderId = $(this).attr('data-order-id');
-
-        console.log(_orderId);
 
         $.when(getSingleOrder(_orderId)).then(function (res) {
             console.log(res);
 
+            _parent.append(singleOrderTemplate(res));
+            $('.dl-single-order-status-container').val(res.status);
             $('#showOrderDetails').modal('show');
         });
 
 
     });
+
+    $(document).on('change', '.dl-single-order-status-container', function (e) {
+        var _orderId = $(this).attr('data-order-id');
+        var _selectedValue = $(this).val();
+        changeOrderStatus(_orderId, _selectedValue);
+    });
+
+    function changeOrderStatus(id, status) {
+        console.log('will change it to: ' + status);
+    }
 
     //endregion
 
