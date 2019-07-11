@@ -103,7 +103,7 @@ function getReadableDateWithoutTime(strangeDate) {
 
 const orderRowTemplate = _.template('<tr>' +
     '<td><%= getReadableDateWithoutTime(createdAt) %></td>' +
-    '<td><span class="label label-<%= status %>"><%= status %></span></td>' +
+    '<td><span class="label dl-f-14 label-<%= status %>"><%= status %></span></td>' +
     '<td><%= totalPrice %></td>' +
     '<td><%= itemTrueCost %></td>' +
     '<td><button class="btn bg-blue-grey dl-order-view-details" data-order-id="<%= _id %>">Details</button></td>' +
@@ -213,9 +213,29 @@ const singleOrderTemplate = _.template('' +
     '      <option value="processing">Processing</option>' +
     '      <option value="completed">Completed</option>' +
     '      <option value="completedAndReviewed">Completed and Reviewed</option>' +
-    '      <option value="canceled">Canceled</option>' +
     '      </select>' +
     '   </label>' +
+    '   </div>' +
+    '</div>' +
+    '<hr class="m-t-20">' +
+    '<div class="row">' +
+    '   <div class="col-md-4"><h5>Cancel Order:</h5></div>' +
+    '</div>' +
+    '<div class="row">' +
+    '   <div class="col-md-6">' +
+    '      <select class="dl-single-order-cancel-container form-control">' +
+    '      <option value="">-- Reason to cancel --</option>' +
+    '      <option value="canceledByCustomerNoReason">By Customer (no reason)</option>' +
+    '      <option value="CanceledByCustomerForPrice">By Customer (for price)</option>' +
+    '      <option value="canceledByCustomerDuration">By Customer (duration)</option>' +
+    '      <option value="canceledByCustomerOther">By Customer (others)</option>' +
+    '      <option value="canceledByDriver">By Driver</option>' +
+    '      <option value="canceledByOPSRules">By OPS (rules)</option>' +
+    '      <option value="canceledByOPSNoMatch">By OPS (no match)</option>' +
+    '      </select>' +
+    '   </div>' +
+    '   <div class="col-md-6">' +
+    '      <button class="btn btn-danger dl-cancel-order form-control" data-order-id="<%= _id %>">Cancel</button>' +
     '   </div>' +
     '</div>');
 

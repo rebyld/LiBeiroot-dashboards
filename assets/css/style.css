@@ -11154,19 +11154,24 @@ h2[class*='dl-type'] {
     color: #fff !important;
 }
 
+.dl-f-14{
+    font-weight: 300!important;
+    font-size: 14px!important;
+}
+
 .dl-type-text {
     background-color: #E91E63;
 }
 
-.dl-type-select {
+.dl-type-select, .label-confirmed {
     background-color: #3F51B5;
 }
 
-.dl-type-text_area {
+.dl-type-text_area, .label-completed {
     background-color: #009688;
 }
 
-.dl-type-multi_select {
+.dl-type-multi_select, .label-edited {
     background-color: #FF9800;
 }
 
@@ -11175,16 +11180,20 @@ h2[class*='dl-type'] {
     background-color: #2196F3;
 }
 
-.dl-type-label {
+.dl-type-label, .label-completedAndReviewed {
     background-color: #607D8B;
 }
 
-.dl-type-date {
+.dl-type-date, .label-pending{
     background-color: #FFC107;
 }
 
-.dl-type-time {
+.dl-type-time, .label-processing {
     background-color: #FF5722;
+}
+
+.label-canceled {
+    background-color: #999999;
 }
 
 #sortable1, #sortable2 {

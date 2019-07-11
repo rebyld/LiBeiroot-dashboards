@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    let _mainDomain = 'http://localhost/dashboard';
+    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    // let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -2659,18 +2659,66 @@
             $('.dl-single-order-status-container').val(res.status);
             $('#showOrderDetails').modal('show');
         });
-
-
     });
 
     $(document).on('change', '.dl-single-order-status-container', function (e) {
         var _orderId = $(this).attr('data-order-id');
         var _selectedValue = $(this).val();
-        changeOrderStatus(_orderId, _selectedValue);
+        $.when(changeOrderStatus(_orderId, _selectedValue)).then(function (res) {
+            updateOrdersTableBy('');
+            resetSelectedFilters();
+            $('#showOrderDetails').modal('hide');
+        });
     });
 
-    function changeOrderStatus(id, status) {
-        console.log('will change it to: ' + status);
+    $(document).on('click', '.dl-cancel-order', function (e) {
+        e.preventDefault();
+
+        var _reasonToCancel = $('.dl-single-order-cancel-container').val();
+
+        if (_reasonToCancel !== '') {
+            var _orderId = $(this).attr('data-order-id');
+            changeOrderStatus(_orderId, 'canceled', _reasonToCancel);
+            console.log('cancel please!');
+        } else {
+            showNotification(AlertColors._DANGER, 'Please select cancel reason.');
+        }
+    });
+
+    function resetSelectedFilters() {
+        $('.filter-dropdown').val('');
+    }
+
+    function changeOrderStatus(id, status, reason) {
+        var _data = {'status': status, 'cancelReason' : reason};
+        console.log(_data);
+
+
+        return $.when(
+            $.ajax({
+                type: "PATCH",
+                contentType: 'application/json',
+                url: _opsEP + "/orders/" + id + '/status',
+                data: JSON.stringify(_data),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+                    $('.page-loader-wrapper.process').fadeIn();
+                },
+                success: function (response) {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    console.log(response);
+                    showNotification(AlertColors._SUCCESS, 'Edited successfully!');
+                    updateOrdersTableBy('');
+                    resetSelectedFilters();
+                    $('#showOrderDetails').modal('hide');
+                },
+                error: function (XMLHttpRequest, response) {
+                    $('.page-loader-wrapper.process').fadeOut();
+                    showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
+                    console.log(response);
+                }
+            })
+        );
     }
 
     //endregion
