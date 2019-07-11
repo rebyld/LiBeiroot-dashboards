@@ -11159,7 +11159,7 @@ h2[class*='dl-type'] {
     font-size: 14px!important;
 }
 
-.dl-type-text {
+.dl-type-text, .label-matching{
     background-color: #E91E63;
 }
 
@@ -11194,6 +11194,10 @@ h2[class*='dl-type'] {
 
 .label-canceled {
     background-color: #999999;
+}
+
+.label-matched {
+    background-color: #8BC34A;
 }
 
 #sortable1, #sortable2 {

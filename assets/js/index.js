@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    // let _mainDomain = 'http://localhost/dashboard';
+    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -1308,6 +1308,9 @@
         allOrders = [];
         var data = isNotDead(filters) ? filters : '';
 
+        console.log('data');
+        console.log(data);
+
         return $.when(
             $.ajax({
                 type: "GET",
@@ -1333,7 +1336,6 @@
     }
 
     function updateOrdersTableBy(filters) {
-
         $.when(getOrders(filters)).then(function () {
             var _parent = $('.dl-orders-table tbody');
             _parent.empty();
@@ -2639,8 +2641,6 @@
         console.log(filterObj);
         var filter = filterObj.service + '&' + filterObj.category + '&' + filterObj.status;
 
-        console.log('filter is: ');
-        console.log(filter);
         updateOrdersTableBy(filter);
     });
 
@@ -2664,11 +2664,7 @@
     $(document).on('change', '.dl-single-order-status-container', function (e) {
         var _orderId = $(this).attr('data-order-id');
         var _selectedValue = $(this).val();
-        $.when(changeOrderStatus(_orderId, _selectedValue)).then(function (res) {
-            updateOrdersTableBy('');
-            resetSelectedFilters();
-            $('#showOrderDetails').modal('hide');
-        });
+        changeOrderStatus(_orderId, _selectedValue);
     });
 
     $(document).on('click', '.dl-cancel-order', function (e) {
@@ -2679,7 +2675,6 @@
         if (_reasonToCancel !== '') {
             var _orderId = $(this).attr('data-order-id');
             changeOrderStatus(_orderId, 'canceled', _reasonToCancel);
-            console.log('cancel please!');
         } else {
             showNotification(AlertColors._DANGER, 'Please select cancel reason.');
         }
@@ -2691,8 +2686,6 @@
 
     function changeOrderStatus(id, status, reason) {
         var _data = {'status': status, 'cancelReason' : reason};
-        console.log(_data);
-
 
         return $.when(
             $.ajax({
