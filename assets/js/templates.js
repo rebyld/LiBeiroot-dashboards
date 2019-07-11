@@ -106,6 +106,7 @@ const orderRowTemplate = _.template('<tr>' +
     '<td><span class="label dl-f-14 label-<%= status %>"><%= status %></span></td>' +
     '<td><%= totalPrice %></td>' +
     '<td><%= itemTrueCost %></td>' +
+    '<td><%= paymentStatus %></td>' +
     '<td><button class="btn bg-blue-grey dl-order-view-details" data-order-id="<%= _id %>">Details</button></td>' +
     '</tr>');
 
@@ -203,7 +204,7 @@ const singleOrderTemplate = _.template('' +
     '   <div class="col-md-6">' +
     '   <label>' +
     '      Change Status: ' +
-    '      <select class="dl-single-order-status-container form-control m-t-10" data-order-id="<%= _id %>">' +
+    '      <select class="dl-single-order-status-container dl-status-value form-control m-t-10" data-order-id="<%= _id %>" data-endpoint="status">' +
     '      <option value="initiated">Initiated</option>' +
     '      <option value="edited">Edited</option>' +
     '      <option value="confirmed">Confirmed</option>' +
@@ -213,6 +214,24 @@ const singleOrderTemplate = _.template('' +
     '      <option value="processing">Processing</option>' +
     '      <option value="completed">Completed</option>' +
     '      <option value="completedAndReviewed">Completed and Reviewed</option>' +
+    '      </select>' +
+    '   </label>' +
+    '   </div>' +
+    '</div>' +
+    '<hr class="m-t-20">' +
+    '<div class="row">' +
+    '   <div class="col-md-6">' +
+    '   <label>' +
+    '      Change Payment Status: ' +
+    '      <select class="dl-single-order-status-container dl-payment-value form-control m-t-10" data-order-id="<%= _id %>" data-endpoint="payment_status">' +
+    '      <option value="aheadA">-- Select Status --</option>' +
+    '      <option value="aheadA">Ahead A</option>' +
+    '      <option value="duringA">During A</option>' +
+    '      <option value="afterA">After A</option>' +
+    '      <option value="aheadB">Ahead B</option>' +
+    '      <option value="duringB">During B</option>' +
+    '      <option value="afterB">After B</option>' +
+    '      <option value="collected">Collected</option>' +
     '      </select>' +
     '   </label>' +
     '   </div>' +

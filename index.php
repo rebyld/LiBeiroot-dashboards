@@ -138,6 +138,7 @@
                                     <th>Status</th>
                                     <th>Total Price</th>
                                     <th>item True Cost</th>
+                                    <th>Payment Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>

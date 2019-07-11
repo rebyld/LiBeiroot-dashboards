@@ -1343,6 +1343,9 @@
             $('#dl-orders-number').text('Total Orders (' + allOrders.length + ')');
 
             $(allOrders).each(function (i, v) {
+                if (!isNotDead(v.paymentStatus)){
+                    v.paymentStatus = '- -';
+                }
                 $(_parent).append(orderRowTemplate(v));
             });
         });
@@ -2656,7 +2659,10 @@
             console.log(res);
 
             _parent.append(singleOrderTemplate(res));
-            $('.dl-single-order-status-container').val(res.status);
+            $('.dl-status-value').val(res.status);
+            if (isNotDead(res.paymentStatus)) {
+                $('.dl-payment-value').val(res.paymentStatus);
+            }
             $('#showOrderDetails').modal('show');
         });
     });
@@ -2664,7 +2670,8 @@
     $(document).on('change', '.dl-single-order-status-container', function (e) {
         var _orderId = $(this).attr('data-order-id');
         var _selectedValue = $(this).val();
-        changeOrderStatus(_orderId, _selectedValue);
+        var _endPoint = $(this).attr('data-endpoint');
+        changeOrderStatus(_endPoint, _orderId, _selectedValue);
     });
 
     $(document).on('click', '.dl-cancel-order', function (e) {
@@ -2674,7 +2681,7 @@
 
         if (_reasonToCancel !== '') {
             var _orderId = $(this).attr('data-order-id');
-            changeOrderStatus(_orderId, 'canceled', _reasonToCancel);
+            changeOrderStatus('status', _orderId, 'canceled', _reasonToCancel);
         } else {
             showNotification(AlertColors._DANGER, 'Please select cancel reason.');
         }
@@ -2684,14 +2691,24 @@
         $('.filter-dropdown').val('');
     }
 
-    function changeOrderStatus(id, status, reason) {
-        var _data = {'status': status, 'cancelReason' : reason};
+    function changeOrderStatus(endPoint, id, status, reason) {
+
+        var _data = {};
+
+        switch (endPoint) {
+            case 'status':
+                _data = {'status': status, 'cancelReason': reason};
+                break;
+            case 'payment_status':
+                _data = {'paymentStatus': status};
+                break;
+        }
 
         return $.when(
             $.ajax({
                 type: "PATCH",
                 contentType: 'application/json',
-                url: _opsEP + "/orders/" + id + '/status',
+                url: _opsEP + "/orders/" + id + '/' + endPoint,
                 data: JSON.stringify(_data),
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
