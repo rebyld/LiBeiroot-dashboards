@@ -107,6 +107,7 @@ const orderRowTemplate = _.template('<tr>' +
     '<td><%= totalPrice %></td>' +
     '<td><%= itemTrueCost %></td>' +
     '<td><%= paymentStatus %></td>' +
+    '<td><%= itemStatus %></td>' +
     '<td><button class="btn bg-blue-grey dl-order-view-details" data-order-id="<%= _id %>">Details</button></td>' +
     '</tr>');
 
@@ -224,7 +225,7 @@ const singleOrderTemplate = _.template('' +
     '   <label>' +
     '      Change Payment Status: ' +
     '      <select class="dl-single-order-status-container dl-payment-value form-control m-t-10" data-order-id="<%= _id %>" data-endpoint="payment_status">' +
-    '      <option value="aheadA">-- Select Status --</option>' +
+    '      <option value="">-- Select Status --</option>' +
     '      <option value="aheadA">Ahead A</option>' +
     '      <option value="duringA">During A</option>' +
     '      <option value="afterA">After A</option>' +
@@ -232,6 +233,24 @@ const singleOrderTemplate = _.template('' +
     '      <option value="duringB">During B</option>' +
     '      <option value="afterB">After B</option>' +
     '      <option value="collected">Collected</option>' +
+    '      </select>' +
+    '   </label>' +
+    '   </div>' +
+    '</div>' +
+    '<hr class="m-t-20">' +
+    '<div class="row">' +
+    '   <div class="col-md-6">' +
+    '   <label>' +
+    '      Change Item Status: ' +
+    '      <select class="dl-single-order-status-container dl-item-value form-control m-t-10" data-order-id="<%= _id %>" data-endpoint="item_status">' +
+    '      <option value="">-- Select Status --</option>' +
+    '      <option value="pendingADropOff">pending A DropOff</option>' +
+    '      <option value="pendingBDropOff">pending B DropOff</option>' +
+    '      <option value="pendingAPickup">pending A Pickup</option>' +
+    '      <option value="pendingBPickup">pending B Pickup</option>' +
+    '      <option value="inHandTransporting">in Hand Transporting</option>' +
+    '      <option value="inHandProcessing">in Hand Processing</option>' +
+    '      <option value="atFinalDestination">at Final Destination</option>' +
     '      </select>' +
     '   </label>' +
     '   </div>' +

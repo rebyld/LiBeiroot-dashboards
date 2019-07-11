@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    let _mainDomain = 'http://localhost/dashboard';
+    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    // let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -1346,6 +1346,9 @@
                 if (!isNotDead(v.paymentStatus)){
                     v.paymentStatus = '- -';
                 }
+                if (!isNotDead(v.itemStatus)){
+                    v.itemStatus = '- -';
+                }
                 $(_parent).append(orderRowTemplate(v));
             });
         });
@@ -2663,6 +2666,9 @@
             if (isNotDead(res.paymentStatus)) {
                 $('.dl-payment-value').val(res.paymentStatus);
             }
+            if (isNotDead(res.itemStatus)) {
+                $('.dl-item-value').val(res.itemStatus);
+            }
             $('#showOrderDetails').modal('show');
         });
     });
@@ -2701,6 +2707,9 @@
                 break;
             case 'payment_status':
                 _data = {'paymentStatus': status};
+                break;
+            case 'item_status':
+                _data = {'itemStatus': status};
                 break;
         }
 
