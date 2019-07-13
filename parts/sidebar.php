@@ -105,17 +105,17 @@
                             )
                         )
                     ),
-                    'Drivers' => array(
+                    'Service Provider' => array(
                         'icon' => 'local_car_wash',
                         'text' => 'Drivers',
                         'children' => array(
                             'create' => array(
-                                'link' => '/drivers-create.php',
-                                'text' => 'Create Driver',
+                                'link' => '/service-provider-create.php',
+                                'text' => 'Create Service Provider',
                             ),
                             'view' => array(
-                                'link' => '/drivers-browse.php',
-                                'text' => 'View Drivers',
+                                'link' => '/service-provider-browse.php',
+                                'text' => 'View Providers',
                             )
                         )
                     ),

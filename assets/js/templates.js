@@ -42,6 +42,49 @@ var driverTemplate = _.template('<div class="col-md-6">' +
     '</div>' +
     '</div>');
 
+var carCreateTemplate = _.template('' +
+    '<div class="card">' +
+    '   <div class="header">' +
+    '      <h2>Car data' +
+    '      <small>Please enter all data!</small>' +
+    '      </h2>' +
+    '   </div>' +
+    '   <div class="body">' +
+    '       <div class="form-group">' +
+    '                   <label class="controls">' +
+    '                   Car Brand' +
+    '                   <input type="text" class="form-control" id="dl-car-brand" required>' +
+    '                   </label>' +
+    '                   <label class="controls">' +
+    '                   Car Model' +
+    '                   <input type="text" class="form-control" id="dl-car-model" required>' +
+    '                   </label>' +
+    '                   <label class="controls">' +
+    '                   Car Seats (Numbers only)' +
+    '                   <input type="text" class="form-control" id="dl-car-seats" required>' +
+    '                   </label>' +
+    '                   <label class="controls">' +
+    '                   Bags (Numbers only)' +
+    '                   <input type="text" class="form-control" id="dl-car-bags" required>' +
+    '                   </label>' +
+    '                   <label class="controls">' +
+    '                   Car Type' +
+    '                   <select id="dl-car-type" class="form-control" required>' +
+    '                       <option value="normal">Normal</option>' +
+    '                       <option value="van">Van</option>' +
+    '                       <option value="black">Black</option>' +
+    '                   </select>' +
+    '                   </label>' +
+    '                   <label class="controls">' +
+    '                   Image' +
+    '                   <input type="file" class="form-control" id="dl-car-license" required' +
+    '                   accept="image/png, image/jpeg, image/jpg">' +
+    '                   </label>' +
+    '             </div>' +
+    '         </div>' +
+    '     </div>' +
+    '');
+
 var cardTemplate = _.template('<div class="col-md-4">' +
     '<div class="card">' +
     '<div class="header clearfix">' +

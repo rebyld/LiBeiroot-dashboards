@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    // let _mainDomain = 'http://localhost/dashboard';
+    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -84,7 +84,7 @@
 
     // drivers
     var allDrivers = [];
-    var submittedDriverJson = {
+    var submittedServiceProviderJson = {
         firstName: '',
         lastName: '',
         syrianNumber: '',
@@ -96,8 +96,9 @@
         memberShip: '',
         birthday: '',
         driverSince: '',
-        car: {}
+        type: '',
     };
+
     var submittedCarJson = {
         brand: '',
         model: '',
@@ -2543,59 +2544,82 @@
 
     //endregion
 
-    //region DRIVERS
+    //region SERVICE PROVIDER
 
-    $(document).on('submit', '#dl-save-driver', function (e) {
+    $(document).on('change', '#dl-service-provider-type', function (e) {
         e.preventDefault();
 
-        var formData = new FormData();
-        formData.append('image', $('input[type=file]')[0].files[0]);
+        var _type = $(this).val();
 
-        $.when(uploadImage('#dl-car-license')).then(function (res) {
+        if(_type === 'driver'){
+            $('.dl-service-provider-data-car').append(carCreateTemplate());
+        }
+        else{
+            $('.dl-service-provider-data-car').empty();
+        }
+    });
 
-            // car data
-            submittedCarJson.brand = $('#dl-car-brand').val();
-            submittedCarJson.model = $('#dl-car-model').val();
-            submittedCarJson.seats = $('#dl-car-seats').val();
-            submittedCarJson.bags = $('#dl-car-bags').val();
-            submittedCarJson.type = $('#dl-car-type').find(":selected").val();
-            submittedCarJson.licensePicture = res.url;
+    $(document).on('submit', '#dl-save-service-provider', function (e) {
+        e.preventDefault();
 
-            // driver data
-            submittedDriverJson.firstName = $('#dl-driver-firstname').val();
-            submittedDriverJson.lastName = $('#dl-driver-lastname').val();
-            submittedDriverJson.syrianNumber = $('#dl-driver-syriannumber').val();
-            submittedDriverJson.lebaneseNumber = $('#dl-driver-lebanesenumber').val();
-            submittedDriverJson.homeNumber = $('#dl-driver-homenumber').val();
-            submittedDriverJson.whatsApp = $('#dl-driver-whatsapp').val();
-            submittedDriverJson.address = $('#dl-driver-address').val();
-            submittedDriverJson.memberShipId = $('#dl-driver-membershipid').val();
-            submittedDriverJson.memberShip = $('#dl-driver-membership').find(":selected").val();
-            submittedDriverJson.birthday = $('#dl-driver-birthday').val();
-            submittedDriverJson.driverSince = $('#dl-driver-driversince').val();
-            submittedDriverJson.car = submittedCarJson;
+        // driver data
+        submittedServiceProviderJson.type = $('#dl-service-provider-type').val();
+        submittedServiceProviderJson.firstName = $('#dl-service-provider-firstname').val();
+        submittedServiceProviderJson.lastName = $('#dl-service-provider-lastname').val();
+        submittedServiceProviderJson.syrianNumber = $('#dl-service-provider-syriannumber').val();
+        submittedServiceProviderJson.lebaneseNumber = $('#dl-service-provider-lebanesenumber').val();
+        submittedServiceProviderJson.homeNumber = $('#dl-service-provider-homenumber').val();
+        submittedServiceProviderJson.whatsApp = $('#dl-service-provider-whatsapp').val();
+        submittedServiceProviderJson.address = $('#dl-service-provider-address').val();
+        submittedServiceProviderJson.memberShipId = $('#dl-service-provider-membershipid').val();
+        submittedServiceProviderJson.memberShip = $('#dl-service-provider-membership').find(":selected").val();
+        submittedServiceProviderJson.birthday = $('#dl-service-provider-birthday').val();
+        submittedServiceProviderJson.driverSince = $('#dl-service-provider-since').val();
 
-            $.ajax({
-                type: "POST",
-                contentType: 'application/json',
-                url: _opsEP + "/drivers",
-                data: JSON.stringify(submittedDriverJson),
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
-                },
-                success: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
-                    console.log(response);
-                    showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
-                },
-                error: function (XMLHttpRequest, response) {
-                    $('.page-loader-wrapper.process').fadeOut();
-                    showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
-                }
+        if(submittedServiceProviderJson.type === 'driver'){
+            var formData = new FormData();
+
+            $.when(uploadImage('#dl-car-license')).then(function (res) {
+                formData.append('image', $('input[type=file]')[0].files[0]);
+
+                submittedCarJson.brand = $('#dl-car-brand').val();
+                submittedCarJson.model = $('#dl-car-model').val();
+                submittedCarJson.seats = $('#dl-car-seats').val();
+                submittedCarJson.bags = $('#dl-car-bags').val();
+                submittedCarJson.type = $('#dl-car-type').find(":selected").val();
+                submittedCarJson.licensePicture = res.url;
+
+                submittedServiceProviderJson.car = submittedCarJson;
             });
+
+
+        }
+
+        console.log(JSON.stringify(submittedServiceProviderJson, null, 2));
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: _opsEP + "/drivers",
+            data: JSON.stringify(submittedServiceProviderJson),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+                $('.page-loader-wrapper.process').fadeIn();
+            },
+            success: function (response) {
+                $('.page-loader-wrapper.process').fadeOut();
+                console.log(response);
+                showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+            },
+            error: function (XMLHttpRequest, response) {
+                $('.page-loader-wrapper.process').fadeOut();
+                showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
+                console.log(response);
+            }
         });
+
+
+
+
 
     });
 
