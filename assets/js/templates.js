@@ -354,3 +354,38 @@ const questionLiElementTemplate = _.template('<li class="ui-state-default clearf
     '</div>' +
     '<p class="dl-small-p"></p>' +
     '</li>');
+
+const questionInFormNoRulesTemplate = _.template('' +
+    '<div class="row clearfix">' +
+    '   <div class="col-md-8">' +
+    '       <p class="label dl-type-<%= question.type %>"><%= question.type %></p>' +
+    '       <h4><%= question.text %></h4>' +
+    '   </div>' +
+    '   <div class="col-md-4">' +
+    '       ' +
+    '   </div>' +
+    '</div>');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

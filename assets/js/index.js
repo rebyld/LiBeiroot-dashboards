@@ -2115,37 +2115,40 @@
         _modalBody.empty();
 
         $.when(getFormById($(this).attr('data-form-id'))).then(function (data) {
+            console.log(data.form);
             $(data.form).each(function (i, v) {
-                _modalBody.append(
-                    $('<div/>')
-                        .addClass('clearfix')
-                        .appendTo(_modalBody).append(
-                        $('<i>')
-                            .addClass('m-r-10')
-                            .html(v.position))
-                        .appendTo(_modalBody).append(
-                        $('<span>')
-                            .addClass('clearfix')
-                            .appendTo(_modalBody).append(
-                            $('<span>')
-                                .addClass('pull-left')
-                                .appendTo(_modalBody).append(
-                                $('<p>')
-                                    .addClass('label dl-type-' + v.question.type)
-                                    .html('question type: ' + v.question.type))
-                                .appendTo(_modalBody).append(
-                                $('<h3>')
-                                    .html(v.question.text))
-                                .appendTo(_modalBody).append(
-                                getElemAnswers(v.question.answers)))
-                            .appendTo(_modalBody).append(
-                            $('<span>')
-                                .addClass('m-l-10 pull-right label label-info')
-                                .html((v.rules.length > 0) ? '(' + v.rules.length + ') rules' : 'no rules')))
-                        .appendTo(_modalBody).append(
-                        $('<hr>')));
 
-                getElemRules(v, data.form);
+                _modalBody.append(questionInFormNoRulesTemplate(v));
+                // _modalBody.append(
+                //     $('<div/>')
+                //         .addClass('clearfix')
+                //         .appendTo(_modalBody).append(
+                //         $('<i>')
+                //             .addClass('m-r-10')
+                //             .html(v.position))
+                //         .appendTo(_modalBody).append(
+                //         $('<span>')
+                //             .addClass('clearfix')
+                //             .appendTo(_modalBody).append(
+                //             $('<span>')
+                //                 .addClass('pull-left')
+                //                 .appendTo(_modalBody).append(
+                //                 $('<p>')
+                //                     .addClass('label dl-type-' + v.question.type)
+                //                     .html('question type: ' + v.question.type))
+                //                 .appendTo(_modalBody).append(
+                //                 $('<h3>')
+                //                     .html(v.question.text))
+                //                 .appendTo(_modalBody).append(
+                //                 getElemAnswers(v.question.answers)))
+                //             .appendTo(_modalBody).append(
+                //             $('<span>')
+                //                 .addClass('m-l-10 pull-right label label-info')
+                //                 .html((v.rules.length > 0) ? '(' + v.rules.length + ') rules' : 'no rules')))
+                //         .appendTo(_modalBody).append(
+                //         $('<hr>')));
+                //
+                // getElemRules(v, data.form);
             });
         });
 

@@ -11196,7 +11196,7 @@ h2[class*='dl-type'] {
     background-color: #999999;
 }
 
-.label-matched {
+.dl-type-phone_number, .label-matched {
     background-color: #8BC34A;
 }
 
