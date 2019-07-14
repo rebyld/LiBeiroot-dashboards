@@ -1,3 +1,29 @@
+var providerTemplate = _.template('<div class="col-md-6">' +
+    '<div class="card">' +
+    '   <div class="header clearfix">' +
+    '       <h2 class="pull-left"><%= firstName %> <%= lastName %></h2>' +
+    '       <i class="pull-right material-icons col-red dl-delete" data-endpoint="/drivers/" data-render="dl-get-drivers" data-id="<%= _id %>">delete</i> ' +
+    '   </div>' +
+    '<div class="dl-card-content">' +
+    '   <div class="row">' +
+    '       <div class="col-md-6">' +
+    '           <h5>Status:</h5>' +
+    '           <p>Membership: <%= memberShip %></p>' +
+    '           <p>Membership points: <%= memberShipPoints %></p>' +
+    '           <p>Total revenue: <%= totalRevenue %></p>' +
+    '           <p>Total profit: <%= totalProfit %></p>' +
+    '           <p>Postaji Count: 0</p>' +
+    '       </div>' +
+    '       <div class="col-md-6">' +
+    '           <h5>Phones:</h5>' +
+    '           <p>Syria: <%= syrianNumber %></p>' +
+    '           <p>Lebanon: <%= lebaneseNumber %></p>' +
+    '           <p>WhatsApp: <%= whatsApp %></p>' +
+    '           <p>Home: <%= homeNumber %></p>' +
+    '       </div>' +
+    '   </div>' +
+    '</div>');
+
 var driverTemplate = _.template('<div class="col-md-6">' +
     '<div class="card">' +
     '<div class="header clearfix">' +

@@ -107,7 +107,7 @@
                     ),
                     'Service Provider' => array(
                         'icon' => 'local_car_wash',
-                        'text' => 'Drivers',
+                        'text' => 'Service Providers',
                         'children' => array(
                             'create' => array(
                                 'link' => '/service-provider-create.php',

@@ -83,7 +83,7 @@
     };
 
     // drivers
-    var allDrivers = [];
+    var allProviders = [];
     var submittedServiceProviderJson = {
         firstName: '',
         lastName: '',
@@ -190,6 +190,10 @@
 
         if (body.hasClass('get-categories')) {
             loadCategoriesIntoUI();
+        }
+
+        if (body.hasClass('get-providers')) {
+            loadProvidersIntoUI();
         }
 
         if (body.hasClass('get-coupons')) {
@@ -1274,8 +1278,8 @@
 
     //region DRIVERS
 
-    function getDrivers() {
-        allDrivers = [];
+    function getProviders() {
+        allProviders = [];
 
         return $.when(
             $.ajax({
@@ -1288,7 +1292,7 @@
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
-                        allDrivers.push(value);
+                        allProviders.push(value);
                     });
                     $('.page-loader-wrapper.process').fadeOut();
                 },
@@ -1344,10 +1348,10 @@
             $('#dl-orders-number').text('Total Orders (' + allOrders.length + ')');
 
             $(allOrders).each(function (i, v) {
-                if (!isNotDead(v.paymentStatus)){
+                if (!isNotDead(v.paymentStatus)) {
                     v.paymentStatus = '- -';
                 }
-                if (!isNotDead(v.itemStatus)){
+                if (!isNotDead(v.itemStatus)) {
                     v.itemStatus = '- -';
                 }
                 $(_parent).append(orderRowTemplate(v));
@@ -1480,6 +1484,7 @@
                         $('.page-loader-wrapper.process').fadeOut();
                         _questionResult = response;
                         showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                        location.reload();
                     },
                     error: function (response) {
                         $('.page-loader-wrapper.process').fadeOut();
@@ -2061,6 +2066,7 @@
                 $('.page-loader-wrapper.process').fadeOut();
                 console.log(response);
                 showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                location.reload();
 
             },
             error: function (response) {
@@ -2188,6 +2194,7 @@
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
                     showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                    location.reload();
                 },
                 error: function (response) {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -2336,6 +2343,7 @@
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
                     showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                    location.reload();
                 },
                 error: function (response) {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -2429,6 +2437,7 @@
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
                     showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                    location.reload();
                 },
                 error: function (response) {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -2493,6 +2502,7 @@
                 $('.page-loader-wrapper.process').fadeOut();
                 console.log(response);
                 showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                location.reload();
             },
             error: function (XMLHttpRequest, response) {
                 $('.page-loader-wrapper.process').fadeOut();
@@ -2551,19 +2561,36 @@
 
         var _type = $(this).val();
 
-        if(_type === 'driver'){
+        if (_type === 'driver') {
             $('.dl-service-provider-data-car').append(carCreateTemplate());
-        }
-        else{
+        } else {
             $('.dl-service-provider-data-car').empty();
         }
     });
 
     $(document).on('submit', '#dl-save-service-provider', function (e) {
         e.preventDefault();
+        var _type = $('#dl-service-provider-type').val();
 
-        // driver data
-        submittedServiceProviderJson.type = $('#dl-service-provider-type').val();
+        console.log('type is: ');
+        console.log(_type);
+
+        if (_type === 'driver') {
+            $.when(uploadImage('#dl-car-license')).then(function (res) {
+                var formData = new FormData();
+                formData.append('image', $('input[type=file]')[0].files[0]);
+
+                submittedCarJson.brand = $('#dl-car-brand').val();
+                submittedCarJson.model = $('#dl-car-model').val();
+                submittedCarJson.seats = $('#dl-car-seats').val();
+                submittedCarJson.bags = $('#dl-car-bags').val();
+                submittedCarJson.type = $('#dl-car-type').find(":selected").val();
+                submittedCarJson.licensePicture = res.url;
+                submittedServiceProviderJson.car = submittedCarJson;
+            });
+        }
+
+        submittedServiceProviderJson.type = _type;
         submittedServiceProviderJson.firstName = $('#dl-service-provider-firstname').val();
         submittedServiceProviderJson.lastName = $('#dl-service-provider-lastname').val();
         submittedServiceProviderJson.syrianNumber = $('#dl-service-provider-syriannumber').val();
@@ -2576,26 +2603,6 @@
         submittedServiceProviderJson.birthday = $('#dl-service-provider-birthday').val();
         submittedServiceProviderJson.driverSince = $('#dl-service-provider-since').val();
 
-        if(submittedServiceProviderJson.type === 'driver'){
-            var formData = new FormData();
-
-            $.when(uploadImage('#dl-car-license')).then(function (res) {
-                formData.append('image', $('input[type=file]')[0].files[0]);
-
-                submittedCarJson.brand = $('#dl-car-brand').val();
-                submittedCarJson.model = $('#dl-car-model').val();
-                submittedCarJson.seats = $('#dl-car-seats').val();
-                submittedCarJson.bags = $('#dl-car-bags').val();
-                submittedCarJson.type = $('#dl-car-type').find(":selected").val();
-                submittedCarJson.licensePicture = res.url;
-
-                submittedServiceProviderJson.car = submittedCarJson;
-            });
-
-
-        }
-
-        console.log(JSON.stringify(submittedServiceProviderJson, null, 2));
         $.ajax({
             type: "POST",
             contentType: 'application/json',
@@ -2609,6 +2616,7 @@
                 $('.page-loader-wrapper.process').fadeOut();
                 console.log(response);
                 showNotification(AlertColors._SUCCESS, AlertStrings._CREATE_SUCCESS);
+                location.reload();
             },
             error: function (XMLHttpRequest, response) {
                 $('.page-loader-wrapper.process').fadeOut();
@@ -2616,26 +2624,26 @@
                 console.log(response);
             }
         });
-
-
-
-
-
     });
 
-    $('.dl-get-drivers').on('click', function (e) {
-        e.preventDefault();
 
-        $.when(getDrivers()).then(function () {
-            var _parent = $('.dl-preview-drivers-container');
+    function loadProvidersIntoUI() {
+        $.when(getProviders()).then(function () {
+            var _parent = $('.dl-preview-providers-container');
             _parent.empty();
 
-            $(allDrivers).each(function (i, v) {
-                $(_parent).append(driverTemplate(v));
+            $(allProviders).each(function (i, v) {
                 console.log(v);
+                if (isNotDead(v.car)) {
+                    $(_parent).append(driverTemplate(v));
+                } else {
+                    $(_parent).append(providerTemplate(v));
+                }
+
+
             });
         });
-    });
+    }
 
     //endregion
 

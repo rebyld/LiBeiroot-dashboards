@@ -96,7 +96,7 @@
                 <div class="form-group">
                     <label class="controls">
                         Status
-                        <select id="dl-filter-service" class="form-control filter-dropdown m-t-10" data-key="status" required>
+                        <select  class="form-control filter-dropdown m-t-10" data-key="status" required>
                             <option value="">-- All Cases --</option>
                             <option value="initiated">Initiated</option>
                             <option value="edited">Edited</option>
