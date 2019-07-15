@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    let _mainDomain = 'http://localhost/dashboard';
+    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    // let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -1985,6 +1985,7 @@
 
         console.log(allQuestions);
         $(allQuestions).each(function (i, v) {
+
             if (v._id === id) {
                 _res = v.text;
                 return false;
@@ -2107,48 +2108,77 @@
         console.log(pointA);
     });
 
+    function getNameFromDataById(data, id) {
+        var _res = '';
+        $(data).each(function (i, v) {
+            if (v._id === id) {
+                _res = v.text;
+                return false;
+            }
+        });
+
+        return _res;
+    }
+
+    function geObjInQuestionFromDataById(data, id) {
+        var _res = '';
+        $(data).each(function (i, v) {
+            if (v.question._id === id) {
+                _res = v;
+                return false;
+            }
+        });
+
+        return _res;
+    }
+
     $(document).on('click', '.dl-modal-preview-single-form', function (e) {
         e.preventDefault();
 
         var _modal = $('#singleFormModal');
         var _modalBody = _modal.find('.modal-body');
         _modalBody.empty();
+        var _temp;
+        var _tmpObj;
 
         $.when(getFormById($(this).attr('data-form-id'))).then(function (data) {
-            console.log(data.form);
-            $(data.form).each(function (i, v) {
 
-                _modalBody.append(questionInFormNoRulesTemplate(v));
-                // _modalBody.append(
-                //     $('<div/>')
-                //         .addClass('clearfix')
-                //         .appendTo(_modalBody).append(
-                //         $('<i>')
-                //             .addClass('m-r-10')
-                //             .html(v.position))
-                //         .appendTo(_modalBody).append(
-                //         $('<span>')
-                //             .addClass('clearfix')
-                //             .appendTo(_modalBody).append(
-                //             $('<span>')
-                //                 .addClass('pull-left')
-                //                 .appendTo(_modalBody).append(
-                //                 $('<p>')
-                //                     .addClass('label dl-type-' + v.question.type)
-                //                     .html('question type: ' + v.question.type))
-                //                 .appendTo(_modalBody).append(
-                //                 $('<h3>')
-                //                     .html(v.question.text))
-                //                 .appendTo(_modalBody).append(
-                //                 getElemAnswers(v.question.answers)))
-                //             .appendTo(_modalBody).append(
-                //             $('<span>')
-                //                 .addClass('m-l-10 pull-right label label-info')
-                //                 .html((v.rules.length > 0) ? '(' + v.rules.length + ') rules' : 'no rules')))
-                //         .appendTo(_modalBody).append(
-                //         $('<hr>')));
-                //
-                // getElemRules(v, data.form);
+            $(data.form).each(function (i, question) {
+                // each question has different template according to its rules
+                if (question.defaultJump.length > 0) {
+                    _temp = getQuestionById(data.form, question.defaultJump).question.text;
+                    _tmpObj = {v: question, jumpTo: _temp};
+                    _modalBody.append(questionInFormRuleDefaultJumpTemplate(_tmpObj));
+                } else {
+                    // here, we have 3 rules: jump, time range with jump and price
+                    // or no rules at all!
+                    if (question.rules.length > 0) {
+                        _modalBody.append(questionInFormRulesTemplate(question));
+
+                        var _parent = $('div').find('[data-question-id=' + question._id + ']');
+                        var _res = '';
+                        var _tmpAnswer = '';
+
+                        $(question.rules).each(function (i, rule) {
+                            _tmpAnswer = getNameFromDataById(question.question.answers, rule.answer);
+                            switch (rule.action) {
+                                case "add":
+                                    _res = $('<p>' + _tmpAnswer + ' -> Added Price: ' + rule.value + '</p>');
+                                    break;
+                                case "between":
+                                    _res = $('<p>' + _tmpAnswer + ' -> Will Jump to: ' + geObjInQuestionFromDataById(data.form, rule.target).question.text + ' -> In Range: ' + rule.value + '</p>');
+                                    break;
+                                case "jump":
+                                    _res = $('<p>' + _tmpAnswer + ' -> Will Jump to: ' + geObjInQuestionFromDataById(data.form, rule.target).question.text + '</p>');
+                                    break;
+                            }
+                            $(_parent).append(_res);
+                        });
+
+                    } else {
+                        _modalBody.append(questionInFormRulesTemplate(question));
+                    }
+                }
             });
         });
 

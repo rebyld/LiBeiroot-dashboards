@@ -355,17 +355,30 @@ const questionLiElementTemplate = _.template('<li class="ui-state-default clearf
     '<p class="dl-small-p"></p>' +
     '</li>');
 
-const questionInFormNoRulesTemplate = _.template('' +
+const questionInFormRuleDefaultJumpTemplate = _.template('' +
     '<div class="row clearfix">' +
-    '   <div class="col-md-8">' +
+    '   <div class="col-md-6">' +
+    '       <p class="label dl-type-<%= v.question.type %>"><%= v.question.type %></p>' +
+    '       <h4><%= v.question.text %></h4>' +
+    '   </div>' +
+    '   <div class="col-md-6">' +
+    '       <p>Default Jump:</p>' +
+    '       <p><%= jumpTo %></p>' +
+    '   </div>' +
+    '</div>' +
+    '<hr>');
+
+const questionInFormRulesTemplate = _.template('' +
+    '<div class="row clearfix">' +
+    '   <div class="col-md-6">' +
     '       <p class="label dl-type-<%= question.type %>"><%= question.type %></p>' +
     '       <h4><%= question.text %></h4>' +
     '   </div>' +
-    '   <div class="col-md-4">' +
-    '       ' +
+    '   <div class="col-md-6 dl-rules-in-question-container" data-question-id="<%= _id %>">' +
+    '       <p>(<%= rules.length %>) rules</p>' +
     '   </div>' +
-    '</div>');
-
+    '</div>' +
+    '<hr>');
 
 
 
