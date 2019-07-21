@@ -2,8 +2,8 @@
 
     //region GLOBALS
 
-    let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
-    // let _mainDomain = 'http://localhost/dashboard';
+    // let _mainDomain = 'https://libeiroot-dashboards.herokuapp.com';
+    let _mainDomain = 'http://localhost/dashboard';
     let _apiEP = 'https://libeiroot-dev.herokuapp.com/api/v1';
     let _opsEP = 'https://libeiroot-dev.herokuapp.com/api/v1/ops';
 
@@ -137,12 +137,11 @@
         _INFO_SUBMITTING: 'Uploading image...'
     };
 
-
     init();
 
     //endregion
 
-    //region HELPERS
+    //region FUNCTIONS
 
     //region GLOBALS
 
@@ -150,6 +149,7 @@
         initSession();
 
         let body = $('body');
+
         if (body.hasClass("orders-page")) {
 
             $.when(getCategories()).then(function () {
@@ -199,6 +199,7 @@
         if (body.hasClass('get-coupons')) {
             loadCouponsIntoUI();
         }
+
         if (body.hasClass("cards") || body.hasClass("coupons")) {
             loadCardsIntoUI();
 
@@ -209,10 +210,6 @@
                     _serviceSelect.append('<option value="' + v._id + '">' + v.name + '</option>');
                 });
             });
-        }
-
-        if (body.hasClass("index-page")) {
-            initCategoriesTitles();
         }
 
         if (body.hasClass('questions')) {
@@ -236,18 +233,17 @@
                 contentType: 'application/json',
                 url: _opsEP + '/questions?limit=100',
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response.data).each(function (index, value) {
                         allQuestions.push(value);
+
                     });
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
-                    console.log(response);
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
                 }
             })
@@ -894,49 +890,6 @@
         }
     }
 
-    // In Preview: appending answers in each question, without the rules
-    function getElemAnswers(data) {
-
-        if (data.length <= 0) {
-            return null;
-        }
-        var _res = $('<div class="dl-form-answers-container"><p>Answers:</p></div>');
-
-        $(data).each(function (i, v) {
-            _res.append(
-                $('<div/>')
-                    .addClass('dl-form-single-answer-container clearfix p-b-5')
-                    .attr('data-answer-id', v._id)
-                    .appendTo(_res).append($('<p>').html(v.text))
-            );
-        });
-
-        return _res;
-    }
-
-    // after adding the answers, we need to show each answer rule, for that we'll need to
-    // get the question details by id, also we need to find each answer id and match it
-    // with the rules array.
-    function getElemRules(obj, form) {
-        $(obj.rules).each(function (i, v) {
-            var answerElem = $('.dl-form-answers-container').find('[data-answer-id=' + v.answer + ']');
-
-            $(answerElem).append(
-                $('<span/>')
-                    .addClass('label label-warning m-r-10')
-                    .html('This answer will jump to:')
-            );
-
-            if (isNotDead(v.jump)) {
-                $(answerElem).append(
-                    $('<span/>')
-                        .html(getQuestionById(form, v.jump).question.text)
-                );
-            }
-
-        });
-    }
-
     function getQuestionById(data, id) {
         var _res = '';
 
@@ -950,18 +903,7 @@
         return _res;
     }
 
-    // uploading icons is happening on the fly!
-    $(document).on('change', '#dynamic-form .input-file', function (e) {
-        e.preventDefault();
-        var _parent = $(this).closest("li");
 
-        var iconFiled = $(_parent).find('input:hidden');
-
-        $.when(uploadImage($(this))).then(function (res) {
-            $(iconFiled).val(res.url);
-        });
-
-    });
 
     //endregion
 
@@ -976,8 +918,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/forms",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
@@ -990,9 +931,8 @@
                     });
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
-                    showNotification(AlertColors._DANGER, 'Couldn\'t get Forms, Please check your internet connection!');
-                    console.log(response);
+                    errorBehaviour(response);
+                    showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
                 }
             })
         );
@@ -1063,16 +1003,14 @@
                 contentType: 'application/json',
                 url: _apiEP + "/forms/" + id,
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1128,8 +1066,7 @@
         _selectedQuestionsContainer.append('<option> --- </option>');
 
         $(selectedQuestions).each(function (i, v) {
-            _selectedQuestionsContainer.append('<option value="' + v._id + '">' + v.text +
-                '</option>');
+            _selectedQuestionsContainer.append('<option value="' + v._id + '">' + v.text + '</option>');
         });
     }
 
@@ -1147,8 +1084,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/services",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
@@ -1157,9 +1093,8 @@
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1178,8 +1113,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/cards",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response.cards).each(function (index, value) {
@@ -1188,9 +1122,8 @@
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1209,8 +1142,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/categories",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response.categories).each(function (index, value) {
@@ -1218,16 +1150,13 @@
                     });
                     $('.page-loader-wrapper.process').fadeOut();
 
-                    console.log(allCategories);
-
                     $(allCategories).each(function (i, v) {
                         $('#dl-categories-dropdown').append('<option value="' + v._id + '">' + v.title + '</option>');
                     });
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1246,8 +1175,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/coupons",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
@@ -1256,15 +1184,14 @@
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
     }
 
-    function appendServices(item) {
+    function appendServicesToCoupon(item) {
         var _parent = $("#" + item._id);
 
         $(item.services).each(function (i, v) {
@@ -1276,7 +1203,7 @@
 
     //endregion
 
-    //region DRIVERS
+    //region SERVICE PROVIDERS
 
     function getProviders() {
         allProviders = [];
@@ -1287,8 +1214,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/drivers",
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
@@ -1297,9 +1223,8 @@
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1313,17 +1238,13 @@
         allOrders = [];
         var data = isNotDead(filters) ? filters : '';
 
-        console.log('data');
-        console.log(data);
-
         return $.when(
             $.ajax({
                 type: "GET",
                 contentType: 'application/json',
                 url: _opsEP + "/orders?" + data,
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
@@ -1332,9 +1253,8 @@
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1366,8 +1286,7 @@
                 contentType: 'application/json',
                 url: _opsEP + "/orders/" + id,
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr)
                 },
                 success: function (response) {
                     $(response).each(function (index, value) {
@@ -1376,9 +1295,8 @@
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1402,17 +1320,15 @@
                 url: _apiEP + "/upload",
                 data: formData,
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                     showNotification(AlertColors._INFO, AlertStrings._INFO_UPLOADING_IMAGE);
                 },
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             })
         );
@@ -1422,6 +1338,10 @@
         return typeof value !== typeof undefined && value !== false;
     }
 
+    function isNotEmpty(value) {
+        return value.length > 0;
+    }
+
     function filter(e) {
         var regex = new RegExp('\\b\\w*' + e.toLowerCase() + '\\w*\\b');
         $('.filtered-container .filtered').hide().filter(function () {
@@ -1429,26 +1349,15 @@
         }).show();
     }
 
-    function initCategoriesTitles() {
-        $.when(getCategories()).then(function () {
-            var _parent = $('#dl-categories-buttons');
-
-            $(allCategories).each(function (i, v) {
-                var obj = {title: v.title, type: 'category'};
-                _parent.append(buttonTemplate(obj));
-            });
-        });
-
-        $.when(getServices()).then(function () {
-            var _parent = $('#dl-services-buttons');
-
-            $(allServices).each(function (i, v) {
-                var obj = {title: v.name, type: 'service'};
-                _parent.append(buttonTemplate(obj));
-            });
-        });
+    function setupHeaders(xhr) {
+        xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
+        $('.page-loader-wrapper.process').fadeIn();
     }
 
+    function errorBehaviour(response) {
+        $('.page-loader-wrapper.process').fadeOut();
+        console.log(response);
+    }
 
     //endregion
 
@@ -1477,8 +1386,7 @@
                     url: _opsEP + "/questions",
                     data: JSON.stringify(values),
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                        $('.page-loader-wrapper.process').fadeIn();
+                        setupHeaders(xhr);
                     },
                     success: function (response) {
                         $('.page-loader-wrapper.process').fadeOut();
@@ -1487,9 +1395,8 @@
                         location.reload();
                     },
                     error: function (response) {
-                        $('.page-loader-wrapper.process').fadeOut();
+                        errorBehaviour(response);
                         showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                        console.log(response);
                     }
                 });
             }
@@ -1501,6 +1408,8 @@
             var _parent = $('.dl-preview-questions-container');
             _parent.empty();
 
+            _parent.append('' +
+                ' <div class="col-md-12"><h4>('+allQuestions.length+') Questions</h4></div>');
             $(allQuestions).each(function (i, v) {
                 _questionResult = v;
                 var _type = v.type;
@@ -1538,9 +1447,21 @@
         });
     }
 
-    $(document).on('keyup', '#myInput', function () {
+    $(document).on('keyup', '#dl-search', function () {
         var selectSize = $(this).val();
         filter(selectSize);
+    });
+
+    // uploading icons is happening on the fly!
+    $(document).on('change', '#dynamic-form .input-file', function (e) {
+        e.preventDefault();
+        var _parent = $(this).closest("li");
+        var iconFiled = $(_parent).find('input:hidden');
+
+        $.when(uploadImage($(this))).then(function (res) {
+            $(iconFiled).val(res.url);
+        });
+
     });
 
     //endregion
@@ -2060,8 +1981,7 @@
             url: _opsEP + "/forms",
             data: JSON.stringify(submittedFormJson),
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                $('.page-loader-wrapper.process').fadeIn();
+                setupHeaders(xhr);
             },
             success: function (response) {
                 $('.page-loader-wrapper.process').fadeOut();
@@ -2071,8 +1991,7 @@
 
             },
             error: function (response) {
-                $('.page-loader-wrapper.process').fadeOut();
-                console.log(response);
+                errorBehaviour(response);
                 showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
             }
         });
@@ -2145,14 +2064,15 @@
 
             $(data.form).each(function (i, question) {
                 // each question has different template according to its rules
-                if (question.defaultJump.length > 0) {
+                if (isNotEmpty(question.defaultJump)) {
+                    console.log('sssssss');
                     _temp = getQuestionById(data.form, question.defaultJump).question.text;
                     _tmpObj = {v: question, jumpTo: _temp};
                     _modalBody.append(questionInFormRuleDefaultJumpTemplate(_tmpObj));
                 } else {
                     // here, we have 3 rules: jump, time range with jump and price
                     // or no rules at all!
-                    if (question.rules.length > 0) {
+                    if (isNotEmpty(question.rules)) {
                         _modalBody.append(questionInFormRulesTemplate(question));
 
                         var _parent = $('div').find('[data-question-id=' + question._id + ']');
@@ -2221,8 +2141,7 @@
                 url: _opsEP + "/services",
                 data: JSON.stringify(submittedServiceJson),
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -2230,9 +2149,8 @@
                     location.reload();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._WARNING, AlertStrings._UNPROCESSABLE_ENTITY);
-                    console.log(response);
                 }
             });
         });
@@ -2370,8 +2288,7 @@
                 url: _opsEP + "/cards",
                 data: JSON.stringify(submittedCardJson),
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -2379,9 +2296,8 @@
                     location.reload();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             });
         });
@@ -2464,8 +2380,7 @@
                 url: _opsEP + "/categories",
                 data: JSON.stringify(submittedCategoryJson),
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function () {
                     $('.page-loader-wrapper.process').fadeOut();
@@ -2473,9 +2388,8 @@
                     location.reload();
                 },
                 error: function (response) {
-                    $('.page-loader-wrapper.process').fadeOut();
+                    errorBehaviour(response);
                     showNotification(AlertColors._DANGER, AlertStrings._NETWORK_ERROR);
-                    console.log(response);
                 }
             });
         });
@@ -2528,8 +2442,7 @@
             // url: _opsEP + "/coupons",
             data: JSON.stringify(submittedCouponJson),
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                $('.page-loader-wrapper.process').fadeIn();
+                setupHeaders(xhr);
             },
             success: function (response) {
                 $('.page-loader-wrapper.process').fadeOut();
@@ -2580,7 +2493,7 @@
 
             $(allCoupons).each(function (i, v) {
                 $(_parent).append(couponTemplate(v));
-                appendServices(v);
+                appendServicesToCoupon(v);
             });
         });
     }
@@ -2642,8 +2555,7 @@
             url: _opsEP + "/drivers",
             data: JSON.stringify(submittedServiceProviderJson),
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                $('.page-loader-wrapper.process').fadeIn();
+                setupHeaders(xhr);
             },
             success: function (response) {
                 $('.page-loader-wrapper.process').fadeOut();
@@ -2785,8 +2697,7 @@
                 url: _opsEP + "/orders/" + id + '/' + endPoint,
                 data: JSON.stringify(_data),
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'BEARER ' + _token);
-                    $('.page-loader-wrapper.process').fadeIn();
+                    setupHeaders(xhr);
                 },
                 success: function (response) {
                     $('.page-loader-wrapper.process').fadeOut();

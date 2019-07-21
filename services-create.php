@@ -54,7 +54,7 @@
                                 </label>
 
                                 <label for="dl-service-type">Service Type</label>
-                                <select id="dl-service-type" class="form-control" required>
+                                <select id="dl-service-type" class="form-control dropdown" required>
                                     <option value="">-- Please select --</option>
                                     <option value="postaji">Postaji</option>
                                     <option value="trip">trip</option>

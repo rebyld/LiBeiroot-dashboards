@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label class="controls">
                         Type here to filter results (case sensitive!)
-                        <input id="myInput" class="form-control m-t-5" type="text" placeholder="Search.."></label>
+                        <input id="dl-search" class="form-control m-t-5" type="text" placeholder="Search.."></label>
                 </div>
             </div>
         </div>

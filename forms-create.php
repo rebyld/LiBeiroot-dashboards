@@ -67,7 +67,7 @@
                 <div class="form-group m-t-10">
                     <label class="controls">
                         Type here to filter questions (case sensitive!)
-                        <input id="myInput" class="p-l-10 form-control m-t-5" type="text"
+                        <input id="dl-search" class="p-l-10 form-control m-t-5" type="text"
                                placeholder="Search.."></label>
                 </div>
             </div>
