@@ -21,6 +21,12 @@
                         'text' => 'Home',
                         'children' => array()
                     ),
+                    'match' => array(
+                        'icon' => 'compare_arrows',
+                        'link' => '/match-trips.php',
+                        'text' => 'Matching Trips',
+                        'children' => array()
+                    ),
                     'cards' => array(
                         'icon' => 'book',
                         'text' => 'Homepage Cards',

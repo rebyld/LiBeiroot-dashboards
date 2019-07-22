@@ -2439,7 +2439,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            // url: _opsEP + "/coupons",
+            url: _opsEP + "/coupons",
             data: JSON.stringify(submittedCouponJson),
             beforeSend: function (xhr) {
                 setupHeaders(xhr);

@@ -206,6 +206,15 @@ const pointTemplate = _.template('<div class="col-lg-6 col-md-6 col-sm-12 col-xs
     '                            </label>' +
     '                        </div>' +
     '                        <div class="form-group">' +
+    '                            <label class="controls">Time?' +
+    '                                <select class="form-control dl-selected-questions" data-key="time">' +
+    '                                    <option>----</option>' +
+    '                                </select>' +
+    '                                <p class="font-14">or enter a default value</p>'+
+    '                               <input type="datetime-local" class="form-control dl-selected-questions dl-default-value" placeholder="default value" data-key="time" />' +
+    '                            </label>' +
+    '                        </div>' +
+    '                        <div class="form-group">' +
     '                            <label class="controls">Contact Name?' +
     '                                <select class="form-control dl-selected-questions" data-key="contactName">' +
     '                                    <option>----</option>' +
