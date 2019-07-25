@@ -991,7 +991,7 @@
         });
 
         // init sorting plugin
-        $("#sortable1, #sortable2").sortable({
+        $(".sortable-ul").sortable({
             connectWith: ".connectedSortable"
         }).disableSelection();
     }

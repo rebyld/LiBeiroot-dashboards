@@ -2894,137 +2894,6 @@
     right: 5px;
 }
 
-.demo-choose-skin {
-    list-style: none;
-    padding-left: 0;
-    overflow-y: hidden;
-}
-
-.demo-choose-skin li {
-    border-bottom: 1px solid #eee;
-    padding: 10px 10px 4px 10px;
-    position: relative;
-    cursor: pointer;
-}
-
-.demo-choose-skin li.active {
-    background-color: #eee;
-}
-
-.demo-choose-skin li.active:after {
-    font-family: 'Material Icons';
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    content: '\E876';
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.demo-choose-skin li:hover {
-    background-color: #eee;
-}
-
-.demo-choose-skin li div {
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    border-radius: 3px;
-}
-
-.demo-choose-skin li span {
-    position: relative;
-    bottom: 7px;
-    left: 5px;
-}
-
-.demo-choose-skin .red {
-    background-color: #F44336;
-}
-
-.demo-choose-skin .pink {
-    background-color: #E91E63;
-}
-
-.demo-choose-skin .purple {
-    background-color: #9C27B0;
-}
-
-.demo-choose-skin .deep-purple {
-    background-color: #673AB7;
-}
-
-.demo-choose-skin .indigo {
-    background-color: #3F51B5;
-}
-
-.demo-choose-skin .blue {
-    background-color: #2196F3;
-}
-
-.demo-choose-skin .light-blue {
-    background-color: #03A9F4;
-}
-
-.demo-choose-skin .cyan {
-    background-color: #00BCD4;
-}
-
-.demo-choose-skin .teal {
-    background-color: #009688;
-}
-
-.demo-choose-skin .green {
-    background-color: #4CAF50;
-}
-
-.demo-choose-skin .light-green {
-    background-color: #8BC34A;
-}
-
-.demo-choose-skin .lime {
-    background-color: #CDDC39;
-}
-
-.demo-choose-skin .yellow {
-    background-color: #ffe821;
-}
-
-.demo-choose-skin .amber {
-    background-color: #FFC107;
-}
-
-.demo-choose-skin .orange {
-    background-color: #FF9800;
-}
-
-.demo-choose-skin .deep-orange {
-    background-color: #FF5722;
-}
-
-.demo-choose-skin .brown {
-    background-color: #795548;
-}
-
-.demo-choose-skin .grey {
-    background-color: #9E9E9E;
-}
-
-.demo-choose-skin .blue-grey {
-    background-color: #607D8B;
-}
-
-.demo-choose-skin .black {
-    background-color: #000000;
-}
-
-.demo-choose-skin .white {
-    background-color: #ffffff;
-}
-
 /* Materialize Css | Taken from www.materializecss.com */
 /* Media ======================================= */
 @media (max-width: 767px) {
@@ -11052,7 +10921,7 @@ html.ie11 .bs-searchbox .form-control {
     overflow-y: scroll;
 }
 
-#sortable1, #sortable2 {
+.sortable-ul {
     border: 1px solid #eee;
     min-width: 250px;
     min-height: 50px;
@@ -11061,15 +10930,18 @@ html.ie11 .bs-searchbox .form-control {
     background-color: #c8e1ff;
 }
 
-#sortable1 li, #sortable2 li {
+.sortable-ul li, .sortable-ul li, .sortable-ul li {
     margin: 0 5px 5px 5px;
     padding: 5px;
     font-size: 1.2em;
     min-height: 100px;
-
 }
 
-#sortable1 li:hover, #sortable2 li:hover {
+#sortable-driver-cards li {
+    float: left;
+}
+
+.sortable-ul li:hover, .sortable-ul li:hover, .sortable-ul li:hover {
     cursor: grabbing;
 }
 
@@ -11154,12 +11026,12 @@ h2[class*='dl-type'] {
     color: #fff !important;
 }
 
-.dl-f-14{
-    font-weight: 300!important;
-    font-size: 14px!important;
+.dl-f-14 {
+    font-weight: 300 !important;
+    font-size: 14px !important;
 }
 
-.dl-type-text, .label-matching{
+.dl-type-text, .label-matching {
     background-color: #E91E63;
 }
 
@@ -11184,7 +11056,7 @@ h2[class*='dl-type'] {
     background-color: #607D8B;
 }
 
-.dl-type-date, .label-pending{
+.dl-type-date, .label-pending {
     background-color: #FFC107;
 }
 
@@ -11227,4 +11099,21 @@ h2[class*='dl-type'] {
 .points-container .form-group .form-control {
     background-color: transparent !important;
 }
+
+
+.dl-driver-card {
+    padding: 4px 20px !important;
+    border-radius: 20px;
+}
+
+
+.dl-gradient-shared {
+    background: #159957;
+    background: -webkit-linear-gradient(to left top, #155799, #159957);
+    background: linear-gradient(to left top, #155799, #159957);
+
+    color: #ffffff!important;
+
+}
+
 

@@ -3,7 +3,7 @@
 
 <?php include('parts/header.php'); ?>
 
-<body class="theme-teal orders-page" data-type="postaji">
+<body class="theme-teal orders-page forms" data-type="postaji">
 
 <?php include('parts/loaders.php'); ?>
 <?php include('parts/navbar.php'); ?>
@@ -13,14 +13,145 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <h2>MATCHING TRIPS</h2>
+            <h2>AVAILABLE DRIVERS</h2>
         </div>
 
         <div class="row">
-            <div class="col-md-12">
-                <div style="height: 300px; background-color: #888; width: 100%; margin-bottom: 40px">
-                    <h4 style="padding: 20px;color: whitesmoke;font-weight: 300">add drivers and their filters here ... </h4>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        1
+                        <select id="dl-driver-filter-1" class="form-control filter-dropdown m-t-10" data-key="1"
+                                required>
+                            <option value="">-- All 1 --</option>
+                        </select>
+                    </label>
                 </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        2
+                        <select id="dl-driver-filter-2" class="form-control filter-dropdown m-t-10" data-key="2"
+                                required>
+                            <option value="">-- All 2 --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        3
+                        <select class="form-control filter-dropdown m-t-10" data-key="3" required>
+                            <option value="">-- All 3 --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="controls">
+                        4
+                        <select class="form-control filter-dropdown m-t-10" data-key="4" required>
+                            <option value="">-- All 4 --</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="block-header">
+                    <h2>Draft, a whiteboard if you like ;)</h2>
+                </div>
+                <ul id="sortable-driver-draft"
+                    class="sortable-ul connectedSortable ui-sortable clearfix">
+                    <li class="card dl-driver-card dl-gradient-shared">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Ab Tahseen</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="font-14">Date: Tuesday, 12/4</p>
+                                <p class="font-14">Time: 12 PM</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="font-14">Type: Van</p>
+                                <p class="font-14">Shared: No</p>
+                                <p class="font-14">Bags: 4</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="font-12">
+                                    Foreign passport, Syndicate card, hotel reservation
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <div class="block-header">
+                    <h2>Drivers cards</h2>
+                </div>
+                <ul id="sortable-driver-cards"
+                    class="sortable-ul connectedSortable ui-sortable clearfix">
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+                    <li class="ui-s clearfix card">
+                        <div>
+                            <p class="pull-left f-s-16">Please Enter you name</p>
+                        </div>
+                    </li>
+
+                </ul>
             </div>
         </div>
 
@@ -41,7 +172,8 @@
                 <div class="form-group">
                     <label class="controls">
                         Services
-                        <select id="dl-filter-service" class="form-control filter-dropdown m-t-10" data-key="service" required>
+                        <select id="dl-filter-service" class="form-control filter-dropdown m-t-10" data-key="service"
+                                required>
                             <option value="">-- All Services --</option>
                         </select>
                     </label>
@@ -52,7 +184,7 @@
                 <div class="form-group">
                     <label class="controls">
                         Status
-                        <select  class="form-control filter-dropdown m-t-10" data-key="status" required>
+                        <select class="form-control filter-dropdown m-t-10" data-key="status" required>
                             <option value="">-- All Cases --</option>
                             <option value="initiated">Initiated</option>
                             <option value="edited">Edited</option>

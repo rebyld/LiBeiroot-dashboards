@@ -82,7 +82,7 @@
                                 <small>be sure to select all questions need in form!</small>
                             </h2>
                         </div>
-                        <ul id="sortable1" class="connectedSortable filtered-container"></ul>
+                        <ul id="sortable1" class="sortable-ul connectedSortable filtered-container"></ul>
                     </div>
                     <div class="col-md-6 dl-selected-questions-container">
                         <div class="header block-header">
@@ -90,7 +90,7 @@
                                 <small>sort questions as wanted to appear on app!</small>
                             </h2>
                         </div>
-                        <ul id="sortable2" class="connectedSortable"></ul>
+                        <ul id="sortable2" class="sortable-ul connectedSortable"></ul>
                     </div>
                 </div>
             </div>
